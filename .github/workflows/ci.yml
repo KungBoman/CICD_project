@@ -35,14 +35,6 @@ jobs:
         run: |
           pip install flake8
           flake8 . --max-line-length=100
-        
-      # Test debug steg to show project structure
-      - name: Debug project structure
-        run: |
-          pwd
-          ls -la
-          find . -maxdepth 2 -type f | sort
-          python -c "import os, sys; print('cwd:', os.getcwd()); print('sys.path:', sys.path)"
 
       # 5. Kör testerna - Jahans enhetstester + pipeline-/integrationstestet (run_pipeline.py mot exempeldata)
       #    Om Steam-anropet kräver en API-nyckel skickas den in som secret, aldrig i klartext.
