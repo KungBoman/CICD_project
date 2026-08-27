@@ -1,26 +1,45 @@
-name: Code tests on all branches
+name: CICD_Project - Steam Data Pipeline
 
+# TRIGGER: vad som startar workflown.
+# push till main + varje pull request mot main + möjlighet att köra manuellt.
 on:
-  push:                 # varje push till alla branches utom main kommer att trigga workflow
-    branches-ignore:
-        - main
+  push:
+    branches: [ main ]
   pull_request:
-    branches-ignore:
-        - main
+    branches: [ main ]
   workflow_dispatch:
 
 jobs:
-  micro:
-    runs-on: ubuntu-latest
+  build-and-test:
+    runs-on: ubuntu-latest   # "en tom dator" - en färsk Ubuntu-runner från GitHub
+
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      # 1. Hämtar koden från din branch till runnern
+      - name: Checka ut koden
+        uses: actions/checkout@v4
+
+      # 2. Installerar rätt Python-version på den tomma datorn
+      - name: Installera Python
+        uses: actions/setup-python@v5
         with:
-          python-version: "3.11"
-      - run: |                          
+          python-version: '3.11'
+
+      # 3. Installerar alla beroenden som pipelinen behöver (requests, pandas, pytest osv.)
+      - name: Installera beroenden
+        run: |
           python -m pip install --upgrade pip
-          pip install -r requirements.txt          
+          pip install -r requirements.txt
+
+      # 4. Lintning - fångar enkla kodfel/stilfel innan testerna ens körs
+      - name: Kör lintning
+        run: |
           pip install flake8
-      - run: python -m compileall -q -f .                    
-      - run: flake8 . --max-line-length=100
-      - run: pytest -q -m "not integration"
+          flake8 . --max-line-length=100
+
+      # 5. Kör testerna - Jahans enhetstester + pipeline-/integrationstestet (run_pipeline.py mot exempeldata)
+      #    Om Steam-anropet kräver en API-nyckel skickas den in som secret, aldrig i klartext.
+      - name: Kör tester
+        env:
+          STEAM_API_KEY: ${{ secrets.STEAM_API_KEY }}
+        run: |
+          pytest -v
