@@ -10,12 +10,12 @@ import requests
 CONFIG_FILE = "env/.cfg"
 ENCODING = "utf-8"
 
-DEFAULT_DATASET_FILE = "games_dataset.json"
+DATASET_FILE = "games_dataset.json"
 
 STEAM_APP_DETAILS_URL = "https://store.steampowered.com/api/appdetails"
 
 REQUEST_TIMEOUT = 15
-REQUEST_DELAY = 1
+REQUEST_DELAY = 0
 
 
 def Log(type, msg):
@@ -79,39 +79,50 @@ def get_app_details(appid):
 
 
 def extract_game_data(details):
-    pass
+    return {
+        "appid": details.get("steam_appid"),
+        "name": details.get("name"),
+        "is_free": details.get("is_free"),
+        "price": details.get("price_overview", {}).get("final") / 100,
+        "currency": details.get("price_overview", {}).get("currency"),
+        "about_the_game": details.get("about_the_game"),
+        "windows": details.get("platforms", {}).get("windows"),
+        "mac": details.get("platforms", {}).get("mac"),
+        "linux": details.get("platforms", {}).get("linux"),
+        "metacritic_score": details.get("metacritic", {}).get("score"),
+        "metacritic_url": details.get("metacritic", {}).get("url"),
+    }
 
 
 if __name__ == "__main__":
     Log("INFO", "Starting GamesScraper.py")
 
-    dataset = load_json(DEFAULT_DATASET_FILE)
+    dataset = load_json(DATASET_FILE)
 
     if not dataset:
         Log(
             "INFO",
-            f"No data found in '{DEFAULT_DATASET_FILE}'. "
+            f"No data found in '{DATASET_FILE}'. "
             "Starting with an empty dataset."
         )
         dataset = {}
     else:
         Log(
             "INFO",
-            f"Loaded dataset from '{DEFAULT_DATASET_FILE}' "
+            f"Loaded dataset from '{DATASET_FILE}' "
             f"with {len(dataset)} entries."
         )
 
     start_time = time.time()
 
-    # Begin scraper
+    applist = load_json("applist.json")
 
-    apps = load_json("applist.json")
-
-    Log("INFO", f"Found {len(apps)} Steam applications")
+    Log("INFO", f"Found {len(applist)} Steam applications")
 
     skip_already_collected = False
 
-    for index, app in enumerate(apps, start=1):
+    # Begin scraper
+    for index, app in enumerate(applist, start=1):
         appid = str(app["appid"])
         name = app.get("name", "")
 
@@ -120,7 +131,7 @@ if __name__ == "__main__":
 
         Log(
             "INFO",
-            f"[{index}/{len(apps)}] Fetching "
+            f"[{index}/{len(applist)}] Fetching "
             f"{name} ({appid})"
         )
 
@@ -139,7 +150,7 @@ if __name__ == "__main__":
             dataset[appid] = game
 
             # Save continuously so CI interruptions don't lose everything
-            save_json(dataset, DEFAULT_DATASET_FILE)
+            save_json(dataset, DATASET_FILE)
 
         except requests.RequestException as error:
             Log(
@@ -163,10 +174,10 @@ if __name__ == "__main__":
         f"Data fetching completed in {duration:.2f} seconds."
     )
 
-    save_json(dataset, DEFAULT_DATASET_FILE)
+    save_json(dataset, DATASET_FILE)
 
     Log(
         "INFO",
-        f"Dataset saved to '{DEFAULT_DATASET_FILE}' "
+        f"Dataset saved to '{DATASET_FILE}' "
         f"with {len(dataset)} entries."
     )
