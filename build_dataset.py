@@ -1,17 +1,15 @@
 """
+build a dataset
 """
 
-import os
-import json
-import sys
+import common_util as cu
+
 import time
 import datetime
 import requests
 import argparse
 
-CONFIG_FILE = "env/.cfg"
 ENCODING = "utf-8"
-
 DATASET_FILE = "games_dataset.json"
 
 # Documentation: https://github-wiki-see.page/m/Revadike/InternalSteamWebAPI/wiki/
@@ -22,10 +20,6 @@ REQUEST_TIMEOUT = 15
 REQUEST_DELAY = 0
 
 
-def Log(type, msg):
-    print(f"[{type}] {msg}")
-
-
 def print_progress(current, total, name="", width=20):
     progress = current / total
     filled = int(width * progress)
@@ -33,6 +27,7 @@ def print_progress(current, total, name="", width=20):
     bar = "█" * filled + "░" * (width - filled)
 
     print(
+        f"\r\033[K"  # erase line
         f"\r{datetime.datetime.now().strftime('%H:%M:%S')} "
         f"{bar} "
         f"{current}/{total} "
@@ -43,38 +38,7 @@ def print_progress(current, total, name="", width=20):
     )
 
 
-def get_steam_api_key():
-    if os.path.exists(CONFIG_FILE):
-        with open(CONFIG_FILE, "r", encoding=ENCODING) as file:
-            for line in file:
-                line = line.strip()
-
-                if line.startswith("STEAM_API_KEY="):
-                    return line.split("=", 1)[1]
-
-    Log("ERROR", f"Configuration file '{CONFIG_FILE}' not found.")
-    sys.exit(1)
-
-
-def load_json(filename) -> dict:
-    if not os.path.exists(filename):
-        return {}
-
-    with open(filename, "r", encoding=ENCODING) as file:
-        return json.load(file)
-
-
-def save_json(data, filename):
-    with open(filename, "w", encoding=ENCODING) as file:
-        json.dump(
-            data,
-            file,
-            indent=4,
-            ensure_ascii=False
-        )
-
-
-def get_app_details(appid, country="SE", language="english", filters=None):
+def get_app_details(appid, country="se", language="en", filters=None):
     params = {
         "appids": appid,
         "cc": country,
@@ -127,12 +91,19 @@ def parse_arguments():
     )
 
     parser.add_argument(
-        "-ma",
-        "--max-apps",
-        type=int,
-        default=None,
+        "-ma", "--max-apps", type=int, default=None,
         help="Maximum number of apps to fetch. "
              "If omitted, fetch all apps."
+    )
+
+    parser.add_argument(
+        "-c", "--country", type=str, default="en",
+        help="-Country code"
+    )
+
+    parser.add_argument(
+        "-l", "--language", type=str, default="en",
+        help="Language code"
     )
 
     return parser.parse_args()
@@ -141,19 +112,19 @@ def parse_arguments():
 if __name__ == "__main__":
     args = parse_arguments()
 
-    Log("INFO", "Starting GamesScraper.py")
+    cu.log("INFO", "Starting GamesScraper.py")
 
-    dataset = load_json(DATASET_FILE)
+    dataset = cu.load_json(DATASET_FILE)
 
     if not dataset:
-        Log(
+        cu.log(
             "INFO",
             f"No data found in '{DATASET_FILE}'. "
             "Starting with an empty dataset."
         )
         dataset = {}
     else:
-        Log(
+        cu.log(
             "INFO",
             f"Loaded dataset from '{DATASET_FILE}' "
             f"with {len(dataset)} entries."
@@ -161,27 +132,27 @@ if __name__ == "__main__":
 
     start_time = time.time()
 
-    raw_applist = load_json("applist.json")
+    raw_app_list = cu.load_json("app_list.json")
 
     if args.max_apps is not None:
-        applist = raw_applist[:args.max_apps]
-        Log(
+        app_list = raw_app_list[:args.max_apps]
+        cu.log(
             "INFO",
-            f"Limiting applist to {len(applist)} apps "
+            f"Limiting app_list to {len(app_list)} apps "
             f"for this run."
         )
     else:
-        applist = raw_applist
+        app_list = raw_app_list
 
     skip_already_collected = False
 
     # Begin scraper
-    Log(
+    cu.log(
         "INFO",
-        f"Fetching details for {len(applist)} applications... "
+        f"Fetching details for {len(app_list)} applications... "
         "(CTRL+C to exit)"
     )
-    for index, app in enumerate(applist, start=1):
+    for index, app in enumerate(app_list, start=1):
         appid = str(app["appid"])
         name = app.get("name", "")
 
@@ -189,13 +160,13 @@ if __name__ == "__main__":
             continue
 
         print_progress(
-            index,
-            len(applist),
+            index - 1,
+            len(app_list),
             f"{name} ({appid})"
         )
 
         try:
-            details = get_app_details(appid)
+            details = get_app_details(appid, args.country, args.language)
 
             if not details:
                 continue
@@ -209,16 +180,16 @@ if __name__ == "__main__":
             dataset[appid] = game
 
             # Save continuously so CI interruptions don't lose everything
-            save_json(dataset, DATASET_FILE)
+            cu.save_json(dataset, DATASET_FILE)
 
         except requests.RequestException as error:
-            Log(
+            cu.log(
                 "ERROR",
                 f"Failed to fetch app {appid}: {error}"
             )
 
         except Exception as error:
-            Log(
+            cu.log(
                 "ERROR",
                 f"Unexpected error for app {appid}: {error}"
             )
@@ -228,14 +199,20 @@ if __name__ == "__main__":
     end_time = time.time()
     duration = end_time - start_time
 
-    Log(
+    print_progress(
+        index,
+        len(app_list),
+        ""
+    )
+    print()  # new line
+    cu.log(
         "INFO",
         f"Data fetching completed in {duration:.2f} seconds."
     )
 
-    save_json(dataset, DATASET_FILE)
+    cu.save_json(dataset, DATASET_FILE)
 
-    Log(
+    cu.log(
         "INFO",
         f"Dataset saved to '{DATASET_FILE}' "
         f"with {len(dataset)} entries."
