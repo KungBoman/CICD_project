@@ -96,22 +96,19 @@ def get_app_list(steam_api_key):
                 "name": app.get("name", "")
             })
 
+        have_more_results = response_data.get("have_more_results")
+        last_appid = response_data.get("last_appid")
+
         Log(
             "INFO",
             f"Fetched {len(response_apps)} apps "
-            f"(total: {len(applist)})"
+            f"(total: {len(applist)})" +
+            ("..." if have_more_results else "")
         )
-
-        have_more_results = response_data.get("have_more_results")
-        last_appid = response_data.get("last_appid")
 
         if not have_more_results:
             break
 
-        Log("INFO", "Looking for more apps...")
-        # Loop again
-
-    Log("INFO", "Done looking for apps!")
     return applist
 
 
@@ -127,7 +124,7 @@ if __name__ == "__main__":
     start_time = time.time()
 
     try:
-        apps = get_app_list(steam_api_key)
+        applist = get_app_list(steam_api_key)
 
     except requests.RequestException as error:
         Log("ERROR", f"Failed to fetch Steam app list: {error}")
@@ -136,12 +133,12 @@ if __name__ == "__main__":
     end_time = time.time()
     duration = end_time - start_time
 
-    Log("INFO", f"Fetched {len(apps)} applications in {duration:.2f} seconds..")
+    Log("INFO", f"Fetched {len(applist)} applications in {duration:.2f} seconds.")
 
-    save_json(apps, APPLIST_FILE)
+    save_json(applist, APPLIST_FILE)
 
     Log(
         "INFO",
         f"App list saved to '{APPLIST_FILE}' "
-        f"with {len(apps)} entries."
+        f"with {len(applist)} entries."
     )
