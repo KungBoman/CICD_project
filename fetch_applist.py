@@ -21,7 +21,7 @@ import json
 import sys
 import time
 import requests
-
+import argparse
 
 CONFIG_FILE = "env/.cfg"
 ENCODING = "utf-8"
@@ -68,18 +68,18 @@ def get_app_list(steam_api_key, max_apps=None):
     last_appid = 0
 
     while True:
-        remaining = None
-
         if max_apps is not None:
             remaining = max_apps - len(applist)
 
             if remaining <= 0:
                 break
 
-        request_max_results = MAX_RESULTS
-
-        if remaining is not None:
-            request_max_results = min(request_max_results, remaining)
+            request_max_results = min(
+                MAX_RESULTS,
+                remaining
+            )
+        else:
+            request_max_results = MAX_RESULTS
 
         params = {
             "key": steam_api_key,
@@ -115,8 +115,8 @@ def get_app_list(steam_api_key, max_apps=None):
         Log(
             "INFO",
             f"Fetched {len(response_apps)} apps "
-            f"(total: {len(applist)})" +
-            ("..." if have_more_results else "")
+            f"(total: {len(applist)})"
+            + ("..." if have_more_results else "")
         )
 
         if not have_more_results:
@@ -125,7 +125,26 @@ def get_app_list(steam_api_key, max_apps=None):
     return applist
 
 
+def parse_arguments():
+    parser = argparse.ArgumentParser(
+        description="Fetch Steam application list."
+    )
+
+    parser.add_argument(
+        "-ma",
+        "--max-apps",
+        type=int,
+        default=None,
+        help="Maximum number of apps to fetch. "
+             "If omitted, fetch all apps."
+    )
+
+    return parser.parse_args()
+
+
 if __name__ == "__main__":
+    args = parse_arguments()
+
     Log("INFO", "Starting fetch_app_list.py")
 
     steam_api_key = get_steam_api_key()
@@ -137,16 +156,25 @@ if __name__ == "__main__":
     start_time = time.time()
 
     try:
-        applist = get_app_list(steam_api_key, 100)
+        applist = get_app_list(
+            steam_api_key,
+            max_apps=args.max_apps
+        )
 
     except requests.RequestException as error:
-        Log("ERROR", f"Failed to fetch Steam app list: {error}")
+        Log(
+            "ERROR",
+            f"Failed to fetch Steam app list: {error}"
+        )
         sys.exit(1)
 
     end_time = time.time()
     duration = end_time - start_time
 
-    Log("INFO", f"Fetched {len(applist)} applications in {duration:.2f} seconds.")
+    Log(
+        "INFO",
+        f"Fetched {len(applist)} applications "
+        f"in {duration:.2f} seconds.")
 
     save_json(applist, APPLIST_FILE)
 
