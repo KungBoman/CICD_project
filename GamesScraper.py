@@ -24,6 +24,7 @@ STEAM_APP_DETAILS_URL = "https://store.steampowered.com/api/appdetails"
 
 REQUEST_TIMEOUT = 15
 REQUEST_DELAY = 1
+MAX_RESULTS = 5
 
 
 def Log(type, msg):
@@ -62,35 +63,58 @@ def save_json(data, filename):
 
 
 def get_app_list():
-    Log("INFO", "Fetching Steam applications list...")
+    Log("INFO", "Fetching Steam application list...")
 
-    apps = []
     # TODO: Feature to have a specific applist file to search for
 
-    # Get applist from Steam
-    Log("INFO", "Get applist from Steam")
-    steam_apps = []
     last_appid = 0
     steam_api_key = get_steam_api_key()
-
     params = {
         "key": steam_api_key,
-        "max_results": 50000,
+        "max_results": MAX_RESULTS,
         "last_appid": last_appid
     }
 
-    # Do request
     response = requests.get(
         url=STEAM_APP_LIST_URL,
         params=params,
-        timeout=REQUEST_TIMEOUT)
-    if response:
-        steam_apps = response.json()
-    else:
-        Log("ERROR", "Steam API")
+        timeout=REQUEST_TIMEOUT
+    )
 
-    Log("INFO", f"Number of apps: {len(steam_apps)}")
-    return steam_apps
+    response.raise_for_status()
+
+    data = response.json()
+
+    apps = data.get("response", {}).get("apps", [])
+
+    Log("INFO", f"Steam returned {len(apps)} applications.")
+
+    return apps
+
+
+def get_app_details(appid):
+    response = requests.get(
+        STEAM_APP_DETAILS_URL,
+        params={
+            "appids": appid,
+            "l": "english"
+        },
+        timeout=REQUEST_TIMEOUT
+    )
+
+    response.raise_for_status()
+
+    data = response.json()
+
+    app_data = data.get(str(appid))
+
+    if not app_data:
+        return None
+
+    if not app_data.get("success"):
+        return None
+
+    return app_data.get("data")
 
 
 if __name__ == "__main__":
@@ -105,10 +129,18 @@ if __name__ == "__main__":
     dataset = load_json(DEFAULT_DATASET_FILE)
 
     if not dataset:
-        Log("INFO", f"No data found in '{DEFAULT_DATASET_FILE}'. Starting with an empty dataset.")
+        Log(
+            "INFO",
+            f"No data found in '{DEFAULT_DATASET_FILE}'. "
+            "Starting with an empty dataset."
+        )
         dataset = {}
     else:
-        Log("INFO", f"Loaded dataset from '{DEFAULT_DATASET_FILE}' with {len(dataset)} entries.")
+        Log(
+            "INFO",
+            f"Loaded dataset from '{DEFAULT_DATASET_FILE}' "
+            f"with {len(dataset)} entries."
+        )
 
     start_time = time.time()
 
@@ -121,13 +153,61 @@ if __name__ == "__main__":
 
     Log("INFO", f"Found {len(apps)} Steam applications")
 
-    dataset = apps
+    for index, app in enumerate(apps, start=1):
+        appid = str(app["appid"])
+        name = app.get("name", "")
+
+        # Already collected
+        if appid in dataset:
+            continue
+
+        Log(
+            "INFO",
+            f"[{index}/{len(apps)}] Fetching "
+            f"{name} ({appid})"
+        )
+
+        try:
+            details = get_app_details(appid)
+
+            if not details:
+                continue
+
+            # Only keep actual games
+            if details.get("type") != "game":
+                continue
+
+            dataset[appid] = details
+
+            # Save continuously so CI interruptions don't lose everything
+            save_json(dataset, DEFAULT_DATASET_FILE)
+
+        except requests.RequestException as error:
+            Log(
+                "ERROR",
+                f"Failed to fetch app {appid}: {error}"
+            )
+
+        except Exception as error:
+            Log(
+                "ERROR",
+                f"Unexpected error for app {appid}: {error}"
+            )
+
+        time.sleep(REQUEST_DELAY)
 
     end_time = time.time()
     duration = end_time - start_time
 
-    Log("INFO", f"Data fetching completed in {duration:.2f} seconds.")
+    Log(
+        "INFO",
+        f"Data fetching completed in {duration:.2f} seconds."
+    )
 
     save_json(dataset, DEFAULT_DATASET_FILE)
 
-    Log("INFO", f"Dataset saved to '{DEFAULT_DATASET_FILE}' with {len(dataset)} entries.")
+    Log(
+        "INFO",
+        f"Dataset saved to '{DEFAULT_DATASET_FILE}' "
+        f"with {len(dataset)} entries."
+    )
