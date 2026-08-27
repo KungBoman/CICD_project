@@ -22,10 +22,11 @@ import sys
 import time
 import requests
 
+
 CONFIG_FILE = "env/.cfg"
 ENCODING = "utf-8"
 
-APP_LIST_FILE = "applist.json"
+APPLIST_FILE = "applist.json"
 
 STEAM_APP_LIST_URL = "https://api.steampowered.com/IStoreService/GetAppList/v1/"
 
@@ -63,7 +64,7 @@ def save_json(data, filename):
 def get_app_list(steam_api_key):
     Log("INFO", "Fetching Steam application list...")
 
-    apps = []
+    applist = []
     last_appid = 0
 
     while True:
@@ -84,29 +85,34 @@ def get_app_list(steam_api_key):
         data = response.json()
         response_data = data.get("response", {})
 
-        page = response_data.get("apps", [])
+        response_apps = response_data.get("apps", [])
 
-        if not page:
+        if not response_apps:
             break
 
-        for app in page:
-            apps.append({
+        for app in response_apps:
+            applist.append({
                 "appid": app["appid"],
                 "name": app.get("name", "")
             })
 
         Log(
             "INFO",
-            f"Fetched {len(page)} apps "
-            f"(total: {len(apps)})..."
+            f"Fetched {len(response_apps)} apps "
+            f"(total: {len(applist)})"
         )
 
+        have_more_results = response_data.get("have_more_results")
         last_appid = response_data.get("last_appid")
 
-        if not last_appid:
+        if not have_more_results:
             break
 
-    return apps
+        Log("INFO", "Looking for more apps...")
+        # Loop again
+
+    Log("INFO", "Done looking for apps!")
+    return applist
 
 
 if __name__ == "__main__":
@@ -132,10 +138,10 @@ if __name__ == "__main__":
 
     Log("INFO", f"Fetched {len(apps)} applications in {duration:.2f} seconds..")
 
-    save_json(apps, APP_LIST_FILE)
+    save_json(apps, APPLIST_FILE)
 
     Log(
         "INFO",
-        f"App list saved to '{APP_LIST_FILE}' "
+        f"App list saved to '{APPLIST_FILE}' "
         f"with {len(apps)} entries."
     )
