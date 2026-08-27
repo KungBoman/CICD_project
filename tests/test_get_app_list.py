@@ -195,12 +195,6 @@ def test_get_app_list_max_apps():
                     "name": "Day of Defeat",
                     "last_modified": 1745368580,
                     "price_change_number": 37149137
-                },
-                {
-                    "appid": 40,
-                    "name": "Deathmatch Classic",
-                    "last_modified": 1745368570,
-                    "price_change_number": 37149137
                 }
             ],
             "have_more_results": True,
