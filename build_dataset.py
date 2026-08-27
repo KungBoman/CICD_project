@@ -14,7 +14,7 @@ DATASET_FILE = "games_dataset.json"
 
 STEAM_APP_DETAILS_URL = "https://store.steampowered.com/api/appdetails"
 """
-Documentation: 
+Documentation:
 https://github-wiki-see.page/m/Revadike/InternalSteamWebAPI/wiki/
 Get-App-Details?utm_source=chatgpt.com
 """
