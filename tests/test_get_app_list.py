@@ -55,3 +55,18 @@ def test_get_app_list():
             "name": "Team Fortress Classic"
         }
     ]
+
+
+def test_get_app_list_empty_response():
+    mock_response = {
+        "response": {
+            "apps": []
+        }
+    }
+
+    with patch("fetch_app_list.requests.get") as mock_get:
+        mock_get.return_value.json.return_value = mock_response
+
+        result = fetch_app_list.get_app_list("fake-api-key")
+
+    assert result == []
