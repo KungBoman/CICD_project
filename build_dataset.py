@@ -19,6 +19,9 @@ STEAM_APP_DETAILS_URL = "https://store.steampowered.com/api/appdetails"
 REQUEST_TIMEOUT = 15
 REQUEST_DELAY = 0
 
+DEFAULT_COUNTRY_CODE = "se"
+DEFAULT_LANGUAGE = "en"
+
 
 def print_progress(current, total, name="", width=20):
     progress = current / total
@@ -38,7 +41,7 @@ def print_progress(current, total, name="", width=20):
     )
 
 
-def get_app_details(appid, country="se", language="en", filters=None):
+def get_app_details(appid, country=DEFAULT_COUNTRY_CODE, language=DEFAULT_LANGUAGE, filters=None):
     params = {
         "appids": appid,
         "cc": country,
@@ -97,12 +100,12 @@ def parse_arguments():
     )
 
     parser.add_argument(
-        "-c", "--country", type=str, default="en",
+        "-c", "--country", type=str, default=DEFAULT_COUNTRY_CODE,
         help="-Country code"
     )
 
     parser.add_argument(
-        "-l", "--language", type=str, default="en",
+        "-l", "--language", type=str, default=DEFAULT_LANGUAGE,
         help="Language code"
     )
 
