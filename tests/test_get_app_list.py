@@ -1,6 +1,12 @@
-from unittest.mock import patch
+from unittest.mock import MagicMock, patch
 
 import fetch_app_list
+
+
+def mock_response(data):
+    response = MagicMock()
+    response.json.return_value = data
+    return response
 
 
 def test_get_app_list():
@@ -116,14 +122,35 @@ def test_get_app_list_pagination():
     }
 
     with patch("fetch_app_list.requests.get") as mock_get:
-        # unittest.mock can give different responses for each call
         mock_get.side_effect = [
-            first_response,
-            second_response
+            mock_response(first_response),
+            mock_response(second_response)
         ]
 
         result = fetch_app_list.get_app_list("fake-api-key")
 
+        assert mock_get.call_count == 2
+
+        # Test pagination params and algorithm - note last_appid
+        mock_get.assert_any_call(
+            fetch_app_list.STEAM_APP_LIST_URL,
+            params={
+                "key": "fake-api-key",
+                "max_results": fetch_app_list.MAX_RESULTS,
+                "last_appid": 0
+            },
+            timeout=fetch_app_list.REQUEST_TIMEOUT
+        )
+
+        mock_get.assert_any_call(
+            fetch_app_list.STEAM_APP_LIST_URL,
+            params={
+                "key": "fake-api-key",
+                "max_results": fetch_app_list.MAX_RESULTS,
+                "last_appid": 20
+            },
+            timeout=fetch_app_list.REQUEST_TIMEOUT
+        )
     assert result == [
         {
             "appid": 10,
