@@ -16,15 +16,12 @@ example output
 ]
 """
 
-import os
-import json
-import sys
+import common_util as cu
+
 import time
 import requests
 import argparse
 
-CONFIG_FILE = "env/.cfg"
-ENCODING = "utf-8"
 
 APPLIST_FILE = "applist.json"
 
@@ -34,35 +31,8 @@ REQUEST_TIMEOUT = 15
 MAX_RESULTS = 50000
 
 
-def Log(type, msg):
-    print(f"[{type}] {msg}")
-
-
-def get_steam_api_key():
-    if os.path.exists(CONFIG_FILE):
-        with open(CONFIG_FILE, "r", encoding=ENCODING) as file:
-            for line in file:
-                line = line.strip()
-
-                if line.startswith("STEAM_API_KEY="):
-                    return line.split("=", 1)[1]
-
-    Log("ERROR", f"Configuration file '{CONFIG_FILE}' not found.")
-    sys.exit(1)
-
-
-def save_json(data, filename):
-    with open(filename, "w", encoding=ENCODING) as file:
-        json.dump(
-            data,
-            file,
-            indent=4,
-            ensure_ascii=False
-        )
-
-
 def get_app_list(steam_api_key, max_apps=None):
-    Log("INFO", "Fetching Steam application list...")
+    cu.log("INFO", "Fetching Steam application list...")
 
     applist = []
     last_appid = 0
@@ -112,7 +82,7 @@ def get_app_list(steam_api_key, max_apps=None):
         have_more_results = response_data.get("have_more_results")
         last_appid = response_data.get("last_appid")
 
-        Log(
+        cu.log(
             "INFO",
             f"Fetched {len(response_apps)} apps "
             f"(total: {len(applist)})"
@@ -145,12 +115,12 @@ def parse_arguments():
 if __name__ == "__main__":
     args = parse_arguments()
 
-    Log("INFO", "Starting fetch_app_list.py")
+    cu.log("INFO", "Starting fetch_app_list.py")
 
-    steam_api_key = get_steam_api_key()
+    steam_api_key = cu.get_steam_api_key()
 
     if not steam_api_key:
-        Log("ERROR", "Steam API Key is invalid.")
+        cu.log("ERROR", "Steam API Key is invalid.")
         sys.exit(1)
 
     start_time = time.time()
@@ -162,7 +132,7 @@ if __name__ == "__main__":
         )
 
     except requests.RequestException as error:
-        Log(
+        cu.log(
             "ERROR",
             f"Failed to fetch Steam app list: {error}"
         )
@@ -171,14 +141,14 @@ if __name__ == "__main__":
     end_time = time.time()
     duration = end_time - start_time
 
-    Log(
+    cu.log(
         "INFO",
         f"Fetched {len(applist)} applications "
         f"in {duration:.2f} seconds.")
 
-    save_json(applist, APPLIST_FILE)
+    cu.save_json(applist, APPLIST_FILE)
 
-    Log(
+    cu.log(
         "INFO",
         f"App list saved to '{APPLIST_FILE}' "
         f"with {len(applist)} entries."
