@@ -23,7 +23,7 @@ import requests
 import argparse
 
 
-APPLIST_FILE = "applist.json"
+APPLIST_FILE = "app_list.json"
 
 STEAM_APP_LIST_URL = "https://api.steampowered.com/IStoreService/GetAppList/v1/"
 
@@ -34,12 +34,12 @@ MAX_RESULTS = 50000
 def get_app_list(steam_api_key, max_apps=None):
     cu.log("INFO", "Fetching Steam application list...")
 
-    applist = []
+    app_list = []
     last_appid = 0
 
     while True:
         if max_apps is not None:
-            remaining = max_apps - len(applist)
+            remaining = max_apps - len(app_list)
 
             if remaining <= 0:
                 break
@@ -74,7 +74,7 @@ def get_app_list(steam_api_key, max_apps=None):
             break
 
         for app in response_apps:
-            applist.append({
+            app_list.append({
                 "appid": app["appid"],
                 "name": app.get("name", "")
             })
@@ -85,14 +85,14 @@ def get_app_list(steam_api_key, max_apps=None):
         cu.log(
             "INFO",
             f"Fetched {len(response_apps)} apps "
-            f"(total: {len(applist)})"
+            f"(total: {len(app_list)})"
             + ("..." if have_more_results else "")
         )
 
         if not have_more_results:
             break
 
-    return applist
+    return app_list
 
 
 def parse_arguments():
@@ -126,7 +126,7 @@ if __name__ == "__main__":
     start_time = time.time()
 
     try:
-        applist = get_app_list(
+        app_list = get_app_list(
             steam_api_key,
             max_apps=args.max_apps
         )
@@ -143,13 +143,13 @@ if __name__ == "__main__":
 
     cu.log(
         "INFO",
-        f"Fetched {len(applist)} applications "
+        f"Fetched {len(app_list)} applications "
         f"in {duration:.2f} seconds.")
 
-    cu.save_json(applist, APPLIST_FILE)
+    cu.save_json(app_list, APPLIST_FILE)
 
     cu.log(
         "INFO",
         f"App list saved to '{APPLIST_FILE}' "
-        f"with {len(applist)} entries."
+        f"with {len(app_list)} entries."
     )

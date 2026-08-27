@@ -132,27 +132,27 @@ if __name__ == "__main__":
 
     start_time = time.time()
 
-    raw_applist = cu.load_json("applist.json")
+    raw_app_list = cu.load_json("app_list.json")
 
     if args.max_apps is not None:
-        applist = raw_applist[:args.max_apps]
+        app_list = raw_app_list[:args.max_apps]
         cu.log(
             "INFO",
-            f"Limiting applist to {len(applist)} apps "
+            f"Limiting app_list to {len(app_list)} apps "
             f"for this run."
         )
     else:
-        applist = raw_applist
+        app_list = raw_app_list
 
     skip_already_collected = False
 
     # Begin scraper
     cu.log(
         "INFO",
-        f"Fetching details for {len(applist)} applications... "
+        f"Fetching details for {len(app_list)} applications... "
         "(CTRL+C to exit)"
     )
-    for index, app in enumerate(applist, start=1):
+    for index, app in enumerate(app_list, start=1):
         appid = str(app["appid"])
         name = app.get("name", "")
 
@@ -161,7 +161,7 @@ if __name__ == "__main__":
 
         print_progress(
             index - 1,
-            len(applist),
+            len(app_list),
             f"{name} ({appid})"
         )
 
@@ -201,7 +201,7 @@ if __name__ == "__main__":
 
     print_progress(
         index,
-        len(applist),
+        len(app_list),
         ""
     )
     print()  # new line
