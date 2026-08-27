@@ -45,3 +45,16 @@ def test_get_app_details():
         "name": "Test Game",
         "type": "game"
     }
+
+
+def test_get_app_details_missing_app():
+    mock_response = {
+        "response": {}
+    }
+
+    with patch("build_dataset.requests.get") as mock_get:
+        mock_get.return_value = make_mock_response(mock_response)
+
+        result = build_dataset.get_app_details(123)
+
+    assert result is None
