@@ -12,12 +12,18 @@ import argparse
 ENCODING = "utf-8"
 DATASET_FILE = "games_dataset.json"
 
-# Documentation: https://github-wiki-see.page/m/Revadike/InternalSteamWebAPI/wiki/
-# Get-App-Details?utm_source=chatgpt.com
 STEAM_APP_DETAILS_URL = "https://store.steampowered.com/api/appdetails"
+"""
+Documentation:
+https://github-wiki-see.page/m/Revadike/InternalSteamWebAPI/wiki/
+Get-App-Details?utm_source=chatgpt.com
+"""
 
 REQUEST_TIMEOUT = 15
 REQUEST_DELAY = 0
+
+DEFAULT_COUNTRY_CODE = "se"
+DEFAULT_LANGUAGE = "en"
 
 
 def print_progress(current, total, name="", width=20):
@@ -38,7 +44,7 @@ def print_progress(current, total, name="", width=20):
     )
 
 
-def get_app_details(appid, country="se", language="en", filters=None):
+def get_app_details(appid, country=DEFAULT_COUNTRY_CODE, language=DEFAULT_LANGUAGE, filters=None):
     params = {
         "appids": appid,
         "cc": country,
@@ -70,19 +76,39 @@ def get_app_details(appid, country="se", language="en", filters=None):
 
 
 def extract_game_data(details):
-    return {
-        "appid": details.get("steam_appid"),
-        "name": details.get("name"),
-        "is_free": details.get("is_free"),
-        "price": details.get("price_overview", {}).get("final") / 100,
-        "currency": details.get("price_overview", {}).get("currency"),
-        "about_the_game": details.get("about_the_game"),
-        "windows": details.get("platforms", {}).get("windows"),
-        "mac": details.get("platforms", {}).get("mac"),
-        "linux": details.get("platforms", {}).get("linux"),
-        "metacritic_score": details.get("metacritic", {}).get("score"),
-        "metacritic_url": details.get("metacritic", {}).get("url"),
-    }
+    game_data = {}
+
+    game_data["appid"] = details.get("steam_appid")
+    game_data["name"] = details.get("name")
+
+    is_free = details.get("is_free")
+    game_data["is_free"] = is_free
+
+    price_overview = details.get("price_overview", {})
+
+    if is_free:
+        game_data["price"] = 0.0
+        game_data["currency"] = None
+    else:
+        game_data["price"] = (
+            price_overview.get("final", 0) / 100
+            if price_overview
+            else 0.0
+        )
+        game_data["currency"] = price_overview.get("currency")
+
+    game_data["about_the_game"] = details.get("about_the_game")
+
+    platforms = details.get("platforms", {})
+    game_data["windows"] = platforms.get("windows")
+    game_data["mac"] = platforms.get("mac")
+    game_data["linux"] = platforms.get("linux")
+
+    metacritic = details.get("metacritic", {})
+    game_data["metacritic_score"] = metacritic.get("score")
+    game_data["metacritic_url"] = metacritic.get("url")
+
+    return game_data
 
 
 def parse_arguments():
@@ -97,12 +123,12 @@ def parse_arguments():
     )
 
     parser.add_argument(
-        "-c", "--country", type=str, default="en",
+        "-c", "--country", type=str, default=DEFAULT_COUNTRY_CODE,
         help="-Country code"
     )
 
     parser.add_argument(
-        "-l", "--language", type=str, default="en",
+        "-l", "--language", type=str, default=DEFAULT_LANGUAGE,
         help="Language code"
     )
 
