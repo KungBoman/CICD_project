@@ -105,3 +105,39 @@ def test_get_app_details_with_filters():
             },
             timeout=build_dataset.REQUEST_TIMEOUT
         )
+def test_extract_game_data():
+    details = {
+        "steam_appid": 123,
+        "name": "Test Game",
+        "is_free": False,
+        "price_overview": {
+            "final": 19990,
+            "currency": "SEK"
+        },
+        "about_the_game": "A test game.",
+        "platforms": {
+            "windows": True,
+            "mac": False,
+            "linux": True
+        },
+        "metacritic": {
+            "score": 85,
+            "url": "https://example.com"
+        }
+    }
+
+    result = build_dataset.extract_game_data(details)
+
+    assert result == {
+        "appid": 123,
+        "name": "Test Game",
+        "is_free": False,
+        "price": 199.90,
+        "currency": "SEK",
+        "about_the_game": "A test game.",
+        "windows": True,
+        "mac": False,
+        "linux": True,
+        "metacritic_score": 85,
+        "metacritic_url": "https://example.com"
+    }
