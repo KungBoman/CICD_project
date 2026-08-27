@@ -20,7 +20,6 @@ REQUEST_TIMEOUT = 15
 REQUEST_DELAY = 0
 
 
-
 def print_progress(current, total, name="", width=20):
     progress = current / total
     filled = int(width * progress)
@@ -39,7 +38,7 @@ def print_progress(current, total, name="", width=20):
     )
 
 
-def get_app_details(appid, country="SE", language="english", filters=None):
+def get_app_details(appid, country="se", language="en", filters=None):
     params = {
         "appids": appid,
         "cc": country,
@@ -92,12 +91,19 @@ def parse_arguments():
     )
 
     parser.add_argument(
-        "-ma",
-        "--max-apps",
-        type=int,
-        default=None,
+        "-ma", "--max-apps", type=int, default=None,
         help="Maximum number of apps to fetch. "
              "If omitted, fetch all apps."
+    )
+
+    parser.add_argument(
+        "-c", "--country", type=str, default="en",
+        help="-Country code"
+    )
+
+    parser.add_argument(
+        "-l", "--language", type=str, default="en",
+        help="Language code"
     )
 
     return parser.parse_args()
@@ -160,7 +166,7 @@ if __name__ == "__main__":
         )
 
         try:
-            details = get_app_details(appid)
+            details = get_app_details(appid, args.country, args.language)
 
             if not details:
                 continue
