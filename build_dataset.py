@@ -28,6 +28,7 @@ def print_progress(current, total, name="", width=20):
     bar = "█" * filled + "░" * (width - filled)
 
     print(
+        f"\r\033[K"  # erase line
         f"\r{datetime.datetime.now().strftime('%H:%M:%S')} "
         f"{bar} "
         f"{current}/{total} "
@@ -153,7 +154,7 @@ if __name__ == "__main__":
             continue
 
         print_progress(
-            index,
+            index - 1,
             len(applist),
             f"{name} ({appid})"
         )
@@ -192,6 +193,11 @@ if __name__ == "__main__":
     end_time = time.time()
     duration = end_time - start_time
 
+    print_progress(
+        index,
+        len(applist),
+        ""
+    )
     print()  # new line
     cu.log(
         "INFO",
