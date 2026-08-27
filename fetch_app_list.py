@@ -60,10 +60,9 @@ def save_json(data, filename):
         )
 
 
-def get_app_list():
+def get_app_list(steam_api_key):
     Log("INFO", "Fetching Steam application list...")
 
-    steam_api_key = get_steam_api_key()
     apps = []
     last_appid = 0
 
@@ -113,10 +112,16 @@ def get_app_list():
 if __name__ == "__main__":
     Log("INFO", "Starting fetch_app_list.py")
 
+    steam_api_key = get_steam_api_key()
+
+    if not steam_api_key:
+        Log("ERROR", "Steam API Key is invalid.")
+        sys.exit(1)
+
     start_time = time.time()
 
     try:
-        apps = get_app_list()
+        apps = get_app_list(steam_api_key)
 
     except requests.RequestException as error:
         Log("ERROR", f"Failed to fetch Steam app list: {error}")
