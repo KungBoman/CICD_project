@@ -3,7 +3,23 @@ from unittest.mock import MagicMock, patch
 import fetch_app_list
 
 
-def mock_response(data):
+def steam_app(appid, name):
+    return {
+        "appid": appid,
+        "name": name,
+        "last_modified": 123,
+        "price_change_number": 456
+    }
+
+
+def expected_app(appid, name):
+    return {
+        "appid": appid,
+        "name": name
+    }
+
+
+def make_mock_response(data):
     response = MagicMock()
     response.json.return_value = data
     return response
@@ -13,18 +29,8 @@ def test_get_app_list():
     mock_response = {
         "response": {
             "apps": [
-                {
-                    "appid": 10,
-                    "name": "Counter-Strike",
-                    "last_modified": 1745368572,
-                    "price_change_number": 37149137
-                },
-                {
-                    "appid": 20,
-                    "name": "Team Fortress Classic",
-                    "last_modified": 1745368565,
-                    "price_change_number": 37149137
-                }
+                steam_app(10, "Counter-Strike"),
+                steam_app(20, "Team Fortress Classic")
             ],
             "have_more_results": False,
             "last_appid": 20
@@ -33,7 +39,7 @@ def test_get_app_list():
 
     # Replaces the real "requests.get(...)" with a mock
     with patch("fetch_app_list.requests.get") as mock_get:
-        mock_get.return_value.json.return_value = mock_response
+        mock_get.return_value = make_mock_response(mock_response)
 
         # No request to Steam, instead caught by mock_get,
         # so that when response.json() is called we get mock_response
@@ -52,14 +58,8 @@ def test_get_app_list():
 
     # And finally test if we transform the response to correct format
     assert result == [
-        {
-            "appid": 10,
-            "name": "Counter-Strike"
-        },
-        {
-            "appid": 20,
-            "name": "Team Fortress Classic"
-        }
+        expected_app(10, "Counter-Strike"),
+        expected_app(20, "Team Fortress Classic")
     ]
 
 
@@ -71,7 +71,7 @@ def test_get_app_list_empty_response():
     }
 
     with patch("fetch_app_list.requests.get") as mock_get:
-        mock_get.return_value.json.return_value = mock_response
+        mock_get.return_value = make_mock_response(mock_response)
 
         result = fetch_app_list.get_app_list("fake-api-key")
 
@@ -82,18 +82,8 @@ def test_get_app_list_pagination():
     first_response = {
         "response": {
             "apps": [
-                {
-                    "appid": 10,
-                    "name": "Counter-Strike",
-                    "last_modified": 1745368572,
-                    "price_change_number": 37149137
-                },
-                {
-                    "appid": 20,
-                    "name": "Team Fortress Classic",
-                    "last_modified": 1745368565,
-                    "price_change_number": 37149137
-                }
+                steam_app(10, "Counter-Strike"),
+                steam_app(20, "Team Fortress Classic")
             ],
             "have_more_results": True,
             "last_appid": 20
@@ -103,18 +93,8 @@ def test_get_app_list_pagination():
     second_response = {
         "response": {
             "apps": [
-                {
-                    "appid": 30,
-                    "name": "Day of Defeat",
-                    "last_modified": 1745368580,
-                    "price_change_number": 37149137
-                },
-                {
-                    "appid": 40,
-                    "name": "Deathmatch Classic",
-                    "last_modified": 1745368570,
-                    "price_change_number": 37149137
-                }
+                steam_app(30, "Day of Defeat"),
+                steam_app(40, "Deathmatch Classic")
             ],
             "have_more_results": False,
             "last_appid": 40
@@ -123,8 +103,8 @@ def test_get_app_list_pagination():
 
     with patch("fetch_app_list.requests.get") as mock_get:
         mock_get.side_effect = [
-            mock_response(first_response),
-            mock_response(second_response)
+            make_mock_response(first_response),
+            make_mock_response(second_response)
         ]
 
         result = fetch_app_list.get_app_list("fake-api-key")
@@ -151,23 +131,12 @@ def test_get_app_list_pagination():
             },
             timeout=fetch_app_list.REQUEST_TIMEOUT
         )
+
     assert result == [
-        {
-            "appid": 10,
-            "name": "Counter-Strike"
-        },
-        {
-            "appid": 20,
-            "name": "Team Fortress Classic"
-        },
-        {
-            "appid": 30,
-            "name": "Day of Defeat"
-        },
-        {
-            "appid": 40,
-            "name": "Deathmatch Classic"
-        }
+        expected_app(10, "Counter-Strike"),
+        expected_app(20, "Team Fortress Classic"),
+        expected_app(30, "Day of Defeat"),
+        expected_app(40, "Deathmatch Classic")
     ]
 
 
@@ -178,24 +147,9 @@ def test_get_app_list_max_apps():
     mock_response = {
         "response": {
             "apps": [
-                {
-                    "appid": 10,
-                    "name": "Counter-Strike",
-                    "last_modified": 1745368572,
-                    "price_change_number": 37149137
-                },
-                {
-                    "appid": 20,
-                    "name": "Team Fortress Classic",
-                    "last_modified": 1745368565,
-                    "price_change_number": 37149137
-                },
-                {
-                    "appid": 30,
-                    "name": "Day of Defeat",
-                    "last_modified": 1745368580,
-                    "price_change_number": 37149137
-                }
+                steam_app(10, "Counter-Strike"),
+                steam_app(20, "Team Fortress Classic"),
+                steam_app(30, "Day of Defeat"),
             ],
             "have_more_results": True,
             "last_appid": 30
@@ -203,7 +157,7 @@ def test_get_app_list_max_apps():
     }
 
     with patch("fetch_app_list.requests.get") as mock_get:
-        mock_get.return_value.json.return_value = mock_response
+        mock_get.return_value = make_mock_response(mock_response)
 
         result = fetch_app_list.get_app_list(
             "fake-api-key",
@@ -211,18 +165,9 @@ def test_get_app_list_max_apps():
         )
 
     assert result == [
-        {
-            "appid": 10,
-            "name": "Counter-Strike"
-        },
-        {
-            "appid": 20,
-            "name": "Team Fortress Classic"
-        },
-        {
-            "appid": 30,
-            "name": "Day of Defeat"
-        }
+        expected_app(10, "Counter-Strike"),
+        expected_app(20, "Team Fortress Classic"),
+        expected_app(30, "Day of Defeat"),
     ]
 
     mock_get.assert_called_once_with(
