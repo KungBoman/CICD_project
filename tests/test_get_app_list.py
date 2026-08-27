@@ -70,3 +70,75 @@ def test_get_app_list_empty_response():
         result = fetch_app_list.get_app_list("fake-api-key")
 
     assert result == []
+
+
+def test_get_app_list_pagination():
+    first_response = {
+        "response": {
+            "apps": [
+                {
+                    "appid": 10,
+                    "name": "Counter-Strike",
+                    "last_modified": 1745368572,
+                    "price_change_number": 37149137
+                },
+                {
+                    "appid": 20,
+                    "name": "Team Fortress Classic",
+                    "last_modified": 1745368565,
+                    "price_change_number": 37149137
+                }
+            ],
+            "have_more_results": True,
+            "last_appid": 20
+        }
+    }
+
+    second_response = {
+        "response": {
+            "apps": [
+                {
+                    "appid": 30,
+                    "name": "Day of Defeat",
+                    "last_modified": 1745368580,
+                    "price_change_number": 37149137
+                },
+                {
+                    "appid": 40,
+                    "name": "Deathmatch Classic",
+                    "last_modified": 1745368570,
+                    "price_change_number": 37149137
+                }
+            ],
+            "have_more_results": False,
+            "last_appid": 40
+        }
+    }
+
+    with patch("fetch_app_list.requests.get") as mock_get:
+        # unittest.mock can give different responses for each call
+        mock_get.side_effect = [
+            first_response,
+            second_response
+        ]
+
+        result = fetch_app_list.get_app_list("fake-api-key")
+
+    assert result == [
+        {
+            "appid": 10,
+            "name": "Counter-Strike"
+        },
+        {
+            "appid": 20,
+            "name": "Team Fortress Classic"
+        },
+        {
+            "appid": 30,
+            "name": "Day of Defeat"
+        },
+        {
+            "appid": 40,
+            "name": "Deathmatch Classic"
+        }
+    ]
