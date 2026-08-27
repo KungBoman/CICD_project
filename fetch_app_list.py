@@ -18,6 +18,7 @@ example output
 
 import common_util as cu
 
+import sys
 import time
 import requests
 import argparse
