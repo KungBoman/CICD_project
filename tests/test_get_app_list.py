@@ -169,3 +169,74 @@ def test_get_app_list_pagination():
             "name": "Deathmatch Classic"
         }
     ]
+
+
+def test_get_app_list_max_apps():
+    """
+    Test max_apps parameter, that we actually get the max number of results
+    """
+    mock_response = {
+        "response": {
+            "apps": [
+                {
+                    "appid": 10,
+                    "name": "Counter-Strike",
+                    "last_modified": 1745368572,
+                    "price_change_number": 37149137
+                },
+                {
+                    "appid": 20,
+                    "name": "Team Fortress Classic",
+                    "last_modified": 1745368565,
+                    "price_change_number": 37149137
+                },
+                {
+                    "appid": 30,
+                    "name": "Day of Defeat",
+                    "last_modified": 1745368580,
+                    "price_change_number": 37149137
+                },
+                {
+                    "appid": 40,
+                    "name": "Deathmatch Classic",
+                    "last_modified": 1745368570,
+                    "price_change_number": 37149137
+                }
+            ],
+            "have_more_results": True,
+            "last_appid": 30
+        }
+    }
+
+    with patch("fetch_app_list.requests.get") as mock_get:
+        mock_get.return_value.json.return_value = mock_response
+
+        result = fetch_app_list.get_app_list(
+            "fake-api-key",
+            max_apps=3
+        )
+
+    assert result == [
+        {
+            "appid": 10,
+            "name": "Counter-Strike"
+        },
+        {
+            "appid": 20,
+            "name": "Team Fortress Classic"
+        },
+        {
+            "appid": 30,
+            "name": "Day of Defeat"
+        }
+    ]
+
+    mock_get.assert_called_once_with(
+        fetch_app_list.STEAM_APP_LIST_URL,
+        params={
+            "key": "fake-api-key",
+            "max_results": 3,
+            "last_appid": 0
+        },
+        timeout=fetch_app_list.REQUEST_TIMEOUT
+    )
