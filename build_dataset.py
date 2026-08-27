@@ -7,6 +7,7 @@ import sys
 import time
 import datetime
 import requests
+import argparse
 
 CONFIG_FILE = "env/.cfg"
 ENCODING = "utf-8"
@@ -25,7 +26,7 @@ def Log(type, msg):
     print(f"[{type}] {msg}")
 
 
-def print_progress(current, total, name="", width=40):
+def print_progress(current, total, name="", width=20):
     progress = current / total
     filled = int(width * progress)
 
@@ -120,7 +121,26 @@ def extract_game_data(details):
     }
 
 
+def parse_arguments():
+    parser = argparse.ArgumentParser(
+        description="Fetch Steam application list."
+    )
+
+    parser.add_argument(
+        "-ma",
+        "--max-apps",
+        type=int,
+        default=None,
+        help="Maximum number of apps to fetch. "
+             "If omitted, fetch all apps."
+    )
+
+    return parser.parse_args()
+
+
 if __name__ == "__main__":
+    args = parse_arguments()
+
     Log("INFO", "Starting GamesScraper.py")
 
     dataset = load_json(DATASET_FILE)
@@ -141,14 +161,26 @@ if __name__ == "__main__":
 
     start_time = time.time()
 
-    applist = load_json("applist.json")
+    raw_applist = load_json("applist.json")
 
-    Log("INFO", f"Found {len(applist)} Steam applications.")
+    if args.max_apps is not None:
+        applist = raw_applist[:args.max_apps]
+        Log(
+            "INFO",
+            f"Limiting applist to {len(applist)} apps "
+            f"for this run."
+        )
+    else:
+        applist = raw_applist
 
     skip_already_collected = False
 
     # Begin scraper
-    Log("INFO", "Fetching details... (CTRL+C to exit)")
+    Log(
+        "INFO",
+        f"Fetching details for {len(applist)} applications... "
+        "(CTRL+C to exit)"
+    )
     for index, app in enumerate(applist, start=1):
         appid = str(app["appid"])
         name = app.get("name", "")
