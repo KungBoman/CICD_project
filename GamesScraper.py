@@ -85,12 +85,9 @@ def get_app_list():
         params=params,
         timeout=REQUEST_TIMEOUT)
     if response:
-        data = response.json()
-        if "response" in data and "apps" in data["response"]:
-            batch = [str(x["appid"]) for x in data["response"]["apps"]]
-            steam_apps.extend(batch)
-        else:
-            Log("ERROR", "Steam API")
+        steam_apps = response.json()
+    else:
+        Log("ERROR", "Steam API")
 
     Log("INFO", f"Number of apps: {len(steam_apps)}")
     return steam_apps
@@ -123,6 +120,8 @@ if __name__ == "__main__":
         sys.exit(1)
 
     Log("INFO", f"Found {len(apps)} Steam applications")
+
+    dataset = apps
 
     end_time = time.time()
     duration = end_time - start_time
