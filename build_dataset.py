@@ -13,7 +13,8 @@ ENCODING = "utf-8"
 
 DATASET_FILE = "games_dataset.json"
 
-# Documentation: https://github-wiki-see.page/m/Revadike/InternalSteamWebAPI/wiki/Get-App-Details?utm_source=chatgpt.com
+# Documentation: https://github-wiki-see.page/m/Revadike/InternalSteamWebAPI/wiki/
+# Get-App-Details?utm_source=chatgpt.com
 STEAM_APP_DETAILS_URL = "https://store.steampowered.com/api/appdetails"
 
 REQUEST_TIMEOUT = 15
