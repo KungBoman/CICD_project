@@ -5,6 +5,7 @@ import os
 import json
 import sys
 import time
+import datetime
 import requests
 
 CONFIG_FILE = "env/.cfg"
@@ -12,6 +13,7 @@ ENCODING = "utf-8"
 
 DATASET_FILE = "games_dataset.json"
 
+# Documentation: https://github-wiki-see.page/m/Revadike/InternalSteamWebAPI/wiki/Get-App-Details?utm_source=chatgpt.com
 STEAM_APP_DETAILS_URL = "https://store.steampowered.com/api/appdetails"
 
 REQUEST_TIMEOUT = 15
@@ -20,6 +22,23 @@ REQUEST_DELAY = 0
 
 def Log(type, msg):
     print(f"[{type}] {msg}")
+
+
+def print_progress(current, total, name="", width=40):
+    progress = current / total
+    filled = int(width * progress)
+
+    bar = "█" * filled + "░" * (width - filled)
+
+    print(
+        f"\r{datetime.datetime.now().strftime('%H:%M:%S')} "
+        f"{bar} "
+        f"{current}/{total} "
+        f"({progress * 100:6.2f}%) "
+        f"{name[:50]}",
+        end="",
+        flush=True
+    )
 
 
 def get_steam_api_key():
@@ -53,13 +72,19 @@ def save_json(data, filename):
         )
 
 
-def get_app_details(appid):
+def get_app_details(appid, country="SE", language="english", filters=None):
+    params = {
+        "appids": appid,
+        "cc": country,
+        "l": language
+    }
+
+    if filters:
+        params["filters"] = filters
+
     response = requests.get(
         STEAM_APP_DETAILS_URL,
-        params={
-            "appids": appid,
-            "l": "english"
-        },
+        params=params,
         timeout=REQUEST_TIMEOUT
     )
 
@@ -117,11 +142,12 @@ if __name__ == "__main__":
 
     applist = load_json("applist.json")
 
-    Log("INFO", f"Found {len(applist)} Steam applications")
+    Log("INFO", f"Found {len(applist)} Steam applications.")
 
     skip_already_collected = False
 
     # Begin scraper
+    Log("INFO", "Fetching details... (CTRL+C to exit)")
     for index, app in enumerate(applist, start=1):
         appid = str(app["appid"])
         name = app.get("name", "")
@@ -129,9 +155,9 @@ if __name__ == "__main__":
         if skip_already_collected and appid in dataset:
             continue
 
-        Log(
-            "INFO",
-            f"[{index}/{len(applist)}] Fetching "
+        print_progress(
+            index,
+            len(applist),
             f"{name} ({appid})"
         )
 
