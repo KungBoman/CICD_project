@@ -73,3 +73,35 @@ def test_get_app_details_unsuccessful():
         result = build_dataset.get_app_details(123)
 
     assert result is None
+
+
+def test_get_app_details_with_filters():
+    mock_response = {
+        "123": {
+            "success": True,
+            "data": {
+                "steam_appid": 123
+            }
+        }
+    }
+
+    with patch("build_dataset.requests.get") as mock_get:
+        mock_get.return_value = make_mock_response(mock_response)
+
+        build_dataset.get_app_details(
+            123,
+            country="se",
+            language="en",
+            filters="price_overview"
+        )
+
+        mock_get.assert_called_once_with(
+            build_dataset.STEAM_APP_DETAILS_URL,
+            params={
+                "appids": 123,
+                "cc": "se",
+                "l": "en",
+                "filters": "price_overview"
+            },
+            timeout=build_dataset.REQUEST_TIMEOUT
+        )
