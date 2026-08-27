@@ -105,6 +105,8 @@ def test_get_app_details_with_filters():
             },
             timeout=build_dataset.REQUEST_TIMEOUT
         )
+
+
 def test_extract_game_data():
     details = {
         "steam_appid": 123,
@@ -141,3 +143,13 @@ def test_extract_game_data():
         "metacritic_score": 85,
         "metacritic_url": "https://example.com"
     }
+
+
+def test_extract_game_data_without_price():
+    details = {
+        "steam_appid": 123,
+        "name": "Free Game",
+        "is_free": True
+    }
+
+    result = build_dataset.extract_game_data(details)
