@@ -80,7 +80,8 @@ def test_get_app_details_with_filters():
         "123": {
             "success": True,
             "data": {
-                "steam_appid": 123
+                "steam_appid": 123,
+                "name": "Test Game"
             }
         }
     }
@@ -88,11 +89,11 @@ def test_get_app_details_with_filters():
     with patch("build_dataset.requests.get") as mock_get:
         mock_get.return_value = make_mock_response(mock_response)
 
-        build_dataset.get_app_details(
+        result = build_dataset.get_app_details(
             123,
             country="se",
             language="en",
-            filters="price_overview"
+            filters="name,platforms,price_overview"
         )
 
         mock_get.assert_called_once_with(
@@ -101,10 +102,15 @@ def test_get_app_details_with_filters():
                 "appids": 123,
                 "cc": "se",
                 "l": "en",
-                "filters": "price_overview"
+                "filters": "name,platforms,price_overview"
             },
             timeout=build_dataset.REQUEST_TIMEOUT
         )
+
+    assert result == {
+        "steam_appid": 123,
+        "name": "Test Game"
+    }
 
 
 def test_extract_game_data():
@@ -153,3 +159,17 @@ def test_extract_game_data_without_price():
     }
 
     result = build_dataset.extract_game_data(details)
+
+    assert result == {
+        "appid": 123,
+        "name": "Free Game",
+        "is_free": True,
+        "price": 0,
+        "currency": None,
+        "about_the_game": None,
+        "windows": None,
+        "mac": None,
+        "linux": None,
+        "metacritic_score": None,
+        "metacritic_url": None
+    }
