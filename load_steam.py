@@ -1,4 +1,15 @@
-import CSV
+import csv
+import json
+
+
+# Skapa en funktion som får sökvägen/namnet till en JSON-fil.
+# Öppna filen för läsning. r=read.
+# Läs JSON-Innehållet och omvandla det till python-data, och skicka tillbaka det. 
+
+def load_json_data(input_file):
+    with open(input_file, "r", encoding="utf-8") as file:
+        return json.load(file)
+
 
 
 def load_data(data):
