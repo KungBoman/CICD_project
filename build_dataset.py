@@ -20,10 +20,11 @@ Get-App-Details?utm_source=chatgpt.com
 REQUEST_TIMEOUT = 15
 REQUEST_DELAY = 0
 
-DEFAULT_DATASET_FILE = "games_dataset.json"
+DEFAULT_DATASET_INFILE = "games_dataset.json"
+DEFAULT_DATASET_OUTFILE = "games_dataset.json"
 DEFAULT_COUNTRY_CODE = "se"
 DEFAULT_LANGUAGE = "en"
-DEFAULT_SKIP_EXISTING = True
+DEFAULT_FORCE_REWRITE = False
 
 
 def print_progress(current, total, name="", width=20):
@@ -111,7 +112,7 @@ def extract_game_data(details):
     return game_data
 
 
-def load_dataset(file=DEFAULT_DATASET_FILE):
+def load_dataset(file=DEFAULT_DATASET_INFILE):
     dataset = cu.load_json(file)
 
     if not dataset:
@@ -178,7 +179,7 @@ def process_app(app, dataset, country=DEFAULT_COUNTRY_CODE, language=DEFAULT_LAN
         )
 
 
-def build_dataset(app_list, dataset, country=DEFAULT_COUNTRY_CODE, language=DEFAULT_LANGUAGE, skip_existing=DEFAULT_SKIP_EXISTING):
+def build_dataset(app_list, dataset, outfile=DEFAULT_DATASET_OUTFILE, country=DEFAULT_COUNTRY_CODE, language=DEFAULT_LANGUAGE, force=DEFAULT_FORCE_REWRITE):
     total = len(app_list)
 
     cu.log(
@@ -197,7 +198,7 @@ def build_dataset(app_list, dataset, country=DEFAULT_COUNTRY_CODE, language=DEFA
             f"{name} ({appid})"
         )
 
-        if skip_existing and appid in dataset:
+        if not force and appid in dataset:
             continue
 
         process_app(
@@ -207,7 +208,7 @@ def build_dataset(app_list, dataset, country=DEFAULT_COUNTRY_CODE, language=DEFA
             language
         )
 
-        cu.save_json(dataset, DEFAULT_DATASET_FILE)
+        cu.save_json(dataset, outfile)
 
         time.sleep(REQUEST_DELAY)
 
@@ -221,6 +222,16 @@ def parse_arguments():
     )
 
     parser.add_argument(
+        "-i", "--infile", type=str, default=DEFAULT_DATASET_INFILE,
+        help="Input dataset file"
+    )
+
+    parser.add_argument(
+        "-o", "--outfile", type=str, default=DEFAULT_DATASET_OUTFILE,
+        help="Output dataset file"
+    )
+
+    parser.add_argument(
         "-ma", "--max-apps", type=int, default=None,
         help="Maximum number of apps to fetch. "
              "If omitted, fetch all apps."
@@ -228,17 +239,17 @@ def parse_arguments():
 
     parser.add_argument(
         "-c", "--country", type=str, default=DEFAULT_COUNTRY_CODE,
-        help="Country code"
+        help="Country code."
     )
 
     parser.add_argument(
         "-l", "--language", type=str, default=DEFAULT_LANGUAGE,
-        help="Language code"
+        help="Language code."
     )
 
     parser.add_argument(
-        "-si", "--skip-existing", type=str, default=DEFAULT_SKIP_EXISTING,
-        help=""
+        "-f", "--force", type=cu.str_to_bool, default=DEFAULT_FORCE_REWRITE,
+        help="Overwrite existing apps."
     )
 
     return parser.parse_args()
@@ -251,16 +262,17 @@ def main():
 
     dataset = load_dataset()
 
-    start_time = time.time()
-
     app_list = load_app_list(args.max_apps)
+
+    start_time = time.time()
 
     build_dataset(
         app_list,
         dataset,
+        args.outfile,
         args.country,
         args.language,
-        args.skip_existing
+        args.force
     )
 
     duration = time.time() - start_time
@@ -270,11 +282,11 @@ def main():
         f"Data fetching completed in {duration:.2f} seconds."
     )
 
-    cu.save_json(dataset, DEFAULT_DATASET_FILE)
+    cu.save_json(dataset, args.infile)
 
     cu.log(
         "INFO",
-        f"Dataset saved to '{DEFAULT_DATASET_FILE}' "
+        f"Dataset saved to '{args.infile}' "
         f"with {len(dataset)} entries."
     )
 
