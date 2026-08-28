@@ -2,6 +2,7 @@
 import os
 import json
 import sys
+import argparse
 
 CONFIG_FILE = "env/.cfg"
 ENCODING = "utf-8"
@@ -40,3 +41,14 @@ def save_json(data, filename):
             indent=4,
             ensure_ascii=False
         )
+
+
+def str_to_bool(v):
+    if isinstance(v, bool):
+        return v
+    if v.lower() in ('yes', 'true', 't', '1'):
+        return True
+    elif v.lower() in ('no', 'false', 'f', '0'):
+        return False
+    else:
+        raise argparse.ArgumentTypeError('Boolean value expected.')
