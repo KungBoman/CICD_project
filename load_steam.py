@@ -23,14 +23,14 @@ def write_csv(rows, output_file):
     # encoding="urf-8", gör att text och specieltecken kan sparas korrekt.
     with open(output_file, "w", newline="", encoding="utf-8",) as file:
         # skapar själva csv.skrivare
-        writer = csv.dictwriter(file, fieldnames=fieldnames)
+        writer = csv.DictWriter(file, fieldnames=fieldnames)
         # Skriver kolumnnamnen och datan under kolumnerna. 
-        writer.writerhead()
-        writer.writerrows(rows)
+        writer.writeheader()
+        writer.writerows(rows)
 
 
-def load_data(data):
-    print(data) 
+def load_data(data, output_file):
+    write_csv(data, output_file) 
 
 
 test_data = [
@@ -58,4 +58,4 @@ test_data = [
     }
 ]
 
-load_data(test_data)
+load_data(test_data, "games.csv")
