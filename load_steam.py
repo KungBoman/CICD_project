@@ -1,3 +1,6 @@
+import CSV
+
+
 def load_data(data):
     print(data) 
 
