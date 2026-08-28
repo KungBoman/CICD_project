@@ -23,6 +23,7 @@ REQUEST_DELAY = 0
 DEFAULT_DATASET_FILE = "games_dataset.json"
 DEFAULT_COUNTRY_CODE = "se"
 DEFAULT_LANGUAGE = "en"
+DEFAULT_SKIP_EXISTING = True
 
 
 def print_progress(current, total, name="", width=20):
@@ -110,30 +111,6 @@ def extract_game_data(details):
     return game_data
 
 
-def parse_arguments():
-    parser = argparse.ArgumentParser(
-        description="Fetch Steam application list."
-    )
-
-    parser.add_argument(
-        "-ma", "--max-apps", type=int, default=None,
-        help="Maximum number of apps to fetch. "
-             "If omitted, fetch all apps."
-    )
-
-    parser.add_argument(
-        "-c", "--country", type=str, default=DEFAULT_COUNTRY_CODE,
-        help="-Country code"
-    )
-
-    parser.add_argument(
-        "-l", "--language", type=str, default=DEFAULT_LANGUAGE,
-        help="Language code"
-    )
-
-    return parser.parse_args()
-
-
 def load_dataset(file=DEFAULT_DATASET_FILE):
     dataset = cu.load_json(file)
 
@@ -167,7 +144,107 @@ def load_app_list(max_apps=None):
     return app_list
 
 
-if __name__ == "__main__":
+def process_app(app, dataset, country=DEFAULT_COUNTRY_CODE, language=DEFAULT_LANGUAGE):
+    appid = str(app["appid"])
+    name = app.get("name", "")
+
+    try:
+        details = get_app_details(
+            appid,
+            country,
+            language
+        )
+
+        if not details:
+            return
+
+        if details.get("type") != "game":
+            return
+
+        game = extract_game_data(details)
+
+        dataset[appid] = game
+
+    except requests.RequestException as error:
+        cu.log(
+            "ERROR",
+            f"Failed to fetch app {appid}: {error}"
+        )
+
+    except Exception as error:
+        cu.log(
+            "ERROR",
+            f"Unexpected error for app {appid}: {error}"
+        )
+
+
+def build_dataset(app_list, dataset, country=DEFAULT_COUNTRY_CODE, language=DEFAULT_LANGUAGE, skip_existing=DEFAULT_SKIP_EXISTING):
+    total = len(app_list)
+
+    cu.log(
+        "INFO",
+        f"Fetching details for {total} applications... "
+        "(CTRL+C to exit)"
+    )
+
+    for index, app in enumerate(app_list, start=1):
+        appid = str(app["appid"])
+        name = app.get("name", "")
+
+        print_progress(
+            index - 1,
+            total,
+            f"{name} ({appid})"
+        )
+
+        if skip_existing and appid in dataset:
+            continue
+
+        process_app(
+            app,
+            dataset,
+            country,
+            language
+        )
+
+        cu.save_json(dataset, DEFAULT_DATASET_FILE)
+
+        time.sleep(REQUEST_DELAY)
+
+    print_progress(total, total, "")
+    print()
+
+
+def parse_arguments():
+    parser = argparse.ArgumentParser(
+        description="Fetch Steam application list."
+    )
+
+    parser.add_argument(
+        "-ma", "--max-apps", type=int, default=None,
+        help="Maximum number of apps to fetch. "
+             "If omitted, fetch all apps."
+    )
+
+    parser.add_argument(
+        "-c", "--country", type=str, default=DEFAULT_COUNTRY_CODE,
+        help="Country code"
+    )
+
+    parser.add_argument(
+        "-l", "--language", type=str, default=DEFAULT_LANGUAGE,
+        help="Language code"
+    )
+
+    parser.add_argument(
+        "-si", "--skip-existing", type=str, default=DEFAULT_SKIP_EXISTING,
+        help=""
+    )
+
+    return parser.parse_args()
+
+
+def main():
     args = parse_arguments()
 
     cu.log("INFO", "Starting GamesScraper.py")
@@ -178,67 +255,16 @@ if __name__ == "__main__":
 
     app_list = load_app_list(args.max_apps)
 
-    skip_already_collected = False
-
-    # Begin scraper
-    cu.log(
-        "INFO",
-        f"Fetching details for {len(app_list)} applications... "
-        "(CTRL+C to exit)"
+    build_dataset(
+        app_list,
+        dataset,
+        args.country,
+        args.language,
+        args.skip_existing
     )
-    for index, app in enumerate(app_list, start=1):
-        appid = str(app["appid"])
-        name = app.get("name", "")
 
-        if skip_already_collected and appid in dataset:
-            continue
+    duration = time.time() - start_time
 
-        print_progress(
-            index - 1,
-            len(app_list),
-            f"{name} ({appid})"
-        )
-
-        try:
-            details = get_app_details(appid, args.country, args.language)
-
-            if not details:
-                continue
-
-            # Only keep actual games
-            if details.get("type") != "game":
-                continue
-
-            game = extract_game_data(details)
-
-            dataset[appid] = game
-
-            # Save continuously so CI interruptions don't lose everything
-            cu.save_json(dataset, DEFAULT_DATASET_FILE)
-
-        except requests.RequestException as error:
-            cu.log(
-                "ERROR",
-                f"Failed to fetch app {appid}: {error}"
-            )
-
-        except Exception as error:
-            cu.log(
-                "ERROR",
-                f"Unexpected error for app {appid}: {error}"
-            )
-
-        time.sleep(REQUEST_DELAY)
-
-    end_time = time.time()
-    duration = end_time - start_time
-
-    print_progress(
-        index,
-        len(app_list),
-        ""
-    )
-    print()  # new line
     cu.log(
         "INFO",
         f"Data fetching completed in {duration:.2f} seconds."
@@ -251,3 +277,7 @@ if __name__ == "__main__":
         f"Dataset saved to '{DEFAULT_DATASET_FILE}' "
         f"with {len(dataset)} entries."
     )
+
+
+if __name__ == "__main__":
+    main()

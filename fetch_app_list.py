@@ -113,7 +113,7 @@ def parse_arguments():
     return parser.parse_args()
 
 
-if __name__ == "__main__":
+def main():
     args = parse_arguments()
 
     cu.log("INFO", "Starting fetch_app_list.py")
@@ -154,3 +154,7 @@ if __name__ == "__main__":
         f"App list saved to '{APPLIST_FILE}' "
         f"with {len(app_list)} entries."
     )
+
+
+if __name__ == "__main__":
+    main()
