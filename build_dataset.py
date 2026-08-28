@@ -8,6 +8,7 @@ import time
 import datetime
 import requests
 import argparse
+from tqdm import tqdm
 
 
 STEAM_APP_DETAILS_URL = "https://store.steampowered.com/api/appdetails"
@@ -246,15 +247,14 @@ def build_dataset(
         "(CTRL+C to exit)"
     )
 
-    for index, app in enumerate(app_list, start=1):
+    for app in tqdm(
+        app_list,
+        desc="Fetching games",
+        unit="app",
+        smoothing=0.1
+    ):
         appid = str(app["appid"])
         name = app.get("name", "")
-
-        print_progress(
-            index - 1,
-            total,
-            f"{name} ({appid})"
-        )
 
         if not force and appid in dataset:
             continue
@@ -271,9 +271,6 @@ def build_dataset(
         cu.save_json(dataset, outfile)
 
         time.sleep(delay)
-
-    print_progress(total, total, "")
-    print()
 
 
 def parse_arguments():
