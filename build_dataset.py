@@ -18,13 +18,15 @@ Get-App-Details?utm_source=chatgpt.com
 """
 
 REQUEST_TIMEOUT = 15
-REQUEST_DELAY = 0
 
 DEFAULT_DATASET_INFILE = "games_dataset.json"
 DEFAULT_DATASET_OUTFILE = "games_dataset.json"
 DEFAULT_COUNTRY_CODE = "se"
 DEFAULT_LANGUAGE = "en"
 DEFAULT_FORCE_REWRITE = False
+DEFAULT_REQUEST_DELAY = 0
+DEFAULT_MAX_RETRIES = 4
+DEFAULT_RETRY_DELAY = 10
 
 
 def print_progress(current, total, name="", width=20):
@@ -45,7 +47,14 @@ def print_progress(current, total, name="", width=20):
     )
 
 
-def get_app_details(appid, country=DEFAULT_COUNTRY_CODE, language=DEFAULT_LANGUAGE, filters=None):
+def get_app_details(
+    appid,
+    country=DEFAULT_COUNTRY_CODE,
+    language=DEFAULT_LANGUAGE,
+    filters=None,
+    max_retries=DEFAULT_MAX_RETRIES,
+    retry_delay=DEFAULT_RETRY_DELAY
+):
     params = {
         "appids": appid,
         "cc": country,
@@ -55,25 +64,43 @@ def get_app_details(appid, country=DEFAULT_COUNTRY_CODE, language=DEFAULT_LANGUA
     if filters:
         params["filters"] = filters
 
-    response = requests.get(
-        STEAM_APP_DETAILS_URL,
-        params=params,
-        timeout=REQUEST_TIMEOUT
-    )
+    for attempt in range(max_retries + 1):
+        response = requests.get(
+            STEAM_APP_DETAILS_URL,
+            params=params,
+            timeout=REQUEST_TIMEOUT
+        )
 
-    response.raise_for_status()
+        if response.status_code == 429:
+            if attempt >= max_retries:
+                response.raise_for_status()
 
-    data = response.json()
+            wait_time = retry_delay * (attempt + 1)
 
-    app_data = data.get(str(appid))
+            cu.log(
+                "WARNING",
+                f"Rate limited for app {appid}. "
+                f"Retrying in {wait_time}s..."
+            )
 
-    if not app_data:
-        return None
+            time.sleep(wait_time)
+            continue
 
-    if not app_data.get("success"):
-        return None
+        response.raise_for_status()
 
-    return app_data.get("data")
+        data = response.json()
+
+        app_data = data.get(str(appid))
+
+        if not app_data:
+            return None
+
+        if not app_data.get("success"):
+            return None
+
+        return app_data.get("data")
+
+    return None
 
 
 def extract_game_data(details):
@@ -145,15 +172,24 @@ def load_app_list(max_apps=None):
     return app_list
 
 
-def process_app(app, dataset, country=DEFAULT_COUNTRY_CODE, language=DEFAULT_LANGUAGE):
+def process_app(
+    app,
+    dataset,
+    country=DEFAULT_COUNTRY_CODE,
+    language=DEFAULT_LANGUAGE,
+    max_retries=DEFAULT_MAX_RETRIES,
+    retry_delay=DEFAULT_RETRY_DELAY
+):
     appid = str(app["appid"])
     name = app.get("name", "")
 
     try:
         details = get_app_details(
             appid,
-            country,
-            language
+            country=country,
+            language=language,
+            max_retries=max_retries,
+            retry_delay=retry_delay
         )
 
         if not details:
@@ -179,7 +215,17 @@ def process_app(app, dataset, country=DEFAULT_COUNTRY_CODE, language=DEFAULT_LAN
         )
 
 
-def build_dataset(app_list, dataset, outfile=DEFAULT_DATASET_OUTFILE, country=DEFAULT_COUNTRY_CODE, language=DEFAULT_LANGUAGE, force=DEFAULT_FORCE_REWRITE):
+def build_dataset(
+    app_list,
+    dataset,
+    outfile=DEFAULT_DATASET_OUTFILE,
+    country=DEFAULT_COUNTRY_CODE,
+    language=DEFAULT_LANGUAGE,
+    force=DEFAULT_FORCE_REWRITE,
+    delay=DEFAULT_REQUEST_DELAY,
+    max_retries=DEFAULT_MAX_RETRIES,
+    retry_delay=DEFAULT_RETRY_DELAY
+):
     total = len(app_list)
 
     cu.log(
@@ -204,13 +250,15 @@ def build_dataset(app_list, dataset, outfile=DEFAULT_DATASET_OUTFILE, country=DE
         process_app(
             app,
             dataset,
-            country,
-            language
+            country=country,
+            language=language,
+            max_retries=max_retries,
+            retry_delay=retry_delay
         )
 
         cu.save_json(dataset, outfile)
 
-        time.sleep(REQUEST_DELAY)
+        time.sleep(delay)
 
     print_progress(total, total, "")
     print()
@@ -223,12 +271,12 @@ def parse_arguments():
 
     parser.add_argument(
         "-i", "--infile", type=str, default=DEFAULT_DATASET_INFILE,
-        help="Input dataset file"
+        help="Input dataset file."
     )
 
     parser.add_argument(
         "-o", "--outfile", type=str, default=DEFAULT_DATASET_OUTFILE,
-        help="Output dataset file"
+        help="Output dataset file."
     )
 
     parser.add_argument(
@@ -252,6 +300,19 @@ def parse_arguments():
         help="Overwrite existing apps."
     )
 
+    parser.add_argument(
+        "-d", "--delay", type=int, default=DEFAULT_REQUEST_DELAY,
+        help="Time in seconds to delay each query."
+    )
+    parser.add_argument(
+        "-r", "--retries", type=int, default=DEFAULT_MAX_RETRIES,
+        help="Number of retries. Always retry when 0."
+    )
+    parser.add_argument(
+        "-rd", "--retry-delay", type=int, default=DEFAULT_RETRY_DELAY,
+        help="Time in seconds before retry query."
+    )
+
     return parser.parse_args()
 
 
@@ -260,7 +321,7 @@ def main():
 
     cu.log("INFO", "Starting GamesScraper.py")
 
-    dataset = load_dataset()
+    dataset = load_dataset(args.infile)
 
     app_list = load_app_list(args.max_apps)
 
@@ -269,10 +330,13 @@ def main():
     build_dataset(
         app_list,
         dataset,
-        args.outfile,
-        args.country,
-        args.language,
-        args.force
+        outfile=args.outfile,
+        country=args.country,
+        language=args.language,
+        force=args.force,
+        delay=args.delay,
+        max_retries=args.retries,
+        retry_delay=args.retry_delay
     )
 
     duration = time.time() - start_time
@@ -282,11 +346,11 @@ def main():
         f"Data fetching completed in {duration:.2f} seconds."
     )
 
-    cu.save_json(dataset, args.infile)
+    cu.save_json(dataset, args.outfile)
 
     cu.log(
         "INFO",
-        f"Dataset saved to '{args.infile}' "
+        f"Dataset saved to '{args.outfile}' "
         f"with {len(dataset)} entries."
     )
 
