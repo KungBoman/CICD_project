@@ -254,7 +254,6 @@ def build_dataset(
         smoothing=0.1
     ):
         appid = str(app["appid"])
-        name = app.get("name", "")
 
         if not force and appid in dataset:
             continue
