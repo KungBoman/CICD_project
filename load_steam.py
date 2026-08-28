@@ -18,14 +18,26 @@ def load_data(data):
 
 test_data = [
     {
-        "appid": 450,
-        "name": "GTA 6",
-        "playtime_hours": 15.5
+        "appid": 10,
+        "name": "Counter-Strike",
+        "is_free": False,
+        "price": 8.19,
+        "currency": "EUR",
+        "windows": True,
+        "mac": True,
+        "linux": True,
+        "metacritic_score": 88
     },
     {
-        "appid": 422,
-        "name": "call of duty",
-        "playtime_hours": 14.6
+        "appid": 20,
+        "name": "Team Fortress Classic",
+        "is_free": False,
+        "price": 4.99,
+        "currency": "EUR",
+        "windows": True,
+        "mac": False,
+        "linux": True,
+        "metacritic_score": 76
     }
 ]
 
