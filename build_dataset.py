@@ -109,28 +109,41 @@ def extract_game_data(details):
     game_data["appid"] = details.get("steam_appid")
     game_data["name"] = details.get("name")
 
-    is_free = details.get("is_free")
+    release_date = details.get("release_date", {})
+    if release_date.get("coming_soon"):
+        game_data["release_date"] = None
+    else:
+        date = release_date.get("date")
+        game_data["release_date"] = (
+            datetime.datetime.strptime(date, "%d %b, %Y").strftime("%Y-%m-%d")
+            if date
+            else None
+        )
+
+    is_free = details.get("is_free", False)
     game_data["is_free"] = is_free
 
     price_overview = details.get("price_overview", {})
 
-    if is_free:
-        game_data["price"] = 0.0
-        game_data["currency"] = None
-    else:
-        game_data["price"] = (
-            price_overview.get("final", 0) / 100
-            if price_overview
-            else 0.0
-        )
-        game_data["currency"] = price_overview.get("currency")
+    game_data["price"] = (
+        0.0 if is_free
+        else price_overview.get("final", 0) / 100
+    )
 
+    game_data["currency"] = price_overview.get("currency")
     game_data["about_the_game"] = details.get("about_the_game")
+    game_data["short_description"] = details.get("short_description")
+    game_data["detailed_description"] = details.get("detailed_description")
+
+    game_data["dlc_count"] = len(details.get("dlc", []))
+
+    game_data["achievements"] = details.get("achievements", {}).get("total", 0)
+    game_data["recommendations"] = details.get("recommendations", {}).get("total", 0)
 
     platforms = details.get("platforms", {})
-    game_data["windows"] = platforms.get("windows")
-    game_data["mac"] = platforms.get("mac")
-    game_data["linux"] = platforms.get("linux")
+    game_data["windows"] = platforms.get("windows", False)
+    game_data["mac"] = platforms.get("mac", False)
+    game_data["linux"] = platforms.get("linux", False)
 
     metacritic = details.get("metacritic", {})
     game_data["metacritic_score"] = metacritic.get("score")

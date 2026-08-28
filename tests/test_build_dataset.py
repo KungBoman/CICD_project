@@ -117,12 +117,27 @@ def test_extract_game_data():
     details = {
         "steam_appid": 123,
         "name": "Test Game",
+        "release_date": {
+            "coming_soon": False,
+            "date": "1 Jan, 1970"
+        },
         "is_free": False,
         "price_overview": {
             "final": 19990,
             "currency": "SEK"
         },
         "about_the_game": "A test game.",
+        "short_description": "A test game's short description.",
+        "detailed_description": "A test game's detailed description.",
+        "dlc": [
+            480, 520
+        ],
+        "achievements": {
+            "total": 10
+        },
+        "recommendations": {
+            "total": 25
+        },
         "platforms": {
             "windows": True,
             "mac": False,
@@ -139,10 +154,16 @@ def test_extract_game_data():
     assert result == {
         "appid": 123,
         "name": "Test Game",
+        "release_date": "1970-01-01",
         "is_free": False,
         "price": 199.90,
         "currency": "SEK",
         "about_the_game": "A test game.",
+        "short_description": "A test game's short description.",
+        "detailed_description": "A test game's detailed description.",
+        "dlc_count": 2,
+        "achievements": 10,
+        "recommendations": 25,
         "windows": True,
         "mac": False,
         "linux": True,
@@ -163,13 +184,19 @@ def test_extract_game_data_without_price():
     assert result == {
         "appid": 123,
         "name": "Free Game",
+        "release_date": None,
         "is_free": True,
         "price": 0,
         "currency": None,
         "about_the_game": None,
-        "windows": None,
-        "mac": None,
-        "linux": None,
+        "short_description": None,
+        "detailed_description": None,
+        "dlc_count": 0,
+        "achievements": 0,
+        "recommendations": 0,
+        "windows": False,
+        "mac": False,
+        "linux": False,
         "metacritic_score": None,
         "metacritic_url": None
     }
