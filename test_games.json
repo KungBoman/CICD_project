@@ -1,0 +1,24 @@
+{
+  "10": {
+    "appid": 10,
+    "name": "Counter-Strike",
+    "is_free": false,
+    "price": 8.19,
+    "currency": "EUR",
+    "windows": true,
+    "mac": true,
+    "linux": true,
+    "metacritic_score": 88
+  },
+  "20": {
+    "appid": 20,
+    "name": "Team Fortress Classic",
+    "is_free": false,
+    "price": 4.99,
+    "currency": "EUR",
+    "windows": true,
+    "mac": false,
+    "linux": true,
+    "metacritic_score": 76
+  }
+}

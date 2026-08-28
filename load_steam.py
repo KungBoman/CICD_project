@@ -29,8 +29,10 @@ def write_csv(rows, output_file):
         writer.writerows(rows)
 
 
-def load_data(data, output_file):
-    write_csv(data, output_file) 
+def load_data(input_file, output_file):
+    data = load_json_data(input_file)
+    rows = list(data.values())
+    write_csv(rows, output_file) 
 
 
 test_data = [
@@ -58,4 +60,5 @@ test_data = [
     }
 ]
 
-load_data(test_data, "games.csv")
+load_data("test_games.json", "games.csv")
+# load_data(test_data, "games.csv")
