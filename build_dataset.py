@@ -194,7 +194,6 @@ def process_app(
     retry_delay=DEFAULT_RETRY_DELAY
 ):
     appid = str(app["appid"])
-    name = app.get("name", "")
 
     try:
         details = get_app_details(
