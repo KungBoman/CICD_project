@@ -11,6 +11,23 @@ def load_json_data(input_file):
         return json.load(file)
 
 
+def write_csv(rows, output_file):
+    # Om listan är tom ska funktionen avslutas. Annars hade rows[0] kraschat.
+    if not rows:
+        return
+    # Tar kolumnnamnen från första spelet.
+    fieldnames = rows[0].keys()
+    # Öppnar eller skapar output-filen för skrivning
+    # "w" = Write. Finns filen redan skrivs den över.
+    # newline="", används för att csv.modulen själv ska hantera radbytningarna korrekt.
+    # encoding="urf-8", gör att text och specieltecken kan sparas korrekt.
+    with open(output_file, "w", newline="", encoding="utf-8",) as file:
+        # skapar själva csv.skrivare
+        writer = csv.dictwriter(file, fieldnames=fieldnames)
+        # Skriver kolumnnamnen och datan under kolumnerna. 
+        writer.writerhead()
+        writer.writerrows(rows)
+
 
 def load_data(data):
     print(data) 
