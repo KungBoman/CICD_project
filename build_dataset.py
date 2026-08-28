@@ -9,8 +9,6 @@ import datetime
 import requests
 import argparse
 
-ENCODING = "utf-8"
-DATASET_FILE = "games_dataset.json"
 
 STEAM_APP_DETAILS_URL = "https://store.steampowered.com/api/appdetails"
 """
@@ -22,6 +20,7 @@ Get-App-Details?utm_source=chatgpt.com
 REQUEST_TIMEOUT = 15
 REQUEST_DELAY = 0
 
+DEFAULT_DATASET_FILE = "games_dataset.json"
 DEFAULT_COUNTRY_CODE = "se"
 DEFAULT_LANGUAGE = "en"
 
@@ -135,40 +134,49 @@ def parse_arguments():
     return parser.parse_args()
 
 
-if __name__ == "__main__":
-    args = parse_arguments()
-
-    cu.log("INFO", "Starting GamesScraper.py")
-
-    dataset = cu.load_json(DATASET_FILE)
+def load_dataset(file=DEFAULT_DATASET_FILE):
+    dataset = cu.load_json(file)
 
     if not dataset:
         cu.log(
             "INFO",
-            f"No data found in '{DATASET_FILE}'. "
+            f"No data found in '{file}'. "
             "Starting with an empty dataset."
         )
         dataset = {}
     else:
         cu.log(
             "INFO",
-            f"Loaded dataset from '{DATASET_FILE}' "
+            f"Loaded dataset from '{file}' "
             f"with {len(dataset)} entries."
         )
 
-    start_time = time.time()
+    return dataset
 
-    raw_app_list = cu.load_json("app_list.json")
 
-    if args.max_apps is not None:
-        app_list = raw_app_list[:args.max_apps]
+def load_app_list(max_apps=None):
+    app_list = cu.load_json("app_list.json")
+
+    if max_apps is not None:
+        app_list = app_list[:max_apps]
         cu.log(
             "INFO",
-            f"Limiting app_list to {len(app_list)} apps "
-            f"for this run."
+            f"Limiting app_list to {len(app_list)} apps for this run."
         )
-    else:
-        app_list = raw_app_list
+
+    return app_list
+
+
+if __name__ == "__main__":
+    args = parse_arguments()
+
+    cu.log("INFO", "Starting GamesScraper.py")
+
+    dataset = load_dataset()
+
+    start_time = time.time()
+
+    app_list = load_app_list(args.max_apps)
 
     skip_already_collected = False
 
@@ -206,7 +214,7 @@ if __name__ == "__main__":
             dataset[appid] = game
 
             # Save continuously so CI interruptions don't lose everything
-            cu.save_json(dataset, DATASET_FILE)
+            cu.save_json(dataset, DEFAULT_DATASET_FILE)
 
         except requests.RequestException as error:
             cu.log(
@@ -236,10 +244,10 @@ if __name__ == "__main__":
         f"Data fetching completed in {duration:.2f} seconds."
     )
 
-    cu.save_json(dataset, DATASET_FILE)
+    cu.save_json(dataset, DEFAULT_DATASET_FILE)
 
     cu.log(
         "INFO",
-        f"Dataset saved to '{DATASET_FILE}' "
+        f"Dataset saved to '{DEFAULT_DATASET_FILE}' "
         f"with {len(dataset)} entries."
     )
