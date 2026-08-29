@@ -1,0 +1,26 @@
+name: Duplicate file checker
+
+on:
+  push:
+    branches: main
+  pull_request:
+
+
+jobs:
+    duplicate-file-checker:
+        runs-on: ubuntu-latest
+        steps:
+        - name: Check for duplicate files
+          uses: actions/checkout@v4
+
+        - name: Install fdupes
+          run: sudo apt-get update && sudo apt-get install -y fdupes
+
+        - name: Find duplicate files
+          run: 
+            if fdupes -rn . | grep -q .; then
+                echo "Duplicate files found:"
+                fdupes -r . 
+                exit 1
+            fi
+            echo "No duplicate files found."
