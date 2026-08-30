@@ -23,7 +23,7 @@ def test_save_and_load_csv_list(tmp_path):
     assert result == data
 
 
-def test_Save_And_load_csv_dict(tmp_path):
+def test_save_and_load_csv_dict(tmp_path):
     data = {
         "10": expected_app(10, "Counter-Strike"),
         "20": expected_app(20, "Team Fortress Classic")
