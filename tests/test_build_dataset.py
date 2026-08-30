@@ -113,7 +113,7 @@ def test_get_app_details_with_filters():
     }
 
 
-def test_extract_game_data():
+def test_extract_game_data_and_convert_dataset_row():
     details = {
         "steam_appid": 123,
         "name": "Test Game",
@@ -129,15 +129,9 @@ def test_extract_game_data():
         "about_the_game": "A test game.",
         "short_description": "A test game's short description.",
         "detailed_description": "A test game's detailed description.",
-        "dlc": [
-            480, 520
-        ],
-        "achievements": {
-            "total": 10
-        },
-        "recommendations": {
-            "total": 25
-        },
+        "dlc": [480, 520],
+        "achievements": {"total": 10},
+        "recommendations": {"total": 25},
         "platforms": {
             "windows": True,
             "mac": False,
@@ -149,27 +143,16 @@ def test_extract_game_data():
         }
     }
 
-    result = build_dataset.extract_game_data(details)
+    expected = build_dataset.extract_game_data(details)
 
-    assert result == {
-        "appid": 123,
-        "name": "Test Game",
-        "release_date": "1970-01-01",
-        "is_free": False,
-        "price": 199.90,
-        "currency": "SEK",
-        "about_the_game": "A test game.",
-        "short_description": "A test game's short description.",
-        "detailed_description": "A test game's detailed description.",
-        "dlc_count": 2,
-        "achievements": 10,
-        "recommendations": 25,
-        "windows": True,
-        "mac": False,
-        "linux": True,
-        "metacritic_score": 85,
-        "metacritic_url": "https://example.com"
+    csv_row = {
+        key: str(value) if value is not None else ""
+        for key, value in expected.items()
     }
+
+    result = build_dataset.convert_dataset_row(csv_row)
+
+    assert result == expected
 
 
 def test_extract_game_data_without_price():

@@ -49,6 +49,26 @@ def print_progress(current, total, name="", width=20):
     )
 
 
+def load_app_list(max_apps=None):
+    app_list = cu.load_json("app_list.json")
+
+    if not app_list:
+        cu.log(
+            "ERROR",
+            f"Missing app list. Run \"fetch_app_list.py\" first."
+        )
+        sys.exit(1)
+
+    if max_apps is not None:
+        app_list = app_list[:max_apps]
+        cu.log(
+            "INFO",
+            f"Limiting app_list to {len(app_list)} apps for this run."
+        )
+
+    return app_list
+
+
 def get_app_details(
     appid,
     country=DEFAULT_COUNTRY_CODE,
@@ -154,32 +174,36 @@ def extract_game_data(details):
     return game_data
 
 
-def load_app_list(max_apps=None):
-    app_list = cu.load_json("app_list.json")
-
-    if not app_list:
-        cu.log(
-            "ERROR",
-            f"Missing app list. Run \"fetch_app_list.py\" first."
-        )
-        sys.exit(1)
-
-    if max_apps is not None:
-        app_list = app_list[:max_apps]
-        cu.log(
-            "INFO",
-            f"Limiting app_list to {len(app_list)} apps for this run."
-        )
-
-    return app_list
+def convert_dataset_row(row):
+    return {
+        "appid": int(row["appid"]),
+        "name": row["name"],
+        "release_date": row["release_date"] or None,
+        "is_free": row["is_free"].lower() == "true",
+        "price": float(row["price"]) if row["price"] else 0.0,
+        "currency": row["currency"] or None,
+        "about_the_game": row["about_the_game"],
+        "short_description": row["short_description"],
+        "detailed_description": row["detailed_description"],
+        "dlc_count": int(row["dlc_count"]), "achievements": int(row["achievements"]),
+        "recommendations": int(row["recommendations"]),
+        "windows": row["windows"].lower() == "true",
+        "mac": row["mac"].lower() == "true",
+        "linux": row["linux"].lower() == "true",
+        "metacritic_score": (int(row["metacritic_score"]) if row["metacritic_score"] else None),
+        "metacritic_url": row["metacritic_url"] or None,
+    }
 
 
 def load_dataset(filename=DEFAULT_DATASET_INFILE):
     if filename.endswith(".json"):
         dataset = cu.load_json(filename)
-
-    if filename.endswith(".csv"):
-        dataset = cu.load_csv(filename, key="appid")
+    elif filename.endswith(".csv"):
+        rows = cu.load_csv(filename)
+        dataset = {
+            str(row["appid"]): convert_dataset_row(row)
+            for row in rows
+        }
 
     if not dataset:
         cu.log(
