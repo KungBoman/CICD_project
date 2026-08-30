@@ -1,0 +1,202 @@
+from unittest.mock import MagicMock, patch
+
+import build_dataset
+
+
+def make_mock_response(data):
+    response = MagicMock()
+    response.json.return_value = data
+    return response
+
+
+def test_get_app_details():
+    mock_response = {
+        "123": {
+            "success": True,
+            "data": {
+                "steam_appid": 123,
+                "name": "Test Game",
+                "type": "game"
+            }
+        }
+    }
+
+    with patch("build_dataset.requests.get") as mock_get:
+        mock_get.return_value = make_mock_response(mock_response)
+
+        result = build_dataset.get_app_details(
+            123,
+            country="se",
+            language="en"
+        )
+
+        mock_get.assert_called_once_with(
+            build_dataset.STEAM_APP_DETAILS_URL,
+            params={
+                "appids": 123,
+                "cc": build_dataset.DEFAULT_COUNTRY_CODE,
+                "l": build_dataset.DEFAULT_LANGUAGE
+            },
+            timeout=build_dataset.REQUEST_TIMEOUT
+        )
+
+    assert result == {
+        "steam_appid": 123,
+        "name": "Test Game",
+        "type": "game"
+    }
+
+
+def test_get_app_details_missing_app():
+    mock_response = {
+        "response": {}
+    }
+
+    with patch("build_dataset.requests.get") as mock_get:
+        mock_get.return_value = make_mock_response(mock_response)
+
+        result = build_dataset.get_app_details(123)
+
+    assert result is None
+
+
+def test_get_app_details_unsuccessful():
+    mock_response = {
+        "123": {
+            "success": False
+        }
+    }
+
+    with patch("build_dataset.requests.get") as mock_get:
+        mock_get.return_value = make_mock_response(mock_response)
+
+        result = build_dataset.get_app_details(123)
+
+    assert result is None
+
+
+def test_get_app_details_with_filters():
+    mock_response = {
+        "123": {
+            "success": True,
+            "data": {
+                "steam_appid": 123,
+                "name": "Test Game"
+            }
+        }
+    }
+
+    with patch("build_dataset.requests.get") as mock_get:
+        mock_get.return_value = make_mock_response(mock_response)
+
+        result = build_dataset.get_app_details(
+            123,
+            country="se",
+            language="en",
+            filters="name,platforms,price_overview"
+        )
+
+        mock_get.assert_called_once_with(
+            build_dataset.STEAM_APP_DETAILS_URL,
+            params={
+                "appids": 123,
+                "cc": "se",
+                "l": "en",
+                "filters": "name,platforms,price_overview"
+            },
+            timeout=build_dataset.REQUEST_TIMEOUT
+        )
+
+    assert result == {
+        "steam_appid": 123,
+        "name": "Test Game"
+    }
+
+
+def test_extract_game_data():
+    details = {
+        "steam_appid": 123,
+        "name": "Test Game",
+        "release_date": {
+            "coming_soon": False,
+            "date": "1 Jan, 1970"
+        },
+        "is_free": False,
+        "price_overview": {
+            "final": 19990,
+            "currency": "SEK"
+        },
+        "about_the_game": "A test game.",
+        "short_description": "A test game's short description.",
+        "detailed_description": "A test game's detailed description.",
+        "dlc": [
+            480, 520
+        ],
+        "achievements": {
+            "total": 10
+        },
+        "recommendations": {
+            "total": 25
+        },
+        "platforms": {
+            "windows": True,
+            "mac": False,
+            "linux": True
+        },
+        "metacritic": {
+            "score": 85,
+            "url": "https://example.com"
+        }
+    }
+
+    result = build_dataset.extract_game_data(details)
+
+    assert result == {
+        "appid": 123,
+        "name": "Test Game",
+        "release_date": "1970-01-01",
+        "is_free": False,
+        "price": 199.90,
+        "currency": "SEK",
+        "about_the_game": "A test game.",
+        "short_description": "A test game's short description.",
+        "detailed_description": "A test game's detailed description.",
+        "dlc_count": 2,
+        "achievements": 10,
+        "recommendations": 25,
+        "windows": True,
+        "mac": False,
+        "linux": True,
+        "metacritic_score": 85,
+        "metacritic_url": "https://example.com"
+    }
+
+
+def test_extract_game_data_without_price():
+    details = {
+        "steam_appid": 123,
+        "name": "Free Game",
+        "is_free": True
+    }
+
+    result = build_dataset.extract_game_data(details)
+
+    assert result == {
+        "appid": 123,
+        "name": "Free Game",
+        "release_date": None,
+        "is_free": True,
+        "price": 0,
+        "currency": None,
+        "about_the_game": None,
+        "short_description": None,
+        "detailed_description": None,
+        "dlc_count": 0,
+        "achievements": 0,
+        "recommendations": 0,
+        "windows": False,
+        "mac": False,
+        "linux": False,
+        "metacritic_score": None,
+        "metacritic_url": None
+    }
