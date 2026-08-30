@@ -24,11 +24,7 @@ def test_get_app_details():
     with patch("build_dataset.requests.get") as mock_get:
         mock_get.return_value = make_mock_response(mock_response)
 
-        result = build_dataset.get_app_details(
-            123,
-            country="se",
-            language="en"
-        )
+        result = build_dataset.get_app_details(123)
 
         mock_get.assert_called_once_with(
             build_dataset.STEAM_APP_DETAILS_URL,
@@ -91,9 +87,9 @@ def test_get_app_details_with_filters():
 
         result = build_dataset.get_app_details(
             123,
-            country="se",
-            language="en",
-            filters="name,platforms,price_overview"
+            config=build_dataset.DatasetConfig(
+                filters="name,platforms,price_overview"
+            )
         )
 
         mock_get.assert_called_once_with(

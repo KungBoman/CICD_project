@@ -10,6 +10,7 @@ import requests
 import argparse
 import sys
 from tqdm import tqdm
+from dataclasses import dataclass
 
 
 STEAM_APP_DETAILS_URL = "https://store.steampowered.com/api/appdetails"
@@ -25,11 +26,23 @@ DEFAULT_DATASET_INFILE = "games_dataset.json"
 DEFAULT_DATASET_OUTFILE = "games_dataset.json"
 DEFAULT_COUNTRY_CODE = "se"
 DEFAULT_LANGUAGE = "en"
-DEFAULT_FORCE_REWRITE = False
 DEFAULT_REQUEST_DELAY = 1.5
 DEFAULT_MAX_RETRIES = 4
 DEFAULT_RETRY_DELAY = 10
 DEFAULT_INCREMENTAL_RETRY_DELAY = False
+DEFAULT_FORCE_REWRITE = False
+
+
+@dataclass
+class DatasetConfig:
+    country: str = DEFAULT_COUNTRY_CODE
+    language: str = DEFAULT_LANGUAGE
+    filters: str = ""
+    delay: float = DEFAULT_REQUEST_DELAY
+    max_retries: int = DEFAULT_MAX_RETRIES
+    retry_delay: float = DEFAULT_RETRY_DELAY
+    inc_retry_delay: float = DEFAULT_INCREMENTAL_RETRY_DELAY
+    force: bool = DEFAULT_FORCE_REWRITE
 
 
 def print_progress(current, total, name="", width=20):
@@ -70,25 +83,20 @@ def load_app_list(max_apps=None):
     return app_list
 
 
-def get_app_details(
-    appid,
-    country=DEFAULT_COUNTRY_CODE,
-    language=DEFAULT_LANGUAGE,
-    filters=None,
-    max_retries=DEFAULT_MAX_RETRIES,
-    retry_delay=DEFAULT_RETRY_DELAY,
-    inc_retry_delay=DEFAULT_INCREMENTAL_RETRY_DELAY
-):
+def get_app_details(appid, config=None):
+    if config is None:
+        config = DatasetConfig()
+
     params = {
         "appids": appid,
-        "cc": country,
-        "l": language
+        "cc": config.country,
+        "l": config.language
     }
 
-    if filters:
-        params["filters"] = filters
+    if config.filters:
+        params["filters"] = config.filters
 
-    for attempt in range(max_retries + 1):
+    for attempt in range(config.max_retries + 1):
         response = requests.get(
             STEAM_APP_DETAILS_URL,
             params=params,
@@ -96,13 +104,13 @@ def get_app_details(
         )
 
         if response.status_code == 429:
-            if attempt >= max_retries:
+            if attempt >= config.max_retries:
                 response.raise_for_status()
 
             wait_time = (
-                retry_delay * (attempt + 1)
-                if inc_retry_delay
-                else retry_delay
+                config.retry_delay * (attempt + 1)
+                if config.inc_retry_delay
+                else config.retry_delay
             )
 
             cu.log(
@@ -237,26 +245,14 @@ def save_dataset(dataset, filename):
         raise EnvironmentError
 
 
-def process_app(
-    app,
-    dataset,
-    country=DEFAULT_COUNTRY_CODE,
-    language=DEFAULT_LANGUAGE,
-    max_retries=DEFAULT_MAX_RETRIES,
-    retry_delay=DEFAULT_RETRY_DELAY,
-    inc_retry_delay=DEFAULT_INCREMENTAL_RETRY_DELAY
-):
+def process_app(app, dataset, config=None):
+    if config is None:
+        config = DatasetConfig()
+
     appid = str(app["appid"])
 
     try:
-        details = get_app_details(
-            appid,
-            country=country,
-            language=language,
-            max_retries=max_retries,
-            retry_delay=retry_delay,
-            inc_retry_delay=inc_retry_delay
-        )
+        details = get_app_details(appid, config=config)
 
         if not details:
             return
@@ -284,18 +280,15 @@ def process_app(
 def build_dataset(
     app_list,
     dataset,
-    outfile=DEFAULT_DATASET_OUTFILE,
-    country=DEFAULT_COUNTRY_CODE,
-    language=DEFAULT_LANGUAGE,
-    force=DEFAULT_FORCE_REWRITE,
-    delay=DEFAULT_REQUEST_DELAY,
-    max_retries=DEFAULT_MAX_RETRIES,
-    retry_delay=DEFAULT_RETRY_DELAY,
-    inc_retry_delay=DEFAULT_INCREMENTAL_RETRY_DELAY
+    outfile,
+    config=None,
 ):
+    if config is None:
+        config = DatasetConfig()
+
     apps_to_fetch = [
         app for app in app_list
-        if force or str(app["appid"]) not in dataset
+        if config.force or str(app["appid"]) not in dataset
     ]
 
     total = len(apps_to_fetch)
@@ -314,7 +307,7 @@ def build_dataset(
     ):
         appid = str(app["appid"])
 
-        if not force and appid in dataset:
+        if not config.force and appid in dataset:
             continue
 
         request_time = time.time()
@@ -322,17 +315,13 @@ def build_dataset(
         process_app(
             app,
             dataset,
-            country=country,
-            language=language,
-            max_retries=max_retries,
-            retry_delay=retry_delay,
-            inc_retry_delay=inc_retry_delay
+            config=config
         )
 
         save_dataset(dataset, outfile)
 
         elapsed = time.time() - request_time
-        wait_time = max(0, delay - elapsed)
+        wait_time = max(0, config.delay - elapsed)
         time.sleep(wait_time)
 
 
@@ -395,6 +384,16 @@ def parse_arguments():
 def main():
     args = parse_arguments()
 
+    config = DatasetConfig(
+        country=args.country,
+        language=args.language,
+        delay=args.delay,
+        max_retries=args.retries,
+        retry_delay=args.retry_delay,
+        inc_retry_delay=args.inc_retry_delay,
+        force=args.force
+    )
+
     cu.log("INFO", "Starting GamesScraper.py")
 
     dataset = load_dataset(args.infile)
@@ -407,12 +406,7 @@ def main():
         app_list,
         dataset,
         outfile=args.outfile,
-        country=args.country,
-        language=args.language,
-        force=args.force,
-        delay=args.delay,
-        max_retries=args.retries,
-        retry_delay=args.retry_delay,
+        config=config,
     )
 
     duration = time.time() - start_time
