@@ -28,7 +28,8 @@ DEFAULT_LANGUAGE = "en"
 DEFAULT_FORCE_REWRITE = False
 DEFAULT_REQUEST_DELAY = 0
 DEFAULT_MAX_RETRIES = 4
-DEFAULT_RETRY_DELAY = 10
+DEFAULT_RETRY_DELAY = 60
+INCREMENTAL_RETRY_DELAY = False
 
 
 def print_progress(current, total, name="", width=20):
@@ -97,7 +98,11 @@ def get_app_details(
             if attempt >= max_retries:
                 response.raise_for_status()
 
-            wait_time = retry_delay * (attempt + 1)
+            wait_time = (
+                retry_delay * (attempt + 1)
+                if INCREMENTAL_RETRY_DELAY
+                else retry_delay
+            )
 
             cu.log(
                 "WARNING",
