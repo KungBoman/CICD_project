@@ -1,17 +1,10 @@
 import common_util as cu
 
 
-def expected_app(appid, name):
-    return {
-        "appid": appid,
-        "name": name
-    }
-
-
 def test_save_and_load_csv_list(tmp_path):
     data = [
-        expected_app(10, "Counter-Strike"),
-        expected_app(20, "Team Fortress Classic")
+        {"appid": "10", "name": "Counter-Strike"},
+        {"appid": "20", "name": "Team Fortress Classic"}
     ]
 
     filename = tmp_path / "games.csv"
@@ -25,13 +18,11 @@ def test_save_and_load_csv_list(tmp_path):
 
 def test_save_and_load_csv_dict(tmp_path):
     data = {
-        "10": expected_app(10, "Counter-Strike"),
-        "20": expected_app(20, "Team Fortress Classic")
+        "10": {"appid": "10", "name": "Counter-Strike"},
+        "20": {"appid": "20", "name": "Team Fortress Classic"}
     }
 
     filename = tmp_path / "games.csv"
-
-    cu.save_csv(data, filename)
 
     cu.save_csv(data, filename)
 
