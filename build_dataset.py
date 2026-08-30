@@ -8,6 +8,7 @@ import time
 import datetime
 import requests
 import argparse
+import sys
 from tqdm import tqdm
 
 
@@ -157,7 +158,11 @@ def load_app_list(max_apps=None):
     app_list = cu.load_json("app_list.json")
 
     if not app_list:
-        return
+        cu.log(
+            "ERROR",
+            f"Missing app list. Run \"fetch_app_list.py\" first."
+        )
+        sys.exit(1)
 
     if max_apps is not None:
         app_list = app_list[:max_apps]
