@@ -153,28 +153,11 @@ def extract_game_data(details):
     return game_data
 
 
-def load_dataset(file=DEFAULT_DATASET_INFILE):
-    dataset = cu.load_json(file)
-
-    if not dataset:
-        cu.log(
-            "INFO",
-            f"No data found in '{file}'. "
-            "Starting with an empty dataset."
-        )
-        dataset = {}
-    else:
-        cu.log(
-            "INFO",
-            f"Loaded dataset from '{file}' "
-            f"with {len(dataset)} entries."
-        )
-
-    return dataset
-
-
 def load_app_list(max_apps=None):
     app_list = cu.load_json("app_list.json")
+
+    if not app_list:
+        return
 
     if max_apps is not None:
         app_list = app_list[:max_apps]
@@ -184,6 +167,39 @@ def load_app_list(max_apps=None):
         )
 
     return app_list
+
+
+def load_dataset(filename=DEFAULT_DATASET_INFILE):
+    if filename.endswith(".json"):
+        dataset = cu.load_json(filename)
+
+    if filename.endswith(".csv"):
+        dataset = cu.load_csv(filename, key="appid")
+
+    if not dataset:
+        cu.log(
+            "INFO",
+            f"No data found in '{filename}'. "
+            "Starting with an empty dataset."
+        )
+        dataset = {}
+    else:
+        cu.log(
+            "INFO",
+            f"Loaded dataset from '{filename}' "
+            f"with {len(dataset)} entries."
+        )
+
+    return dataset
+
+
+def save_dataset(dataset, filename):
+    if filename.endswith(".json"):
+        cu.save_json(dataset, filename)
+    elif filename.endswith(".csv"):
+        cu.save_csv(dataset, filename)
+    else:
+        raise EnvironmentError
 
 
 def process_app(
@@ -267,7 +283,7 @@ def build_dataset(
             retry_delay=retry_delay
         )
 
-        cu.save_json(dataset, outfile)
+        save_dataset(dataset, outfile)
 
         time.sleep(delay)
 
@@ -279,12 +295,12 @@ def parse_arguments():
 
     parser.add_argument(
         "-i", "--infile", type=str, default=DEFAULT_DATASET_INFILE,
-        help="Input dataset file."
+        help="Input dataset filename."
     )
 
     parser.add_argument(
         "-o", "--outfile", type=str, default=DEFAULT_DATASET_OUTFILE,
-        help="Output dataset file."
+        help="Output dataset filename."
     )
 
     parser.add_argument(
@@ -354,7 +370,7 @@ def main():
         f"Data fetching completed in {duration:.2f} seconds."
     )
 
-    cu.save_json(dataset, args.outfile)
+    save_dataset(dataset, args.outfile)
 
     cu.log(
         "INFO",

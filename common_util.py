@@ -1,6 +1,7 @@
 
 import os
 import json
+import csv
 import sys
 import argparse
 
@@ -34,6 +35,9 @@ def load_json(filename) -> dict:
 
 
 def save_json(data, filename):
+    if not data:
+        return
+
     with open(filename, "w", encoding=ENCODING) as file:
         json.dump(
             data,
@@ -41,6 +45,41 @@ def save_json(data, filename):
             indent=4,
             ensure_ascii=False
         )
+
+
+def load_csv(filename: str, key=None) -> list | dict:
+    if not os.path.exists(filename):
+        return {}
+
+    with open(filename, "r", encoding=ENCODING, newline="") as file:
+        reader = csv.DictReader(file)
+
+        if key is None:
+            return list(reader)
+
+        # TODO: Handle KeyError when the specified key is missing from CSV
+        return {
+            row[key]: row
+            for row in reader
+        }
+
+
+def save_csv(data: list | dict, filename: str):
+    if not data:
+        return
+
+    if isinstance(data, dict):
+        data_rows = data.values()
+    else:
+        data_rows = data
+
+    data_rows = list(data_rows)
+    fieldnames = data_rows[0].keys()
+
+    with open(filename, "w", encoding=ENCODING, newline="") as file:
+        writer = csv.DictWriter(file, fieldnames=fieldnames)
+        writer.writeheader()
+        writer.writerows(data_rows)
 
 
 def str_to_bool(v):
