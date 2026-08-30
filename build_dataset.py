@@ -28,8 +28,8 @@ DEFAULT_LANGUAGE = "en"
 DEFAULT_FORCE_REWRITE = False
 DEFAULT_REQUEST_DELAY = 0
 DEFAULT_MAX_RETRIES = 4
-DEFAULT_RETRY_DELAY = 60
-INCREMENTAL_RETRY_DELAY = False
+DEFAULT_RETRY_DELAY = 10
+DEFAULT_INCREMENTAL_RETRY_DELAY = False
 
 
 def print_progress(current, total, name="", width=20):
@@ -76,7 +76,8 @@ def get_app_details(
     language=DEFAULT_LANGUAGE,
     filters=None,
     max_retries=DEFAULT_MAX_RETRIES,
-    retry_delay=DEFAULT_RETRY_DELAY
+    retry_delay=DEFAULT_RETRY_DELAY,
+    inc_retry_delay=DEFAULT_INCREMENTAL_RETRY_DELAY
 ):
     params = {
         "appids": appid,
@@ -100,7 +101,7 @@ def get_app_details(
 
             wait_time = (
                 retry_delay * (attempt + 1)
-                if INCREMENTAL_RETRY_DELAY
+                if inc_retry_delay
                 else retry_delay
             )
 
@@ -242,7 +243,8 @@ def process_app(
     country=DEFAULT_COUNTRY_CODE,
     language=DEFAULT_LANGUAGE,
     max_retries=DEFAULT_MAX_RETRIES,
-    retry_delay=DEFAULT_RETRY_DELAY
+    retry_delay=DEFAULT_RETRY_DELAY,
+    inc_retry_delay=DEFAULT_INCREMENTAL_RETRY_DELAY
 ):
     appid = str(app["appid"])
 
@@ -252,7 +254,8 @@ def process_app(
             country=country,
             language=language,
             max_retries=max_retries,
-            retry_delay=retry_delay
+            retry_delay=retry_delay,
+            inc_retry_delay=inc_retry_delay
         )
 
         if not details:
@@ -287,7 +290,8 @@ def build_dataset(
     force=DEFAULT_FORCE_REWRITE,
     delay=DEFAULT_REQUEST_DELAY,
     max_retries=DEFAULT_MAX_RETRIES,
-    retry_delay=DEFAULT_RETRY_DELAY
+    retry_delay=DEFAULT_RETRY_DELAY,
+    inc_retry_delay=DEFAULT_INCREMENTAL_RETRY_DELAY
 ):
     total = len(app_list)
 
@@ -298,7 +302,7 @@ def build_dataset(
     )
 
     for app in tqdm(
-        app_list,
+        apps_to_fetch,
         desc="Fetching games",
         unit="app",
         smoothing=0.1
@@ -314,7 +318,8 @@ def build_dataset(
             country=country,
             language=language,
             max_retries=max_retries,
-            retry_delay=retry_delay
+            retry_delay=retry_delay,
+            inc_retry_delay=inc_retry_delay
         )
 
         save_dataset(dataset, outfile)
@@ -370,6 +375,10 @@ def parse_arguments():
         "-rd", "--retry-delay", type=int, default=DEFAULT_RETRY_DELAY,
         help="Time in seconds before retry query."
     )
+    parser.add_argument(
+        "-ir", "--inc-retry-delay", type=int, default=DEFAULT_INCREMENTAL_RETRY_DELAY,
+        help="Wether to increment the retry delay each retry or not."
+    )
 
     return parser.parse_args()
 
@@ -394,7 +403,7 @@ def main():
         force=args.force,
         delay=args.delay,
         max_retries=args.retries,
-        retry_delay=args.retry_delay
+        retry_delay=args.retry_delay,
     )
 
     duration = time.time() - start_time
