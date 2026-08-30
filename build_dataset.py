@@ -26,7 +26,7 @@ DEFAULT_DATASET_OUTFILE = "games_dataset.json"
 DEFAULT_COUNTRY_CODE = "se"
 DEFAULT_LANGUAGE = "en"
 DEFAULT_FORCE_REWRITE = False
-DEFAULT_REQUEST_DELAY = 0
+DEFAULT_REQUEST_DELAY = 1.5
 DEFAULT_MAX_RETRIES = 4
 DEFAULT_RETRY_DELAY = 10
 DEFAULT_INCREMENTAL_RETRY_DELAY = False
@@ -293,7 +293,12 @@ def build_dataset(
     retry_delay=DEFAULT_RETRY_DELAY,
     inc_retry_delay=DEFAULT_INCREMENTAL_RETRY_DELAY
 ):
-    total = len(app_list)
+    apps_to_fetch = [
+        app for app in app_list
+        if force or str(app["appid"]) not in dataset
+    ]
+
+    total = len(apps_to_fetch)
 
     cu.log(
         "INFO",
@@ -312,6 +317,8 @@ def build_dataset(
         if not force and appid in dataset:
             continue
 
+        request_time = time.time()
+
         process_app(
             app,
             dataset,
@@ -324,7 +331,9 @@ def build_dataset(
 
         save_dataset(dataset, outfile)
 
-        time.sleep(delay)
+        elapsed = time.time() - request_time
+        wait_time = max(0, delay - elapsed)
+        time.sleep(wait_time)
 
 
 def parse_arguments():
