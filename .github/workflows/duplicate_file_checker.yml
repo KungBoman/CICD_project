@@ -18,9 +18,10 @@ jobs:
 
         - name: Find duplicate files
           run: |
-            if fdupes -rn . | grep -q .; then
+            fdupes -r --noempty -A . | tee duplicates.txt
+            if [ -s duplicates.txt ]; then
               echo "Duplicate files found:"
-              fdupes -r . 
+              cat duplicates.txt
               exit 1
             fi
             echo "No duplicate files found."
