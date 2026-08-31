@@ -14,15 +14,12 @@ def log(type, msg):
 
 
 def get_steam_api_key():
-    if os.path.exists(CONFIG_FILE):
-        with open(CONFIG_FILE, "r", encoding=ENCODING) as file:
-            for line in file:
-                line = line.strip()
+    api_key = os.getenv("STEAM_API_KEY")
 
-                if line.startswith("STEAM_API_KEY="):
-                    return line.split("=", 1)[1]
+    if api_key:
+        return api_key
 
-    log("ERROR", f"Configuration file '{CONFIG_FILE}' not found.")
+    log("ERROR", "Environment variable 'STEAM_API_KEY' not found.")
     sys.exit(1)
 
 

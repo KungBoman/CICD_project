@@ -102,12 +102,10 @@ def parse_arguments():
     )
 
     parser.add_argument(
-        "-ma",
-        "--max-apps",
+        "-m", "--max-apps",
         type=int,
         default=None,
-        help="Maximum number of apps to fetch. "
-             "If omitted, fetch all apps."
+        help="Maximum number of apps to fetch. If omitted, all apps are fetched."
     )
 
     return parser.parse_args()

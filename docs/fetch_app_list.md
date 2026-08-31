@@ -25,6 +25,11 @@ The resulting list contains the Steam AppID and application name for each applic
 
 ## Usage
 
+Prepare a Steam API key as envorinment variable:
+```bash
+export STEAM_API_KEY=YOURSECRETKEY
+```
+
 Fetch the complete application list:
 
 ```bash
