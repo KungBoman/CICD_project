@@ -35,30 +35,7 @@ def load_data(input_file, output_file):
     write_csv(rows, output_file) 
 
 
-test_data = [
-    {
-        "appid": 10,
-        "name": "Counter-Strike",
-        "is_free": False,
-        "price": 8.19,
-        "currency": "EUR",
-        "windows": True,
-        "mac": True,
-        "linux": True,
-        "metacritic_score": 88
-    },
-    {
-        "appid": 20,
-        "name": "Team Fortress Classic",
-        "is_free": False,
-        "price": 4.99,
-        "currency": "EUR",
-        "windows": True,
-        "mac": False,
-        "linux": True,
-        "metacritic_score": 76
-    }
-]
+
 
 load_data("test_games.json", "games.csv")
 # load_data(test_data, "games.csv")
