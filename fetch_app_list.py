@@ -16,13 +16,13 @@ example output
 ]
 """
 
-import common_util as cu
-
+import argparse
 import sys
 import time
-import requests
-import argparse
 
+import requests
+
+import common_util as cu
 
 APPLIST_FILE = "app_list.json"
 
