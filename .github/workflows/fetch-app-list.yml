@@ -4,7 +4,14 @@ on:
     workflow_dispatch:
     schedule:
         - cron: "0 3 * * *"
-
+    push:
+        branches:
+          - main
+          - extract-mathias
+    pull_request:
+        branches:
+          - main
+          - extract-mathias
 permissions:
     contents: write
 
