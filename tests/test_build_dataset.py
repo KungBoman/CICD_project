@@ -163,6 +163,7 @@ def test_extract_game_data_without_price():
     assert result == {
         "appid": 123,
         "name": "Free Game",
+        "header_image": None,
         "release_date": None,
         "is_free": True,
         "price": 0,
@@ -177,5 +178,5 @@ def test_extract_game_data_without_price():
         "mac": False,
         "linux": False,
         "metacritic_score": None,
-        "metacritic_url": None
+        "metacritic_url": None,
     }

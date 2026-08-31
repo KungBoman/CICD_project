@@ -176,6 +176,7 @@ def extract_game_data(details, config=None):
 
     game_data["appid"] = details.get("steam_appid")
     game_data["name"] = details.get("name")
+    game_data["header_image"] = details.get("header_image", None)
 
     release_date = details.get("release_date", {})
     if release_date.get("coming_soon"):
@@ -229,6 +230,7 @@ def convert_dataset_row(row):
     return {
         "appid": int(row["appid"]),
         "name": row["name"],
+        "header_image": row["header_image"] or None,
         "release_date": row["release_date"] or None,
         "is_free": row["is_free"].lower() == "true",
         "price": float(row["price"]) if row["price"] else 0.0,
