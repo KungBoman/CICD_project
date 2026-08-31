@@ -24,8 +24,8 @@ Get-App-Details?utm_source=chatgpt.com
 
 REQUEST_TIMEOUT = 15
 
-DEFAULT_DATASET_INFILE = "games_dataset.json"
-DEFAULT_DATASET_OUTFILE = "games_dataset.json"
+DEFAULT_DATASET_INFILE = "data/games_dataset.json"
+DEFAULT_DATASET_OUTFILE = "data/games_dataset.json"
 DEFAULT_MAX_APPS = None
 DEFAULT_COUNTRY_CODE = "se"
 DEFAULT_LANGUAGE = "en"
@@ -51,7 +51,7 @@ class DatasetConfig:
 
 
 def load_app_list(max_apps=None):
-    app_list = cu.load_json("app_list.json")
+    app_list = cu.load_json("data/app_list.json")
 
     if not app_list:
         cu.log(

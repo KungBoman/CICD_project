@@ -24,7 +24,7 @@ import requests
 
 import common_util as cu
 
-APPLIST_FILE = "app_list.json"
+APPLIST_FILE = "data/app_list.json"
 
 STEAM_APP_LIST_URL = "https://api.steampowered.com/IStoreService/GetAppList/v1/"
 
