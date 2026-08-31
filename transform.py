@@ -8,9 +8,6 @@ BASE_DIR = Path.cwd()
 con = duckdb.connect("steam_games.db")
 RAW_TABLE = (BASE_DIR / "steam_games_test_data.csv").as_posix()
 TABLE_NAME = 'transform_games_list'
-OUTPUT_PATH = (BASE_DIR / "data" / "sample" / "output" / f"{TABLE_NAME}.csv") # change to your path
-INPUT_PATH = (BASE_DIR / "data" / "sample" / "input" / f"{RAW_TABLE}") # change to your path
-
 
 # create table and tranform data  
 def transform_data(raw_table, table_name):
@@ -18,30 +15,31 @@ def transform_data(raw_table, table_name):
     con.execute(f"""
     CREATE OR REPLACE TABLE {table_name} AS 
         SELECT
-            TRY_CAST(appid AS BIGINT) AS appid,
+            TRY_CAST(appid AS INT) AS appid,
             TRIM(name) AS name,
+            TRIM(header_image) AS header_image,
+            TRIM(website) AS website,
             TRY_CAST(release_date as DATE) AS release_date, -- check if date > current date, or can release date > current date in the case upcoming game???
             TRY_CAST(is_free AS BOOLEAN) AS is_free,
             TRY_CAST(price AS DECIMAL(10,2)) AS price, -- check if price < 0
-            TRY_CAST(dlc_count AS INTEGER) AS downloadable_content, -- check if value < 0
+            TRIM(currency) AS currency, -- EUR
             TRIM(about_the_game) AS about_the_game,
             TRIM(short_description) AS short_description,
             TRIM(detailed_description) AS detailed_description,
-            TRIM(header_image) AS header_image,
-            TRIM(website) AS website,
+            TRY_CAST(dlc_count AS INT) AS downloadable_content, -- check if value < 0
+            TRY_CAST(achievements AS INT) AS achievements, -- achievements value should not be negative
+            TRY_CAST(recommendations AS INT) AS recommendations, -- value should not be negative or NULL
+            TRY_CAST(windows AS BOOLEAN) AS windows,
+            TRYCAST(mac AS BOOLEAN) AS mac,
+            TRY_CAST(linux AS BOOLEAN) AS linux,
+            TRY_CAST(metacritic_score AS SMALLINT) AS metacritic_score, -- check if 0 <= the value >= 100, OBS ! do not change value = 0 when it is NULL  
+            TRIM(metacritic_url) AS metacritic_url, -- check if NULL or start with 'https: //
             TRIM(support_url) AS support_url, -- check if NULL or start with 'https: //
             TRIM(support_email) AS support_email, 
-            windows AS windows,
-            mac AS mac,
-            linux AS linux,
-            TRY_CAST(metacritic_score AS INTEGER) AS metacritic_score, -- check if 0 < the value > 100, OBS ! do not change value = 0 when it is NULL  
-            TRIM(metacritic_url) AS metacritic_url, -- check if NULL or start with 'https: //
-            TRY_CAST(achievements AS INTEGER) AS achievements, -- achievements value should not be negative
-            TRY_CAST(recommendations AS INTEGER) AS recommendations, -- value should not be negative or NULL
             TRIM(supported_languages) AS supported_languages, -- have more than one value like Japanese, English, Swedish
             TRIM(full_audio_languages) AS full_audio_languages, -- have more than one value
             TRIM(developers) AS developers, -- have more than one value 
-            TRIM(publishers) AS publishers, -- can publishers have more than one value??
+            TRIM(publishers) AS publishers, -- publishers have more than one value
             TRIM(categories) AS categories, -- have more than one value
             TRIM(genres) AS genres
 
@@ -59,9 +57,3 @@ print(
     """).fetchdf()
 )
 
-# print(
-#     con.execute(f"""
-#     SUMMARIZE
-#     SELECT * 
-#     FROM read_csv_auto ('{OUTPUT_PATH}')
-#     """))
