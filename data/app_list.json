@@ -458956,6 +458956,10 @@
         "name": "Ceiling Run"
     },
     {
+        "appid": 3177490,
+        "name": "Bay 23"
+    },
+    {
         "appid": 3177510,
         "name": "Cardstronaut"
     },
@@ -643372,6 +643376,10 @@
         "name": "Three Kingdoms: Leaves and Empire"
     },
     {
+        "appid": 4422330,
+        "name": "Ticket to Hearts"
+    },
+    {
         "appid": 4422360,
         "name": "Simulation Requires Supervision"
     },
@@ -721389,7 +721397,7 @@
     },
     {
         "appid": 5027430,
-        "name": "梦境森林（The Dreaming Woods）"
+        "name": "梦境森林 (The Dreaming Woods)"
     },
     {
         "appid": 5027500,
@@ -730900,6 +730908,10 @@
         "name": "Gravefever"
     },
     {
+        "appid": 5122510,
+        "name": "Decadrive"
+    },
+    {
         "appid": 5122530,
         "name": "Water Sort:Alchemy"
     },
@@ -732452,6 +732464,10 @@
         "name": "Meteor Spin"
     },
     {
+        "appid": 5143910,
+        "name": "FryDay"
+    },
+    {
         "appid": 5144180,
         "name": "Pickup Master: 18+ Dating Simulator"
     },
@@ -732726,6 +732742,10 @@
     {
         "appid": 5148200,
         "name": "Ashes Of The Fallen"
+    },
+    {
+        "appid": 5148260,
+        "name": "Seed Shop: Tidy Up!"
     },
     {
         "appid": 5148330,
@@ -733282,6 +733302,10 @@
     {
         "appid": 5160300,
         "name": "Needle in a Haystack"
+    },
+    {
+        "appid": 5160490,
+        "name": "TECHNICIAN"
     },
     {
         "appid": 5160500,
