@@ -3,14 +3,14 @@ from pathlib import Path
 import duckdb
 
 # Find the current path direction
-BASE_DIR = Path.cwd()
+BASE_DIR = Path(__file__).resolve().parent
 
 con = duckdb.connect("steam_games.db")
 RAW_TABLE = (BASE_DIR / "steam_games_test_data.csv").as_posix()
 TABLE_NAME = 'transform_games_list'
 
 # create table and tranform data  
-def transform_data(raw_table, table_name):
+def transform_data(con, raw_table, table_name):
     # Insert and transform data 
     con.execute(f"""
     CREATE OR REPLACE TABLE {table_name} AS 
@@ -30,7 +30,7 @@ def transform_data(raw_table, table_name):
             TRY_CAST(achievements AS INT) AS achievements, -- achievements value should not be negative
             TRY_CAST(recommendations AS INT) AS recommendations, -- value should not be negative or NULL
             TRY_CAST(windows AS BOOLEAN) AS windows,
-            TRYCAST(mac AS BOOLEAN) AS mac,
+            TRY_CAST(mac AS BOOLEAN) AS mac,
             TRY_CAST(linux AS BOOLEAN) AS linux,
             TRY_CAST(metacritic_score AS SMALLINT) AS metacritic_score, -- check if 0 <= the value >= 100, OBS ! do not change value = 0 when it is NULL  
             TRIM(metacritic_url) AS metacritic_url, -- check if NULL or start with 'https: //
@@ -46,8 +46,9 @@ def transform_data(raw_table, table_name):
         FROM read_csv_auto('{raw_table}')
 """)
 
-transform_data(RAW_TABLE, TABLE_NAME)
-con.execute(f"COPY {TABLE_NAME} TO transform_game_list.csv (FORMAT CSV, HEADER true)")
+if __name__ == "__main__":
+    transform_data(con, RAW_TABLE, TABLE_NAME)
+    con.execute(f"COPY {TABLE_NAME} TO transform_game_list.csv (FORMAT CSV, HEADER true)")
 
 print(
     con.execute("""
