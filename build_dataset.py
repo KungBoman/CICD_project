@@ -32,6 +32,7 @@ DEFAULT_REQUEST_DELAY = 1.5
 DEFAULT_MAX_RETRIES = 4
 DEFAULT_RETRY_DELAY = 10
 DEFAULT_INCREMENTAL_RETRY_DELAY = False
+DEFAULT_SANITIZE_TEXT = True
 DEFAULT_FORCE_REWRITE = False
 
 
@@ -44,6 +45,7 @@ class DatasetConfig:
     max_retries: int = DEFAULT_MAX_RETRIES
     retry_delay: float = DEFAULT_RETRY_DELAY
     incremental_delay: float = DEFAULT_INCREMENTAL_RETRY_DELAY
+    sanitize_text: bool = DEFAULT_SANITIZE_TEXT
     force: bool = DEFAULT_FORCE_REWRITE
 
 
@@ -141,7 +143,13 @@ def get_app_details(appid, config=None):
     return None
 
 
-def clean_description(text):
+def clean_description(text, config=None):
+    if config is None:
+        config = DatasetConfig()
+
+    if not config.sanitize_text:
+        return
+
     if not text:
         return ""
 
@@ -159,7 +167,10 @@ def clean_description(text):
     return text.strip()
 
 
-def extract_game_data(details):
+def extract_game_data(details, config=None):
+    if config is None:
+        config = DatasetConfig()
+
     game_data = {}
 
     game_data["appid"] = details.get("steam_appid")
@@ -285,7 +296,7 @@ def process_app(app, dataset, config=None):
         if details.get("type") != "game":
             return
 
-        game = extract_game_data(details)
+        game = extract_game_data(details, config)
 
         dataset[appid] = game
 
@@ -403,6 +414,14 @@ def parse_arguments():
         default=DEFAULT_MAX_RETRIES,
         help="Maximum number of retries after a rate limit."
     )
+
+    parser.add_argument(
+        "-rd", "--retry-delay",
+        type=int,
+        default=DEFAULT_RETRY_DELAY,
+        help="Initial delay in seconds before retrying a rate-limited request."
+    )
+
     parser.add_argument(
         "--incremental-retry-delay",
         type=cu.str_to_bool,
@@ -436,8 +455,8 @@ def main():
         delay=args.delay,
         max_retries=args.retries,
         retry_delay=args.retry_delay,
-        inc_retry_delay=args.inc_retry_delay,
         incremental_delay=args.incremental_delay,
+        sanitize_text=args.sanitize_text,
         force=args.force
     )
 
