@@ -644081,7 +644081,7 @@
     },
     {
         "appid": 4427280,
-        "name": "余影(Lingering Shadow）"
+        "name": "余影"
     },
     {
         "appid": 4427300,
@@ -730260,6 +730260,10 @@
         "name": "Brawlbeards"
     },
     {
+        "appid": 5114230,
+        "name": "Out of Range"
+    },
+    {
         "appid": 5114300,
         "name": "Danger Dungeon Quest"
     },
@@ -730930,6 +730934,10 @@
     {
         "appid": 5122550,
         "name": "Larina"
+    },
+    {
+        "appid": 5122570,
+        "name": "Carnival Catastrophe"
     },
     {
         "appid": 5122590,
@@ -732114,6 +732122,10 @@
     {
         "appid": 5137000,
         "name": "Tidy & Bright: Together at the Christmas Market"
+    },
+    {
+        "appid": 5137230,
+        "name": "JIGSEUM: Assemble Jigsaws with Magic"
     },
     {
         "appid": 5137340,
@@ -733606,6 +733618,10 @@
     {
         "appid": 5167670,
         "name": "Starlight Cove"
+    },
+    {
+        "appid": 5167850,
+        "name": "Table of Suspects"
     },
     {
         "appid": 5167950,
