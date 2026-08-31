@@ -251,31 +251,33 @@ def extract_game_data(details, config=None):
     interface_languages, audio_languages = extract_languages(
         details.get("supported_languages")
     )
-    game_data["interface_languages"] = interface_languages
-    game_data["audio_languages"] = audio_languages
+    game_data["interface_languages"] = ", ".join(interface_languages)
+    game_data["audio_languages"] = ", ".join(audio_languages)
 
-    game_data["developers"] = details.get("developers", [])
-    game_data["publishers"] = details.get("publishers", [])
-    game_data["categories"] = details.get("categories", [])
-    game_data["genres"] = details.get("genres", [])
+    game_data["developers"] = ", ".join(details.get("developers", []))
+    game_data["publishers"] = ", ".join(details.get("publishers", []))
+
+    categories = details.get("categories", [])
+    category_ids = [
+        str(cat["id"]) for cat in categories
+    ]
+    category_descriptions = [
+        cat["description"] for cat in categories
+    ]
+    game_data["category_ids"] = ", ".join(category_ids)
+    game_data["category_descriptions"] = ", ".join(category_descriptions)
+
+    genres = details.get("genres", [])
+    genre_ids = [
+        str(gen["id"]) for gen in genres
+    ]
+    genre_descriptions = [
+        gen["description"] for gen in genres
+    ]
+    game_data["genre_ids"] = ", ".join(genre_ids)
+    game_data["genre_descriptions"] = ", ".join(genre_descriptions)
 
     return game_data
-
-
-def parse_list(value):
-    if not value:
-        return []
-
-    value = value.strip("[]")
-
-    if not value:
-        return []
-
-    return [
-        item.strip().strip("'\"")
-        for item in value.split(",")
-        if item.strip()
-    ]
 
 
 def convert_dataset_row(row):
@@ -309,12 +311,14 @@ def convert_dataset_row(row):
         "metacritic_url": row["metacritic_url"] or "",
         "support_url": row["support_url"] or "",
         "support_email": row["support_email"] or "",
-        "interface_languages": parse_list(row["interface_languages"]),
-        "audio_languages": parse_list(row["audio_languages"]),
-        "developers": parse_list(row["developers"]),
-        "publishers": parse_list(row["publishers"]),
-        "categories": parse_list(row["categories"]),
-        "genres": parse_list(row["genres"]),
+        "interface_languages": row["interface_languages"],
+        "audio_languages": row["audio_languages"],
+        "developers": row["developers"],
+        "publishers": row["publishers"],
+        "category_ids": row["category_ids"],
+        "category_descriptions": row["category_descriptions"],
+        "genre_ids": row["genre_ids"],
+        "genre_descriptions": row["genre_descriptions"],
     }
 
 
