@@ -2,18 +2,18 @@
 build a dataset
 """
 
-import common_util as cu
-
-import time
-import datetime
-import requests
 import argparse
-import sys
+import datetime
 import html
 import re
-from tqdm import tqdm
+import sys
+import time
 from dataclasses import dataclass
 
+import requests
+from tqdm import tqdm
+
+import common_util as cu
 
 STEAM_APP_DETAILS_URL = "https://store.steampowered.com/api/appdetails"
 """
@@ -281,7 +281,7 @@ def save_dataset(dataset, filename):
     elif filename.endswith(".csv"):
         cu.save_csv(dataset, filename)
     else:
-        raise EnvironmentError
+        raise ValueError(f"Unsupported file format: {filename}")
 
 
 def process_app(app, dataset, config=None):
@@ -309,7 +309,7 @@ def process_app(app, dataset, config=None):
             f"Failed to fetch app {appid}: {error}"
         )
 
-    except Exception as error:
+    except (KeyError, ValueError, TypeError) as error:
         cu.log(
             "ERROR",
             f"Unexpected error for app {appid}: {error}"
