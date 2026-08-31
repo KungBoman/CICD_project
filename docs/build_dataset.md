@@ -86,7 +86,8 @@ games_dataset.json
 games_dataset.csv
 ```
 
-JSON preserves the dataset structure directly, while CSV stores each game as a row.
+JSON preserves the dataset structure directly*, while CSV stores each game as a row. 
+###### *\* Not true at the moment.*
 
 ### Example
 
@@ -126,20 +127,6 @@ JSON preserves the dataset structure directly, while CSV stores each game as a r
 }
 ```
 
-Each game contains information such as:
-
-- Steam AppID
-- Name
-- Release date
-- Free-to-play status
-- Price and currency
-- Game descriptions
-- DLC count
-- Achievement count
-- Recommendation count
-- Supported platforms
-- Metacritic score and URL
-
 ## Rate Limiting
 
 The Steam Store API has rate limits. The script supports:
@@ -152,7 +139,7 @@ The Steam Store API has rate limits. The script supports:
 For example:
 
 ```bash
-python build_dataset.py -d 1 -r 4 -rd 10 --incremental-retry-delay true
+python build_dataset.py -d 1.5 -r 4 -rd 10 --incremental-retry-delay true
 ```
 
 This waits one second between normal requests and retries rate-limited requests with an increasing delay. This allows the script to make efficient use of the API's rate limit while reducing the risk of repeated rate limiting.
