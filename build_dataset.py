@@ -50,24 +50,6 @@ class DatasetConfig:
     force: bool = DEFAULT_FORCE_REWRITE
 
 
-def print_progress(current, total, name="", width=20):
-    progress = current / total
-    filled = int(width * progress)
-
-    bar = "█" * filled + "░" * (width - filled)
-
-    print(
-        f"\r\033[K"  # erase line
-        f"\r{datetime.datetime.now().strftime('%H:%M:%S')} "
-        f"{bar} "
-        f"{current}/{total} "
-        f"({progress * 100:6.2f}%) "
-        f"{name[:50]}",
-        end="",
-        flush=True
-    )
-
-
 def load_app_list(max_apps=None):
     app_list = cu.load_json("app_list.json")
 
@@ -184,7 +166,12 @@ def extract_game_data(details, config=None):
     else:
         date = release_date.get("date")
         game_data["release_date"] = (
-            datetime.datetime.strptime(date, "%d %b, %Y").strftime("%Y-%m-%d")
+            datetime.datetime.strptime(
+                date,
+                "%d %b, %Y"
+            ).replace(
+                tzinfo=datetime.timezone.utc
+            ).date().isoformat()
             if date
             else None
         )
