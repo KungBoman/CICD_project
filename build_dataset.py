@@ -9,6 +9,8 @@ import datetime
 import requests
 import argparse
 import sys
+import html
+import re
 from tqdm import tqdm
 from dataclasses import dataclass
 
@@ -139,6 +141,24 @@ def get_app_details(appid, config=None):
     return None
 
 
+def clean_description(text):
+    if not text:
+        return ""
+
+    text = html.unescape(text)
+
+    # Remove HTML tags
+    text = re.sub(r"<[^>]+>", "", text)
+
+    # Remove BBCode tags
+    text = re.sub(r"\[/?[a-zA-Z][^\]]*\]", "", text)
+
+    # Normalize whitespace
+    text = re.sub(r"\s+", " ", text)
+
+    return text.strip()
+
+
 def extract_game_data(details):
     game_data = {}
 
@@ -165,14 +185,19 @@ def extract_game_data(details):
         0.0 if is_free
         else price_overview.get("final", 0) / 100
     )
-
     game_data["currency"] = price_overview.get("currency")
-    game_data["about_the_game"] = details.get("about_the_game")
-    game_data["short_description"] = details.get("short_description")
-    game_data["detailed_description"] = details.get("detailed_description")
+
+    game_data["about_the_game"] = clean_description(
+        details.get("about_the_game")
+    )
+    game_data["short_description"] = clean_description(
+        details.get("short_description")
+    )
+    game_data["detailed_description"] = clean_description(
+        details.get("detailed_description")
+    )
 
     game_data["dlc_count"] = len(details.get("dlc", []))
-
     game_data["achievements"] = details.get("achievements", {}).get("total", 0)
     game_data["recommendations"] = details.get("recommendations", {}).get("total", 0)
 
