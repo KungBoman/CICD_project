@@ -24,7 +24,7 @@ import requests
 
 import common_util as cu
 
-APPLIST_FILE = "app_list.json"
+APPLIST_FILE = "data/app_list.json"
 
 STEAM_APP_LIST_URL = "https://api.steampowered.com/IStoreService/GetAppList/v1/"
 
@@ -102,12 +102,10 @@ def parse_arguments():
     )
 
     parser.add_argument(
-        "-ma",
-        "--max-apps",
+        "-m", "--max-apps",
         type=int,
         default=None,
-        help="Maximum number of apps to fetch. "
-             "If omitted, fetch all apps."
+        help="Maximum number of apps to fetch. If omitted, all apps are fetched."
     )
 
     return parser.parse_args()

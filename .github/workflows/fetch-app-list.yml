@@ -1,0 +1,45 @@
+name: Update Steam App List
+
+on:
+    workflow_dispatch:
+    schedule:
+        - cron: "0 3 * * *"
+
+permissions:
+    contents: write
+
+jobs:
+    fetch-app-list:
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v6
+
+            - name: Set up Python
+              uses: actions/setup-python@v6
+              with:
+                  python-version: "3.x"
+
+            - name: Install dependencies
+              run: pip install -r requirements.txt
+
+            - name: Fetch app list
+              env:
+                  STEAM_API_KEY: ${{ secrets.STEAM_API_KEY }}
+              run: python fetch_app_list.py
+
+            - name: Commit updated app list
+              run: |
+                  git config user.name "github-actions[bot]"
+                  git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+                  git add data/app_list.json
+
+                  if git diff --cached --quiet; then
+                    echo "No changes to commit."
+                    exit 0
+                  fi
+
+                  git commit -m "Update Steam app list"
+                  git push
