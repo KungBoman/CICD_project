@@ -43,7 +43,7 @@ class DatasetConfig:
     delay: float = DEFAULT_REQUEST_DELAY
     max_retries: int = DEFAULT_MAX_RETRIES
     retry_delay: float = DEFAULT_RETRY_DELAY
-    inc_retry_delay: float = DEFAULT_INCREMENTAL_RETRY_DELAY
+    incremental_delay: float = DEFAULT_INCREMENTAL_RETRY_DELAY
     force: bool = DEFAULT_FORCE_REWRITE
 
 
@@ -352,55 +352,76 @@ def build_dataset(
 
 def parse_arguments():
     parser = argparse.ArgumentParser(
-        description="Fetch Steam application list."
+        description="Fetch Steam application details and build a dataset."
     )
 
     parser.add_argument(
-        "-i", "--infile", type=str, default=DEFAULT_DATASET_INFILE,
-        help="Input dataset filename."
+        "-i", "--infile",
+        type=str,
+        default=DEFAULT_DATASET_INFILE,
+        help="Input dataset filename. Supported formats: .json, .csv."
     )
 
     parser.add_argument(
-        "-o", "--outfile", type=str, default=DEFAULT_DATASET_OUTFILE,
-        help="Output dataset filename."
+        "-o", "--outfile",
+        type=str,
+        default=DEFAULT_DATASET_OUTFILE,
+        help="Output dataset filename. Supported formats: .json, .csv."
     )
 
     parser.add_argument(
-        "-ma", "--max-apps", type=int, default=None,
-        help="Maximum number of apps to fetch. "
-             "If omitted, fetch all apps."
+        "-m", "--max-apps",
+        type=int,
+        default=DEFAULT_MAX_APPS,
+        help="Maximum number of apps to fetch. If omitted, all apps are fetched."
     )
 
     parser.add_argument(
-        "-c", "--country", type=str, default=DEFAULT_COUNTRY_CODE,
-        help="Country code."
+        "-c", "--country",
+        type=str,
+        default=DEFAULT_COUNTRY_CODE,
+        help="Country code used for Steam store data."
     )
 
     parser.add_argument(
-        "-l", "--language", type=str, default=DEFAULT_LANGUAGE,
-        help="Language code."
+        "-l", "--language",
+        type=str,
+        default=DEFAULT_LANGUAGE,
+        help="Language used for Steam store data."
     )
 
     parser.add_argument(
-        "-f", "--force", type=cu.str_to_bool, default=DEFAULT_FORCE_REWRITE,
-        help="Overwrite existing apps."
+        "-d", "--delay",
+        type=int,
+        default=DEFAULT_REQUEST_DELAY,
+        help="Delay in seconds between requests."
     )
 
     parser.add_argument(
-        "-d", "--delay", type=int, default=DEFAULT_REQUEST_DELAY,
-        help="Time in seconds to delay each query."
+        "-r", "--retries",
+        type=int,
+        default=DEFAULT_MAX_RETRIES,
+        help="Maximum number of retries after a rate limit."
     )
     parser.add_argument(
-        "-r", "--retries", type=int, default=DEFAULT_MAX_RETRIES,
-        help="Number of retries. Always retry when 0."
+        "--incremental-retry-delay",
+        type=cu.str_to_bool,
+        default=DEFAULT_INCREMENTAL_RETRY_DELAY,
+        help="Increment the retry delay after each failed retry."
     )
+
     parser.add_argument(
-        "-rd", "--retry-delay", type=int, default=DEFAULT_RETRY_DELAY,
-        help="Time in seconds before retry query."
+        "--sanitize-text",
+        type=cu.str_to_bool,
+        default=DEFAULT_SANITIZE_TEXT,
+        help="Sanitize text fields by removing HTML tags and formatting codes."
     )
+
     parser.add_argument(
-        "-ir", "--inc-retry-delay", type=int, default=DEFAULT_INCREMENTAL_RETRY_DELAY,
-        help="Wether to increment the retry delay each retry or not."
+        "-f", "--force",
+        type=cu.str_to_bool,
+        default=DEFAULT_FORCE_REWRITE,
+        help="Overwrite existing dataset entries."
     )
 
     return parser.parse_args()
@@ -416,6 +437,7 @@ def main():
         max_retries=args.retries,
         retry_delay=args.retry_delay,
         inc_retry_delay=args.inc_retry_delay,
+        incremental_delay=args.incremental_delay,
         force=args.force
     )
 
