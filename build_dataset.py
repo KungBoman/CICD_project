@@ -45,7 +45,7 @@ class DatasetConfig:
     delay: float = DEFAULT_REQUEST_DELAY
     max_retries: int = DEFAULT_MAX_RETRIES
     retry_delay: float = DEFAULT_RETRY_DELAY
-    incremental_delay: float = DEFAULT_INCREMENTAL_RETRY_DELAY
+    incremental_retry_delay: float = DEFAULT_INCREMENTAL_RETRY_DELAY
     sanitize_text: bool = DEFAULT_SANITIZE_TEXT
     force: bool = DEFAULT_FORCE_REWRITE
 
@@ -114,7 +114,7 @@ def get_app_details(appid, config=None):
 
             wait_time = (
                 config.retry_delay * (attempt + 1)
-                if config.inc_retry_delay
+                if config.incremental_retry_delay
                 else config.retry_delay
             )
 
@@ -456,7 +456,7 @@ def main():
         delay=args.delay,
         max_retries=args.retries,
         retry_delay=args.retry_delay,
-        incremental_delay=args.incremental_delay,
+        incremental_retry_delay=args.incremental_retry_delay,
         sanitize_text=args.sanitize_text,
         force=args.force
     )
