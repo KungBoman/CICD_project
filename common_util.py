@@ -1,9 +1,9 @@
 
-import os
-import json
-import csv
-import sys
 import argparse
+import csv
+import json
+import os
+import sys
 
 CONFIG_FILE = "env/.cfg"
 ENCODING = "utf-8"

@@ -2,18 +2,18 @@
 build a dataset
 """
 
-import common_util as cu
-
-import time
-import datetime
-import requests
 import argparse
-import sys
+import datetime
 import html
 import re
-from tqdm import tqdm
+import sys
+import time
 from dataclasses import dataclass
 
+import requests
+from tqdm import tqdm
+
+import common_util as cu
 
 STEAM_APP_DETAILS_URL = "https://store.steampowered.com/api/appdetails"
 """
@@ -48,24 +48,6 @@ class DatasetConfig:
     incremental_retry_delay: float = DEFAULT_INCREMENTAL_RETRY_DELAY
     sanitize_text: bool = DEFAULT_SANITIZE_TEXT
     force: bool = DEFAULT_FORCE_REWRITE
-
-
-def print_progress(current, total, name="", width=20):
-    progress = current / total
-    filled = int(width * progress)
-
-    bar = "█" * filled + "░" * (width - filled)
-
-    print(
-        f"\r\033[K"  # erase line
-        f"\r{datetime.datetime.now().strftime('%H:%M:%S')} "
-        f"{bar} "
-        f"{current}/{total} "
-        f"({progress * 100:6.2f}%) "
-        f"{name[:50]}",
-        end="",
-        flush=True
-    )
 
 
 def load_app_list(max_apps=None):
@@ -184,7 +166,12 @@ def extract_game_data(details, config=None):
     else:
         date = release_date.get("date")
         game_data["release_date"] = (
-            datetime.datetime.strptime(date, "%d %b, %Y").strftime("%Y-%m-%d")
+            datetime.datetime.strptime(
+                date,
+                "%d %b, %Y"
+            ).replace(
+                tzinfo=datetime.timezone.utc
+            ).date().isoformat()
             if date
             else None
         )
@@ -281,7 +268,7 @@ def save_dataset(dataset, filename):
     elif filename.endswith(".csv"):
         cu.save_csv(dataset, filename)
     else:
-        raise EnvironmentError
+        raise ValueError(f"Unsupported file format: {filename}")
 
 
 def process_app(app, dataset, config=None):
@@ -309,7 +296,7 @@ def process_app(app, dataset, config=None):
             f"Failed to fetch app {appid}: {error}"
         )
 
-    except Exception as error:
+    except (KeyError, ValueError, TypeError) as error:
         cu.log(
             "ERROR",
             f"Unexpected error for app {appid}: {error}"
