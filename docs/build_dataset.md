@@ -4,6 +4,8 @@ Fetches game information from the Steam Store API and builds a local dataset.
 
 The script reads a Steam app list, fetches details for each application, and stores the resulting game data as either JSON or CSV.
 
+Existing applications are skipped by default, allowing the script to resume an interrupted run. Use `--force` to fetch them again.
+
 ## Usage
 
 ```bash
@@ -12,7 +14,7 @@ python build_dataset.py
 
 By default, the script reads from `games_dataset.json` and writes to `games_dataset.json`.
 
-### Example
+### Examples
 
 Fetch the first 1000 apps:
 
@@ -32,6 +34,12 @@ Force existing apps to be fetched again:
 python build_dataset.py -f true
 ```
 
+Add a delay between requests:
+
+```bash
+python build_dataset.py -d 1
+```
+
 ## Arguments
 
 | Short | Long | Description |
@@ -39,8 +47,8 @@ python build_dataset.py -f true
 | `-i` | `--infile` | Input dataset filename. Supports `.json` and `.csv`. |
 | `-o` | `--outfile` | Output dataset filename. Supports `.json` and `.csv`. |
 | `-m` | `--max-apps` | Maximum number of apps to fetch. |
-| `-c` | `--country` | Steam store country code. |
-| `-l` | `--language` | Steam store language code. |
+| `-c` | `--country` | Steam Store country code. |
+| `-l` | `--language` | Steam Store language code. |
 | `-d` | `--delay` | Delay in seconds between requests. |
 | `-r` | `--retries` | Maximum number of retries after a rate limit. |
 | `-rd` | `--retry-delay` | Initial delay in seconds before retrying. |
@@ -48,25 +56,11 @@ python build_dataset.py -f true
 | | `--sanitize-text` | Remove HTML tags and formatting codes from text fields. |
 | `-f` | `--force` | Re-fetch apps that already exist in the dataset. |
 
-## Dataset
-
-Each game contains information such as:
-
-- Steam AppID
-- Name
-- Release date
-- Free-to-play status
-- Price and currency
-- Game descriptions
-- DLC count
-- Achievement count
-- Recommendation count
-- Supported platforms
-- Metacritic score and URL
-
 ## Input
 
-The script expects an `app_list.json` containing Steam applications, for example:
+The script expects an `app_list.json` containing Steam applications.
+
+Example:
 
 ```json
 [
@@ -81,20 +75,22 @@ The script expects an `app_list.json` containing Steam applications, for example
 ]
 ```
 
-The app list can be generated separately using the project's app-list fetching script.
+The app list can be generated using `fetch_app_list.py`.
 
-## Output formats
+## Output
 
-The output format is determined by the file extension:
+The output format is determined by the file extension.
 
 ```text
 games_dataset.json
 games_dataset.csv
 ```
 
-JSON preserves the dataset structure directly, while CSV stores the games as rows.
+JSON preserves the dataset structure directly, while CSV stores each game as a row.
+
 ### Example
-``` json
+
+```json
 {
     "10": {
         "appid": 10,
@@ -113,12 +109,26 @@ JSON preserves the dataset structure directly, while CSV stores the games as row
         "mac": true,
         "linux": true,
         "metacritic_score": 88,
-        "metacritic_url": "https://www.metacritic.com/game/pc/counter-strike?ftag=MCD-06-10aaa1f"
+        "metacritic_url": "https://www.metacritic.com/game/pc/counter-strike"
     }
 }
 ```
 
-## Rate limiting
+Each game contains information such as:
+
+- Steam AppID
+- Name
+- Release date
+- Free-to-play status
+- Price and currency
+- Game descriptions
+- DLC count
+- Achievement count
+- Recommendation count
+- Supported platforms
+- Metacritic score and URL
+
+## Rate Limiting
 
 The Steam Store API has rate limits. The script supports:
 
@@ -133,7 +143,19 @@ For example:
 python build_dataset.py -d 1 -r 4 -rd 10 --incremental-retry-delay true
 ```
 
-This waits one second between normal requests and retries rate-limited requests with an increasing delay.
+This waits one second between normal requests and retries rate-limited requests with an increasing delay. This allows the script to make efficient use of the API's rate limit while reducing the risk of repeated rate limiting.
+
+## Text Sanitization
+
+Steam descriptions may contain HTML tags, BBCode, and other formatting.
+
+Text sanitization can be enabled with:
+
+```bash
+python build_dataset.py --sanitize-text true
+```
+
+When enabled, supported formatting and HTML markup are removed from text fields before they are stored in the dataset.
 
 ## Tests
 
@@ -143,7 +165,7 @@ Run the test suite with:
 pytest
 ```
 
-Or run it with more verbose output:
+Or run it with verbose output:
 
 ```bash
 pytest -v
