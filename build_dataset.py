@@ -74,7 +74,7 @@ def load_app_list(max_apps=None):
     if not app_list:
         cu.log(
             "ERROR",
-            f"Missing app list. Run \"fetch_app_list.py\" first."
+            "Missing app list. Run \"fetch_app_list.py\" first."
         )
         sys.exit(1)
 
