@@ -130,11 +130,11 @@ def clean_description(text, config=None):
     if config is None:
         config = DatasetConfig()
 
-    if not config.sanitize_text:
-        return
-
     if not text:
         return ""
+
+    if not config.sanitize_text:
+        return text
 
     text = html.unescape(text)
 
@@ -150,6 +150,39 @@ def clean_description(text, config=None):
     return text.strip()
 
 
+def extract_languages(value):
+    interface_languages = []
+    audio_languages = []
+
+    if not value:
+        return interface_languages, audio_languages
+
+    # Remove HTML tags
+    value = re.sub(r"<[^>]+>", "", value)
+
+    # Remove the footnote text
+    value = value.replace(
+        "languages with full audio support",
+        ""
+    )
+
+    for language in value.split(","):
+        language = language.strip()
+
+        if not language:
+            continue
+
+        is_full_audio = "*" in language
+        language = language.replace("*", "").strip()
+
+        interface_languages.append(language)
+
+        if is_full_audio:
+            audio_languages.append(language)
+
+    return interface_languages, audio_languages
+
+
 def extract_game_data(details, config=None):
     if config is None:
         config = DatasetConfig()
@@ -158,11 +191,12 @@ def extract_game_data(details, config=None):
 
     game_data["appid"] = details.get("steam_appid")
     game_data["name"] = details.get("name")
-    game_data["header_image"] = details.get("header_image", None)
+    game_data["header_image"] = details.get("header_image", "")
+    game_data["website"] = details.get("website", "")
 
     release_date = details.get("release_date", {})
     if release_date.get("coming_soon"):
-        game_data["release_date"] = None
+        game_data["release_date"] = "1970-01-01"
     else:
         date = release_date.get("date")
         game_data["release_date"] = (
@@ -173,7 +207,7 @@ def extract_game_data(details, config=None):
                 tzinfo=datetime.timezone.utc
             ).date().isoformat()
             if date
-            else None
+            else "1970-01-01"
         )
 
     is_free = details.get("is_free", False)
@@ -185,7 +219,7 @@ def extract_game_data(details, config=None):
         0.0 if is_free
         else price_overview.get("final", 0) / 100
     )
-    game_data["currency"] = price_overview.get("currency")
+    game_data["currency"] = price_overview.get("currency") or ""
 
     game_data["about_the_game"] = clean_description(
         details.get("about_the_game")
@@ -207,31 +241,80 @@ def extract_game_data(details, config=None):
     game_data["linux"] = platforms.get("linux", False)
 
     metacritic = details.get("metacritic", {})
-    game_data["metacritic_score"] = metacritic.get("score")
-    game_data["metacritic_url"] = metacritic.get("url")
+    game_data["metacritic_score"] = metacritic.get("score") or ""
+    game_data["metacritic_url"] = metacritic.get("url") or ""
+
+    support_info = details.get("support_info", {})
+    game_data["support_url"] = support_info.get("url") or ""
+    game_data["support_email"] = support_info.get("email") or ""
+
+    interface_languages, audio_languages = extract_languages(
+        details.get("supported_languages")
+    )
+    game_data["interface_languages"] = interface_languages
+    game_data["audio_languages"] = audio_languages
+
+    game_data["developers"] = details.get("developers", [])
+    game_data["publishers"] = details.get("publishers", [])
+    game_data["categories"] = details.get("categories", [])
+    game_data["genres"] = details.get("genres", [])
 
     return game_data
+
+
+def parse_list(value):
+    if not value:
+        return []
+
+    value = value.strip("[]")
+
+    if not value:
+        return []
+
+    return [
+        item.strip().strip("'\"")
+        for item in value.split(",")
+        if item.strip()
+    ]
 
 
 def convert_dataset_row(row):
     return {
         "appid": int(row["appid"]),
         "name": row["name"],
-        "header_image": row["header_image"] or None,
-        "release_date": row["release_date"] or None,
+        "header_image": row["header_image"] or "",
+        "website": row["website"] or "",
+        "release_date": row["release_date"] or "1970-01-01",
         "is_free": row["is_free"].lower() == "true",
-        "price": float(row["price"]) if row["price"] else 0.0,
-        "currency": row["currency"] or None,
+        "price": (
+            float(row["price"])
+            if row["price"]
+            else 0.0
+        ),
+        "currency": row["currency"] or "",
         "about_the_game": row["about_the_game"],
         "short_description": row["short_description"],
         "detailed_description": row["detailed_description"],
-        "dlc_count": int(row["dlc_count"]), "achievements": int(row["achievements"]),
+        "dlc_count": int(row["dlc_count"]),
+        "achievements": int(row["achievements"]),
         "recommendations": int(row["recommendations"]),
         "windows": row["windows"].lower() == "true",
         "mac": row["mac"].lower() == "true",
         "linux": row["linux"].lower() == "true",
-        "metacritic_score": (int(row["metacritic_score"]) if row["metacritic_score"] else None),
-        "metacritic_url": row["metacritic_url"] or None,
+        "metacritic_score": (
+            int(row["metacritic_score"])
+            if row["metacritic_score"]
+            else ""
+        ),
+        "metacritic_url": row["metacritic_url"] or "",
+        "support_url": row["support_url"] or "",
+        "support_email": row["support_email"] or "",
+        "interface_languages": parse_list(row["interface_languages"]),
+        "audio_languages": parse_list(row["audio_languages"]),
+        "developers": parse_list(row["developers"]),
+        "publishers": parse_list(row["publishers"]),
+        "categories": parse_list(row["categories"]),
+        "genres": parse_list(row["genres"]),
     }
 
 
