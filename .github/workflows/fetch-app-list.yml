@@ -4,14 +4,7 @@ on:
     workflow_dispatch:
     schedule:
         - cron: "0 3 * * *"
-    push:
-        branches:
-          - main
-          - extract-mathias
-    pull_request:
-        branches:
-          - main
-          - extract-mathias
+
 permissions:
     contents: write
 
@@ -21,10 +14,12 @@ jobs:
 
         steps:
             - name: Checkout repository
-              uses: actions/checkout@v6
+              uses: actions/checkout@v4
+              with:
+                  fetch-depth: 0 # Fetches all branches so we can switch between them
 
             - name: Set up Python
-              uses: actions/setup-python@v6
+              uses: actions/setup-python@v5
               with:
                   python-version: "3.x"
 
@@ -36,17 +31,29 @@ jobs:
                   STEAM_API_KEY: ${{ secrets.STEAM_API_KEY }}
               run: python fetch_app_list.py
 
-            - name: Commit updated app list
+            - name: Commit and push updates to both branches
               run: |
                   git config user.name "github-actions[bot]"
                   git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-
+                  
+                  # main branch
+                  git checkout main
                   git add data/app_list.json
-
-                  if git diff --cached --quiet; then
-                    echo "No changes to commit."
-                    exit 0
+                  if ! git diff --cached --quiet; then
+                    git commit -m "Update Steam app list [main]"
+                    git push origin main
+                  else
+                    echo "No changes for main."
                   fi
-
-                  git commit -m "Update Steam app list"
-                  git push
+                  
+                  # extract-mathias branch
+                  git checkout extract-mathias
+                  # Bring over the newly generated app_list.json file from the working directory
+                  git checkout main -- data/app_list.json 
+                  git add data/app_list.json
+                  if ! git diff --cached --quiet; then
+                    git commit -m "Update Steam app list [extract-mathias]"
+                    git push origin extract-mathias
+                  else
+                    echo "No changes for extract-mathias."
+                  fi
