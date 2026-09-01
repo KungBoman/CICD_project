@@ -27,6 +27,17 @@ def create_games_table(connection):
 
 
 def insert_games(connection, rows): 
+    with connection.cursor() as cursor:
+        for row in rows:
+            cursor.execute("""
+                INSERT INTO games (appid, name)
+                VALUES (%s, %s)
+                """,
+                (
+                    row["appid"],
+                    row["name"]
+                )
+            )
 
 
 def load_data(input_file):
