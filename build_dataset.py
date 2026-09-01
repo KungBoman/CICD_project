@@ -174,23 +174,25 @@ def clean_description(text, config=None):
     return text.strip()
 
 
-def extract_languages(value):
+def extract_languages(text):
     interface_languages = []
     audio_languages = []
 
-    if not value:
+    if not text:
         return interface_languages, audio_languages
 
+    text = html.unescape(text)
+
     # Remove HTML tags
-    value = re.sub(r"<[^>]+>", "", value)
+    text = re.sub(r"<[^>]+>", "", text)
 
     # Remove the footnote text
-    value = value.replace(
+    text = text.replace(
         "languages with full audio support",
         ""
     )
 
-    for language in value.split(","):
+    for language in text.split(","):
         language = language.strip()
 
         if not language:
@@ -596,7 +598,7 @@ def main():
         cu.log(
             "INFO",
             f"Fetched details for {added} apps "
-            f"in {duration:.2f} seconds."
+            f"in {datetime.timedelta(seconds=duration)} seconds."
         )
 
         save_dataset(dataset, args.outfile)
