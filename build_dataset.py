@@ -513,7 +513,7 @@ def parse_arguments():
 
     parser.add_argument(
         "-d", "--delay",
-        type=int,
+        type=float,
         default=DEFAULT_REQUEST_DELAY,
         help="Delay in seconds between requests."
     )
