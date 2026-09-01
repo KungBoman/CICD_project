@@ -24,11 +24,7 @@ def test_get_app_details():
     with patch("build_dataset.requests.get") as mock_get:
         mock_get.return_value = make_mock_response(mock_response)
 
-        result = build_dataset.get_app_details(
-            123,
-            country="se",
-            language="en"
-        )
+        result = build_dataset.get_app_details(123)
 
         mock_get.assert_called_once_with(
             build_dataset.STEAM_APP_DETAILS_URL,
@@ -91,9 +87,9 @@ def test_get_app_details_with_filters():
 
         result = build_dataset.get_app_details(
             123,
-            country="se",
-            language="en",
-            filters="name,platforms,price_overview"
+            config=build_dataset.DatasetConfig(
+                filters="name,platforms,price_overview"
+            )
         )
 
         mock_get.assert_called_once_with(
@@ -113,10 +109,12 @@ def test_get_app_details_with_filters():
     }
 
 
-def test_extract_game_data():
+def test_extract_game_data_and_convert_dataset_row():
     details = {
         "steam_appid": 123,
         "name": "Test Game",
+        "header_image": "https://image.com",
+        "website": "https://website.com",
         "release_date": {
             "coming_soon": False,
             "date": "1 Jan, 1970"
@@ -129,15 +127,9 @@ def test_extract_game_data():
         "about_the_game": "A test game.",
         "short_description": "A test game's short description.",
         "detailed_description": "A test game's detailed description.",
-        "dlc": [
-            480, 520
-        ],
-        "achievements": {
-            "total": 10
-        },
-        "recommendations": {
-            "total": 25
-        },
+        "dlc": [480, 520],
+        "achievements": {"total": 10},
+        "recommendations": {"total": 25},
         "platforms": {
             "windows": True,
             "mac": False,
@@ -145,31 +137,31 @@ def test_extract_game_data():
         },
         "metacritic": {
             "score": 85,
-            "url": "https://example.com"
-        }
+            "url": "https://metacritic.com"
+        },
+        "support_url": "https://support.com",
+        "support_email": "support@support.com",
+        "interface_languages": "English, Swedish",
+        "audio_languages": "English",
+        "developers": "Dev1, Dev2",
+        "publishers": "Pub1, Pub2",
+        "category_ids": "1, 2",
+        "category_descriptions": "Cat1, Cat2",
+        "genre_ids": "1, 2",
+        "genre_descriptions": "Gen1, Gen2",
+
     }
 
-    result = build_dataset.extract_game_data(details)
+    expected = build_dataset.extract_game_data(details)
 
-    assert result == {
-        "appid": 123,
-        "name": "Test Game",
-        "release_date": "1970-01-01",
-        "is_free": False,
-        "price": 199.90,
-        "currency": "SEK",
-        "about_the_game": "A test game.",
-        "short_description": "A test game's short description.",
-        "detailed_description": "A test game's detailed description.",
-        "dlc_count": 2,
-        "achievements": 10,
-        "recommendations": 25,
-        "windows": True,
-        "mac": False,
-        "linux": True,
-        "metacritic_score": 85,
-        "metacritic_url": "https://example.com"
+    csv_row = {
+        key: str(value) if value is not None else ""
+        for key, value in expected.items()
     }
+
+    result = build_dataset.convert_dataset_row(csv_row)
+
+    assert result == expected
 
 
 def test_extract_game_data_without_price():
@@ -184,19 +176,31 @@ def test_extract_game_data_without_price():
     assert result == {
         "appid": 123,
         "name": "Free Game",
-        "release_date": None,
+        "header_image": "",
+        "website": "",
+        "release_date": "1970-01-01",
         "is_free": True,
         "price": 0,
-        "currency": None,
-        "about_the_game": None,
-        "short_description": None,
-        "detailed_description": None,
+        "currency": "",
+        "about_the_game": "",
+        "short_description": "",
+        "detailed_description": "",
         "dlc_count": 0,
         "achievements": 0,
         "recommendations": 0,
         "windows": False,
         "mac": False,
         "linux": False,
-        "metacritic_score": None,
-        "metacritic_url": None
+        "metacritic_score": "",
+        "metacritic_url": "",
+        "support_url": "",
+        "support_email": "",
+        "interface_languages": "",
+        "audio_languages": "",
+        "developers": "",
+        "publishers": "",
+        "category_ids": "",
+        "category_descriptions": "",
+        "genre_ids": "",
+        "genre_descriptions": "",
     }

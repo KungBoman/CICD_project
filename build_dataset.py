@@ -2,14 +2,18 @@
 build a dataset
 """
 
-import common_util as cu
-
-import time
-import datetime
-import requests
 import argparse
+import datetime
+import html
+import re
+import sys
+import time
+from dataclasses import dataclass
+
+import requests
 from tqdm import tqdm
 
+import common_util as cu
 
 STEAM_APP_DETAILS_URL = "https://store.steampowered.com/api/appdetails"
 """
@@ -20,52 +24,60 @@ Get-App-Details?utm_source=chatgpt.com
 
 REQUEST_TIMEOUT = 15
 
-DEFAULT_DATASET_INFILE = "games_dataset.json"
-DEFAULT_DATASET_OUTFILE = "games_dataset.json"
+DEFAULT_DATASET_INFILE = "data/games_dataset.json"
+DEFAULT_DATASET_OUTFILE = "data/games_dataset.json"
+DEFAULT_MAX_APPS = None
 DEFAULT_COUNTRY_CODE = "se"
 DEFAULT_LANGUAGE = "en"
-DEFAULT_FORCE_REWRITE = False
-DEFAULT_REQUEST_DELAY = 0
+DEFAULT_REQUEST_DELAY = 1.5
 DEFAULT_MAX_RETRIES = 4
 DEFAULT_RETRY_DELAY = 10
+DEFAULT_INCREMENTAL_RETRY_DELAY = False
+DEFAULT_SANITIZE_TEXT = True
+DEFAULT_FORCE_REWRITE = False
 
 
-def print_progress(current, total, name="", width=20):
-    progress = current / total
-    filled = int(width * progress)
-
-    bar = "█" * filled + "░" * (width - filled)
-
-    print(
-        f"\r\033[K"  # erase line
-        f"\r{datetime.datetime.now().strftime('%H:%M:%S')} "
-        f"{bar} "
-        f"{current}/{total} "
-        f"({progress * 100:6.2f}%) "
-        f"{name[:50]}",
-        end="",
-        flush=True
-    )
+@dataclass
+class DatasetConfig:
+    max_apps: int = DEFAULT_MAX_APPS
+    country: str = DEFAULT_COUNTRY_CODE
+    language: str = DEFAULT_LANGUAGE
+    filters: str = ""
+    delay: float = DEFAULT_REQUEST_DELAY
+    max_retries: int = DEFAULT_MAX_RETRIES
+    retry_delay: float = DEFAULT_RETRY_DELAY
+    incremental_retry_delay: float = DEFAULT_INCREMENTAL_RETRY_DELAY
+    sanitize_text: bool = DEFAULT_SANITIZE_TEXT
+    force: bool = DEFAULT_FORCE_REWRITE
 
 
-def get_app_details(
-    appid,
-    country=DEFAULT_COUNTRY_CODE,
-    language=DEFAULT_LANGUAGE,
-    filters=None,
-    max_retries=DEFAULT_MAX_RETRIES,
-    retry_delay=DEFAULT_RETRY_DELAY
-):
+def load_app_list():
+    app_list = cu.load_json("data/app_list.json")
+
+    if not app_list:
+        cu.log(
+            "ERROR",
+            "Missing app list. Run \"fetch_app_list.py\" first."
+        )
+        sys.exit(1)
+
+    return app_list
+
+
+def get_app_details(appid, config=None):
+    if config is None:
+        config = DatasetConfig()
+
     params = {
         "appids": appid,
-        "cc": country,
-        "l": language
+        "cc": config.country,
+        "l": config.language
     }
 
-    if filters:
-        params["filters"] = filters
+    if config.filters:
+        params["filters"] = config.filters
 
-    for attempt in range(max_retries + 1):
+    for attempt in range(config.max_retries + 1):
         response = requests.get(
             STEAM_APP_DETAILS_URL,
             params=params,
@@ -73,14 +85,23 @@ def get_app_details(
         )
 
         if response.status_code == 429:
-            if attempt >= max_retries:
+            if attempt >= config.max_retries:
+                cu.log(
+                    "ERROR",
+                    f"Rate limited for app {appid} and max retries reached."
+                )
                 response.raise_for_status()
 
-            wait_time = retry_delay * (attempt + 1)
+            wait_time = (
+                config.retry_delay * (attempt + 1)
+                if config.incremental_retry_delay
+                else config.retry_delay
+            )
 
             cu.log(
                 "WARNING",
                 f"Rate limited for app {appid}. "
+                f"Attempt {attempt + 1}/{config.max_retries + 1}. "
                 f"Retrying in {wait_time}s..."
             )
 
@@ -94,31 +115,125 @@ def get_app_details(
         app_data = data.get(str(appid))
 
         if not app_data:
+            cu.log(
+                "WARNING",
+                f"No app data returned for {appid}. "
+                f"Response keys: {list(data.keys())[:10]}"
+            )
             return None
 
         if not app_data.get("success"):
+            cu.log(
+                "WARNING",
+                f"Steam API returned success=false for app {appid}. "
+                f"Response: {app_data!r}"
+            )
             return None
 
-        return app_data.get("data")
+        details = app_data.get("data")
 
+        if details is None:
+            cu.log(
+                "WARNING",
+                f"Steam API returned success=true but no data "
+                f"for app {appid}. Response: {app_data!r}"
+            )
+            return None
+
+        return details
+
+    cu.log(
+        "WARNING",
+        f"Failed to get details for app {appid} "
+        f"after {config.max_retries + 1} attempts."
+    )
     return None
 
 
-def extract_game_data(details):
+def clean_description(text, config=None):
+    if config is None:
+        config = DatasetConfig()
+
+    if not text:
+        return ""
+
+    if not config.sanitize_text:
+        return text
+
+    text = html.unescape(text)
+
+    # Remove HTML tags
+    text = re.sub(r"<[^>]+>", "", text)
+
+    # Remove BBCode tags
+    text = re.sub(r"\[/?[a-zA-Z][^\]]*\]", "", text)
+
+    # Normalize whitespace
+    text = re.sub(r"\s+", " ", text)
+
+    return text.strip()
+
+
+def extract_languages(text):
+    interface_languages = []
+    audio_languages = []
+
+    if not text:
+        return interface_languages, audio_languages
+
+    text = html.unescape(text)
+
+    # Remove HTML tags
+    text = re.sub(r"<[^>]+>", "", text)
+
+    # Remove the footnote text
+    text = text.replace(
+        "languages with full audio support",
+        ""
+    )
+
+    for language in text.split(","):
+        language = language.strip()
+
+        if not language:
+            continue
+
+        is_full_audio = "*" in language
+        language = language.replace("*", "").strip()
+
+        interface_languages.append(language)
+
+        if is_full_audio:
+            audio_languages.append(language)
+
+    return interface_languages, audio_languages
+
+
+def extract_game_data(details, config=None):
+    if config is None:
+        config = DatasetConfig()
+
     game_data = {}
 
     game_data["appid"] = details.get("steam_appid")
     game_data["name"] = details.get("name")
+    game_data["header_image"] = details.get("header_image", "")
+    game_data["website"] = details.get("website", "")
 
     release_date = details.get("release_date", {})
     if release_date.get("coming_soon"):
-        game_data["release_date"] = None
+        game_data["release_date"] = "1970-01-01"
     else:
         date = release_date.get("date")
         game_data["release_date"] = (
-            datetime.datetime.strptime(date, "%d %b, %Y").strftime("%Y-%m-%d")
+            datetime.datetime.strptime(
+                date,
+                "%d %b, %Y"
+            ).replace(
+                tzinfo=datetime.timezone.utc
+            ).date().isoformat()
             if date
-            else None
+            else "1970-01-01"
         )
 
     is_free = details.get("is_free", False)
@@ -130,14 +245,19 @@ def extract_game_data(details):
         0.0 if is_free
         else price_overview.get("final", 0) / 100
     )
+    game_data["currency"] = price_overview.get("currency") or ""
 
-    game_data["currency"] = price_overview.get("currency")
-    game_data["about_the_game"] = details.get("about_the_game")
-    game_data["short_description"] = details.get("short_description")
-    game_data["detailed_description"] = details.get("detailed_description")
+    game_data["about_the_game"] = clean_description(
+        details.get("about_the_game")
+    )
+    game_data["short_description"] = clean_description(
+        details.get("short_description")
+    )
+    game_data["detailed_description"] = clean_description(
+        details.get("detailed_description")
+    )
 
     game_data["dlc_count"] = len(details.get("dlc", []))
-
     game_data["achievements"] = details.get("achievements", {}).get("total", 0)
     game_data["recommendations"] = details.get("recommendations", {}).get("total", 0)
 
@@ -147,178 +267,290 @@ def extract_game_data(details):
     game_data["linux"] = platforms.get("linux", False)
 
     metacritic = details.get("metacritic", {})
-    game_data["metacritic_score"] = metacritic.get("score")
-    game_data["metacritic_url"] = metacritic.get("url")
+    game_data["metacritic_score"] = metacritic.get("score") or ""
+    game_data["metacritic_url"] = metacritic.get("url") or ""
+
+    support_info = details.get("support_info", {})
+    game_data["support_url"] = support_info.get("url") or ""
+    game_data["support_email"] = support_info.get("email") or ""
+
+    interface_languages, audio_languages = extract_languages(
+        details.get("supported_languages")
+    )
+    game_data["interface_languages"] = ", ".join(interface_languages)
+    game_data["audio_languages"] = ", ".join(audio_languages)
+
+    game_data["developers"] = ", ".join(details.get("developers", []))
+    game_data["publishers"] = ", ".join(details.get("publishers", []))
+
+    categories = details.get("categories", [])
+    category_ids = [
+        str(cat["id"]) for cat in categories
+    ]
+    category_descriptions = [
+        cat["description"] for cat in categories
+    ]
+    game_data["category_ids"] = ", ".join(category_ids)
+    game_data["category_descriptions"] = ", ".join(category_descriptions)
+
+    genres = details.get("genres", [])
+    genre_ids = [
+        str(gen["id"]) for gen in genres
+    ]
+    genre_descriptions = [
+        gen["description"] for gen in genres
+    ]
+    game_data["genre_ids"] = ", ".join(genre_ids)
+    game_data["genre_descriptions"] = ", ".join(genre_descriptions)
 
     return game_data
 
 
-def load_dataset(file=DEFAULT_DATASET_INFILE):
-    dataset = cu.load_json(file)
+def convert_dataset_row(row):
+    return {
+        "appid": int(row["appid"]),
+        "name": row["name"],
+        "header_image": row["header_image"] or "",
+        "website": row["website"] or "",
+        "release_date": row["release_date"] or "1970-01-01",
+        "is_free": row["is_free"].lower() == "true",
+        "price": (
+            float(row["price"])
+            if row["price"]
+            else 0.0
+        ),
+        "currency": row["currency"] or "",
+        "about_the_game": row["about_the_game"],
+        "short_description": row["short_description"],
+        "detailed_description": row["detailed_description"],
+        "dlc_count": int(row["dlc_count"]),
+        "achievements": int(row["achievements"]),
+        "recommendations": int(row["recommendations"]),
+        "windows": row["windows"].lower() == "true",
+        "mac": row["mac"].lower() == "true",
+        "linux": row["linux"].lower() == "true",
+        "metacritic_score": (
+            int(row["metacritic_score"])
+            if row["metacritic_score"]
+            else ""
+        ),
+        "metacritic_url": row["metacritic_url"] or "",
+        "support_url": row["support_url"] or "",
+        "support_email": row["support_email"] or "",
+        "interface_languages": row["interface_languages"],
+        "audio_languages": row["audio_languages"],
+        "developers": row["developers"],
+        "publishers": row["publishers"],
+        "category_ids": row["category_ids"],
+        "category_descriptions": row["category_descriptions"],
+        "genre_ids": row["genre_ids"],
+        "genre_descriptions": row["genre_descriptions"],
+    }
+
+
+def load_dataset(filename=DEFAULT_DATASET_INFILE):
+    if filename.endswith(".json"):
+        dataset = cu.load_json(filename)
+    elif filename.endswith(".csv"):
+        rows = cu.load_csv(filename)
+        dataset = {
+            str(row["appid"]): convert_dataset_row(row)
+            for row in rows
+        }
 
     if not dataset:
         cu.log(
             "INFO",
-            f"No data found in '{file}'. "
+            f"No data found in '{filename}'. "
             "Starting with an empty dataset."
         )
         dataset = {}
     else:
         cu.log(
             "INFO",
-            f"Loaded dataset from '{file}' "
+            f"Loaded dataset from '{filename}' "
             f"with {len(dataset)} entries."
         )
 
     return dataset
 
 
-def load_app_list(max_apps=None):
-    app_list = cu.load_json("app_list.json")
-
-    if max_apps is not None:
-        app_list = app_list[:max_apps]
-        cu.log(
-            "INFO",
-            f"Limiting app_list to {len(app_list)} apps for this run."
-        )
-
-    return app_list
+def save_dataset(dataset, filename):
+    if filename.endswith(".json"):
+        cu.save_json(dataset, filename)
+    elif filename.endswith(".csv"):
+        cu.save_csv(dataset, filename)
+    else:
+        raise ValueError(f"Unsupported file format: {filename}")
 
 
-def process_app(
-    app,
-    dataset,
-    country=DEFAULT_COUNTRY_CODE,
-    language=DEFAULT_LANGUAGE,
-    max_retries=DEFAULT_MAX_RETRIES,
-    retry_delay=DEFAULT_RETRY_DELAY
-):
+def process_app(app, dataset, config=None) -> bool:
+    if config is None:
+        config = DatasetConfig()
+
     appid = str(app["appid"])
 
     try:
-        details = get_app_details(
-            appid,
-            country=country,
-            language=language,
-            max_retries=max_retries,
-            retry_delay=retry_delay
-        )
+        details = get_app_details(appid, config=config)
 
         if not details:
-            return
+            cu.log(
+                "WARNING",
+                f"No details available for app {appid}."
+            )
+            return False
 
         if details.get("type") != "game":
-            return
+            cu.log(
+                "WARNING",
+                f"Skipping app {appid}; not a game."
+            )
+            return False
 
-        game = extract_game_data(details)
+        game = extract_game_data(details, config)
 
         dataset[appid] = game
+
+        return True
 
     except requests.RequestException as error:
         cu.log(
             "ERROR",
             f"Failed to fetch app {appid}: {error}"
         )
+        return False
 
-    except Exception as error:
+    except (KeyError, ValueError, TypeError) as error:
         cu.log(
             "ERROR",
             f"Unexpected error for app {appid}: {error}"
         )
+        return False
 
 
 def build_dataset(
     app_list,
     dataset,
-    outfile=DEFAULT_DATASET_OUTFILE,
-    country=DEFAULT_COUNTRY_CODE,
-    language=DEFAULT_LANGUAGE,
-    force=DEFAULT_FORCE_REWRITE,
-    delay=DEFAULT_REQUEST_DELAY,
-    max_retries=DEFAULT_MAX_RETRIES,
-    retry_delay=DEFAULT_RETRY_DELAY
+    outfile,
+    config=None,
 ):
-    total = len(app_list)
+    if config is None:
+        config = DatasetConfig()
 
-    cu.log(
-        "INFO",
-        f"Fetching details for {total} applications... "
-        "(CTRL+C to exit)"
-    )
+    added = 0
 
-    for app in tqdm(
-        app_list,
-        desc="Fetching games",
+    with tqdm(
+        total=config.max_apps,
+        desc="[INFO] Fetching details for applications",
         unit="app",
         smoothing=0.1
-    ):
-        appid = str(app["appid"])
+    ) as progress:
+        for app in app_list:
+            appid = str(app["appid"])
 
-        if not force and appid in dataset:
-            continue
+            if not config.force and appid in dataset:
+                continue
 
-        process_app(
-            app,
-            dataset,
-            country=country,
-            language=language,
-            max_retries=max_retries,
-            retry_delay=retry_delay
-        )
+            request_time = time.time()
 
-        cu.save_json(dataset, outfile)
+            if process_app(
+                app,
+                dataset,
+                config=config
+            ):
+                added += 1
+                progress.update(1)
 
-        time.sleep(delay)
+            save_dataset(dataset, outfile)
+
+            if config.max_apps is not None and added >= config.max_apps:
+                break
+
+            elapsed = time.time() - request_time
+            wait_time = max(0, config.delay - elapsed)
+            time.sleep(wait_time)
 
 
 def parse_arguments():
     parser = argparse.ArgumentParser(
-        description="Fetch Steam application list."
+        description="Fetch Steam application details and build a dataset."
     )
 
     parser.add_argument(
-        "-i", "--infile", type=str, default=DEFAULT_DATASET_INFILE,
-        help="Input dataset file."
+        "-i", "--infile",
+        type=str,
+        default=DEFAULT_DATASET_INFILE,
+        help="Input dataset filename. Supported formats: .json, .csv."
     )
 
     parser.add_argument(
-        "-o", "--outfile", type=str, default=DEFAULT_DATASET_OUTFILE,
-        help="Output dataset file."
+        "-o", "--outfile",
+        type=str,
+        default=DEFAULT_DATASET_OUTFILE,
+        help="Output dataset filename. Supported formats: .json, .csv."
     )
 
     parser.add_argument(
-        "-ma", "--max-apps", type=int, default=None,
-        help="Maximum number of apps to fetch. "
-             "If omitted, fetch all apps."
+        "-m", "--max-apps",
+        type=int,
+        default=DEFAULT_MAX_APPS,
+        help="Maximum number of apps to fetch. If omitted, all apps are fetched."
     )
 
     parser.add_argument(
-        "-c", "--country", type=str, default=DEFAULT_COUNTRY_CODE,
-        help="Country code."
+        "-c", "--country",
+        type=str,
+        default=DEFAULT_COUNTRY_CODE,
+        help="Country code used for Steam store data."
     )
 
     parser.add_argument(
-        "-l", "--language", type=str, default=DEFAULT_LANGUAGE,
-        help="Language code."
+        "-l", "--language",
+        type=str,
+        default=DEFAULT_LANGUAGE,
+        help="Language used for Steam store data."
     )
 
     parser.add_argument(
-        "-f", "--force", type=cu.str_to_bool, default=DEFAULT_FORCE_REWRITE,
-        help="Overwrite existing apps."
+        "-d", "--delay",
+        type=int,
+        default=DEFAULT_REQUEST_DELAY,
+        help="Delay in seconds between requests."
     )
 
     parser.add_argument(
-        "-d", "--delay", type=int, default=DEFAULT_REQUEST_DELAY,
-        help="Time in seconds to delay each query."
+        "-r", "--retries",
+        type=int,
+        default=DEFAULT_MAX_RETRIES,
+        help="Maximum number of retries after a rate limit."
     )
+
     parser.add_argument(
-        "-r", "--retries", type=int, default=DEFAULT_MAX_RETRIES,
-        help="Number of retries. Always retry when 0."
+        "-rd", "--retry-delay",
+        type=int,
+        default=DEFAULT_RETRY_DELAY,
+        help="Initial delay in seconds before retrying a rate-limited request."
     )
+
     parser.add_argument(
-        "-rd", "--retry-delay", type=int, default=DEFAULT_RETRY_DELAY,
-        help="Time in seconds before retry query."
+        "--incremental-retry-delay",
+        type=cu.str_to_bool,
+        default=DEFAULT_INCREMENTAL_RETRY_DELAY,
+        help="Increment the retry delay after each failed retry."
+    )
+
+    parser.add_argument(
+        "--sanitize-text",
+        type=cu.str_to_bool,
+        default=DEFAULT_SANITIZE_TEXT,
+        help="Sanitize text fields by removing HTML tags and formatting codes."
+    )
+
+    parser.add_argument(
+        "-f", "--force",
+        type=cu.str_to_bool,
+        default=DEFAULT_FORCE_REWRITE,
+        help="Overwrite existing dataset entries."
     )
 
     return parser.parse_args()
@@ -327,40 +559,55 @@ def parse_arguments():
 def main():
     args = parse_arguments()
 
-    cu.log("INFO", "Starting GamesScraper.py")
+    config = DatasetConfig(
+        max_apps=args.max_apps,
+        country=args.country,
+        language=args.language,
+        delay=args.delay,
+        max_retries=args.retries,
+        retry_delay=args.retry_delay,
+        incremental_retry_delay=args.incremental_retry_delay,
+        sanitize_text=args.sanitize_text,
+        force=args.force
+    )
+
+    cu.log("INFO", "Starting build_dataset.py")
 
     dataset = load_dataset(args.infile)
 
-    app_list = load_app_list(args.max_apps)
+    app_list = load_app_list()
 
+    start_count = len(dataset)
     start_time = time.time()
 
-    build_dataset(
-        app_list,
-        dataset,
-        outfile=args.outfile,
-        country=args.country,
-        language=args.language,
-        force=args.force,
-        delay=args.delay,
-        max_retries=args.retries,
-        retry_delay=args.retry_delay
-    )
+    try:
+        build_dataset(
+            app_list,
+            dataset,
+            outfile=args.outfile,
+            config=config,
+        )
 
-    duration = time.time() - start_time
+    except KeyboardInterrupt:
+        cu.log("INFO", "Quitting...")
 
-    cu.log(
-        "INFO",
-        f"Data fetching completed in {duration:.2f} seconds."
-    )
+    finally:
+        added = len(dataset) - start_count
+        duration = time.time() - start_time
 
-    cu.save_json(dataset, args.outfile)
+        cu.log(
+            "INFO",
+            f"Fetched details for {added} apps "
+            f"in {datetime.timedelta(seconds=duration)} seconds."
+        )
 
-    cu.log(
-        "INFO",
-        f"Dataset saved to '{args.outfile}' "
-        f"with {len(dataset)} entries."
-    )
+        save_dataset(dataset, args.outfile)
+
+        cu.log(
+            "INFO",
+            f"Saved dataset to '{args.outfile}' "
+            f"with {len(dataset)} entries."
+        )
 
 
 if __name__ == "__main__":
