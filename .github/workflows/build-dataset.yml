@@ -40,7 +40,7 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-          git add data/games_dataset.json
+          git add data/games_dataset.csv
           git commit -m "Update games dataset"
           git push 
 
