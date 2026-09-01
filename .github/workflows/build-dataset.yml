@@ -3,7 +3,7 @@ name: Build dataset
 on:
   workflow_dispatch:
   schedule:
-    - cron: "*/5 * * * *"
+    - cron: "0 * * * *"
 
 permissions:
   contents: write
@@ -27,6 +27,8 @@ jobs:
       - name: Build dataset
         run: |
           python build_dataset.py \
+            -i data/games_dataset.csv \
+            -o data/games_dataset.csv \
             -m 10 \
             -d 1.5 \
             -r 4 \
