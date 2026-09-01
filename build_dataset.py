@@ -86,6 +86,10 @@ def get_app_details(appid, config=None):
 
         if response.status_code == 429:
             if attempt >= config.max_retries:
+                cu.log(
+                    "ERROR",
+                    f"Rate limited for app {appid} and max retries reached."
+                )
                 response.raise_for_status()
 
             wait_time = (
@@ -97,6 +101,7 @@ def get_app_details(appid, config=None):
             cu.log(
                 "WARNING",
                 f"Rate limited for app {appid}. "
+                f"Attempt {attempt + 1}/{config.max_retries + 1}. "
                 f"Retrying in {wait_time}s..."
             )
 
@@ -110,13 +115,38 @@ def get_app_details(appid, config=None):
         app_data = data.get(str(appid))
 
         if not app_data:
+            cu.log(
+                "WARNING",
+                f"No app data returned for {appid}. "
+                f"Response keys: {list(data.keys())[:10]}"
+            )
             return None
 
         if not app_data.get("success"):
+            cu.log(
+                "WARNING",
+                f"Steam API returned success=false for app {appid}. "
+                f"Response: {app_data!r}"
+            )
             return None
 
-        return app_data.get("data")
+        details = app_data.get("data")
 
+        if details is None:
+            cu.log(
+                "WARNING",
+                f"Steam API returned success=true but no data "
+                f"for app {appid}. Response: {app_data!r}"
+            )
+            return None
+
+        return details
+
+    cu.log(
+        "WARNING",
+        f"Failed to get details for app {appid} "
+        f"after {config.max_retries + 1} attempts."
+    )
     return None
 
 
@@ -364,7 +394,7 @@ def process_app(app, dataset, config=None) -> bool:
         if not details:
             cu.log(
                 "WARNING",
-                f"Could not fetch details for app {appid}."
+                f"No details available for app {appid}."
             )
             return False
 
