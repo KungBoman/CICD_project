@@ -3,10 +3,10 @@ name: Python CI checker
 
 on:
     push:
-        branches-ignore: 
+        branches-ignore:   # Only runs when not pushing to the main branch, since main has its own workflow
             - main
     pull_request:
-        branches: 
+        branches:     # When creating a pull request, run the workflow on the base branch of the pull request
             - main
 permissions:
     contents: read
