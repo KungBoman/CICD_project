@@ -86,7 +86,8 @@ games_dataset.json
 games_dataset.csv
 ```
 
-JSON preserves the dataset structure directly, while CSV stores each game as a row.
+JSON preserves the dataset structure directly*, while CSV stores each game as a row. 
+###### *\* Not true at the moment.*
 
 ### Example
 
@@ -95,38 +96,36 @@ JSON preserves the dataset structure directly, while CSV stores each game as a r
     "10": {
         "appid": 10,
         "name": "Counter-Strike",
+        "header_image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/10/header.jpg?t=1745368572",
+        "website": null,
         "release_date": "2000-11-01",
         "is_free": false,
         "price": 8.19,
         "currency": "EUR",
-        "about_the_game": "Play the world's number 1 online action game.",
-        "short_description": "Play the world's number 1 online action game.",
-        "detailed_description": "Play the world's number 1 online action game.",
+        "about_the_game": "Play the world's number 1 online action game. Engage in an incredibly realistic brand of terrorist warfare in this wildly popular team-based game. Ally with teammates to complete strategic missions. Take out enemy sites. Rescue hostages. Your role affects your team's success. Your team's success affects your role.",
+        "short_description": "Play the world's number 1 online action game. Engage in an incredibly realistic brand of terrorist warfare in this wildly popular team-based game. Ally with teammates to complete strategic missions. Take out enemy sites. Rescue hostages. Your role affects your team's success. Your team's success affects your role.",
+        "detailed_description": "Play the world's number 1 online action game. Engage in an incredibly realistic brand of terrorist warfare in this wildly popular team-based game. Ally with teammates to complete strategic missions. Take out enemy sites. Rescue hostages. Your role affects your team's success. Your team's success affects your role.",
         "dlc_count": 0,
         "achievements": 0,
-        "recommendations": 169557,
+        "recommendations": 169576,
         "windows": true,
         "mac": true,
         "linux": true,
         "metacritic_score": 88,
-        "metacritic_url": "https://www.metacritic.com/game/pc/counter-strike"
+        "metacritic_url": "https://www.metacritic.com/game/pc/counter-strike?ftag=MCD-06-10aaa1f",
+        "support_url": "http://steamcommunity.com/app/10",
+        "support_email": "",
+        "interface_languages": "English, French, German, Italian, Spanish - Spain, Simplified Chinese, Traditional Chinese, Korean",
+        "audio_languages": "English, French, German, Italian, Spanish - Spain, Simplified Chinese, Traditional Chinese, Korean",
+        "developers": "Valve",
+        "publishers": "Valve",
+        "category_ids": "1, 49, 36, 37, 66, 68, 75, 69, 8, 62",
+        "category_descriptions": "Multi-player, PvP, Online PvP, Shared/Split Screen PvP, Color Alternatives, Custom Volume Controls, Keyboard Only Option, Stereo Sound, Valve Anti-Cheat enabled, Family Sharing",
+        "genre_ids": "1",
+        "genre_descriptions": "Action"
     }
 }
 ```
-
-Each game contains information such as:
-
-- Steam AppID
-- Name
-- Release date
-- Free-to-play status
-- Price and currency
-- Game descriptions
-- DLC count
-- Achievement count
-- Recommendation count
-- Supported platforms
-- Metacritic score and URL
 
 ## Rate Limiting
 
@@ -140,7 +139,7 @@ The Steam Store API has rate limits. The script supports:
 For example:
 
 ```bash
-python build_dataset.py -d 1 -r 4 -rd 10 --incremental-retry-delay true
+python build_dataset.py -d 1.5 -r 4 -rd 10 --incremental-retry-delay true
 ```
 
 This waits one second between normal requests and retries rate-limited requests with an increasing delay. This allows the script to make efficient use of the API's rate limit while reducing the risk of repeated rate limiting.

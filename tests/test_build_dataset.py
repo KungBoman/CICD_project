@@ -113,6 +113,8 @@ def test_extract_game_data_and_convert_dataset_row():
     details = {
         "steam_appid": 123,
         "name": "Test Game",
+        "header_image": "https://image.com",
+        "website": "https://website.com",
         "release_date": {
             "coming_soon": False,
             "date": "1 Jan, 1970"
@@ -135,8 +137,19 @@ def test_extract_game_data_and_convert_dataset_row():
         },
         "metacritic": {
             "score": 85,
-            "url": "https://example.com"
-        }
+            "url": "https://metacritic.com"
+        },
+        "support_url": "https://support.com",
+        "support_email": "support@support.com",
+        "interface_languages": "English, Swedish",
+        "audio_languages": "English",
+        "developers": "Dev1, Dev2",
+        "publishers": "Pub1, Pub2",
+        "category_ids": "1, 2",
+        "category_descriptions": "Cat1, Cat2",
+        "genre_ids": "1, 2",
+        "genre_descriptions": "Gen1, Gen2",
+
     }
 
     expected = build_dataset.extract_game_data(details)
@@ -163,11 +176,12 @@ def test_extract_game_data_without_price():
     assert result == {
         "appid": 123,
         "name": "Free Game",
-        "header_image": None,
-        "release_date": None,
+        "header_image": "",
+        "website": "",
+        "release_date": "1970-01-01",
         "is_free": True,
         "price": 0,
-        "currency": None,
+        "currency": "",
         "about_the_game": "",
         "short_description": "",
         "detailed_description": "",
@@ -177,6 +191,16 @@ def test_extract_game_data_without_price():
         "windows": False,
         "mac": False,
         "linux": False,
-        "metacritic_score": None,
-        "metacritic_url": None,
+        "metacritic_score": "",
+        "metacritic_url": "",
+        "support_url": "",
+        "support_email": "",
+        "interface_languages": "",
+        "audio_languages": "",
+        "developers": "",
+        "publishers": "",
+        "category_ids": "",
+        "category_descriptions": "",
+        "genre_ids": "",
+        "genre_descriptions": "",
     }
