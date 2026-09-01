@@ -10,9 +10,10 @@ import sys
 import time
 from dataclasses import dataclass
 
-import common_util as cu
 import requests
 from tqdm import tqdm
+
+import common_util as cu
 
 STEAM_APP_DETAILS_URL = "https://store.steampowered.com/api/appdetails"
 """
