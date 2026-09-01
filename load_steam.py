@@ -13,6 +13,17 @@ def get_db_connetion():
 
 
 def create_games_table(connection):
+    with connection.cursor() as cursor:
+        cursor.execute("""
+            CREATE TABLE IF NOT EXISTS games (
+                appid BIGINT PRIMARY KEY,
+                name TEXT
+                ....
+            
+            )
+
+        """)
+    connection.commit()
 
 
 def insert_games(connection, rows): 
