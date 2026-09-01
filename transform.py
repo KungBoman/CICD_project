@@ -6,7 +6,7 @@ import duckdb
 BASE_DIR = Path(__file__).resolve().parent
 
 con = duckdb.connect("steam_games.db")
-RAW_TABLE = (BASE_DIR / "steam_games_test_data.csv").as_posix()
+RAW_TABLE = (BASE_DIR / "test_data.csv").as_posix()
 TABLE_NAME = 'transform_games_list'
 
 # create table and tranform data  
@@ -19,7 +19,7 @@ def transform_data(con, raw_table, table_name):
             TRIM(name) AS name,
             TRIM(header_image) AS header_image,
             TRIM(website) AS website,
-            TRY_CAST(release_date as DATE) AS release_date, -- check if date > current date, or can release date > current date in the case upcoming game???
+            TRY_CAST(release_date as DATE) AS release_date, -- upcomming game, date kan vara NULL
             TRY_CAST(is_free AS BOOLEAN) AS is_free,
             TRY_CAST(price AS DECIMAL(10,2)) AS price, -- check if price < 0
             TRIM(currency) AS currency, -- EUR
@@ -57,4 +57,5 @@ print(
         FROM read_csv_auto(transform_game_list.csv)
     """).fetchdf()
 )
+
 
