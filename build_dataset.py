@@ -362,9 +362,17 @@ def process_app(app, dataset, config=None) -> bool:
         details = get_app_details(appid, config=config)
 
         if not details:
+            cu.log(
+                "WARNING",
+                f"Could not fetch details for app {appid}."
+            )
             return False
 
         if details.get("type") != "game":
+            cu.log(
+                "WARNING",
+                f"Skipping app {appid}; not a game."
+            )
             return False
 
         game = extract_game_data(details, config)
