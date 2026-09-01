@@ -39,6 +39,7 @@ DEFAULT_FORCE_REWRITE = False
 
 @dataclass
 class DatasetConfig:
+    max_apps: int = DEFAULT_MAX_APPS
     country: str = DEFAULT_COUNTRY_CODE
     language: str = DEFAULT_LANGUAGE
     filters: str = ""
@@ -50,7 +51,7 @@ class DatasetConfig:
     force: bool = DEFAULT_FORCE_REWRITE
 
 
-def load_app_list(max_apps=None):
+def load_app_list():
     app_list = cu.load_json("data/app_list.json")
 
     if not app_list:
@@ -59,13 +60,6 @@ def load_app_list(max_apps=None):
             "Missing app list. Run \"fetch_app_list.py\" first."
         )
         sys.exit(1)
-
-    if max_apps is not None:
-        app_list = app_list[:max_apps]
-        cu.log(
-            "INFO",
-            f"Limiting app_list to {len(app_list)} apps for this run."
-        )
 
     return app_list
 
@@ -358,7 +352,7 @@ def save_dataset(dataset, filename):
         raise ValueError(f"Unsupported file format: {filename}")
 
 
-def process_app(app, dataset, config=None):
+def process_app(app, dataset, config=None) -> bool:
     if config is None:
         config = DatasetConfig()
 
@@ -368,26 +362,30 @@ def process_app(app, dataset, config=None):
         details = get_app_details(appid, config=config)
 
         if not details:
-            return
+            return False
 
         if details.get("type") != "game":
-            return
+            return False
 
         game = extract_game_data(details, config)
 
         dataset[appid] = game
+
+        return True
 
     except requests.RequestException as error:
         cu.log(
             "ERROR",
             f"Failed to fetch app {appid}: {error}"
         )
+        return False
 
     except (KeyError, ValueError, TypeError) as error:
         cu.log(
             "ERROR",
             f"Unexpected error for app {appid}: {error}"
         )
+        return False
 
 
 def build_dataset(
@@ -399,43 +397,38 @@ def build_dataset(
     if config is None:
         config = DatasetConfig()
 
-    apps_to_fetch = [
-        app for app in app_list
-        if config.force or str(app["appid"]) not in dataset
-    ]
+    added = 0
 
-    total = len(apps_to_fetch)
-
-    cu.log(
-        "INFO",
-        f"Fetching details for {total} applications... "
-        "(CTRL+C to exit)"
-    )
-
-    for app in tqdm(
-        apps_to_fetch,
-        desc="Fetching games",
+    with tqdm(
+        total=config.max_apps,
+        desc="[INFO] Fetching details for applications",
         unit="app",
         smoothing=0.1
-    ):
-        appid = str(app["appid"])
+    ) as progress:
+        for app in app_list:
+            appid = str(app["appid"])
 
-        if not config.force and appid in dataset:
-            continue
+            if not config.force and appid in dataset:
+                continue
 
-        request_time = time.time()
+            request_time = time.time()
 
-        process_app(
-            app,
-            dataset,
-            config=config
-        )
+            if process_app(
+                app,
+                dataset,
+                config=config
+            ):
+                added += 1
+                progress.update(1)
 
-        save_dataset(dataset, outfile)
+            save_dataset(dataset, outfile)
 
-        elapsed = time.time() - request_time
-        wait_time = max(0, config.delay - elapsed)
-        time.sleep(wait_time)
+            if config.max_apps is not None and added >= config.max_apps:
+                break
+
+            elapsed = time.time() - request_time
+            wait_time = max(0, config.delay - elapsed)
+            time.sleep(wait_time)
 
 
 def parse_arguments():
@@ -527,6 +520,7 @@ def main():
     args = parse_arguments()
 
     config = DatasetConfig(
+        max_apps=args.max_apps,
         country=args.country,
         language=args.language,
         delay=args.delay,
@@ -537,12 +531,13 @@ def main():
         force=args.force
     )
 
-    cu.log("INFO", "Starting GamesScraper.py")
+    cu.log("INFO", "Starting build_dataset.py")
 
     dataset = load_dataset(args.infile)
 
-    app_list = load_app_list(args.max_apps)
+    app_list = load_app_list()
 
+    start_count = len(dataset)
     start_time = time.time()
 
     build_dataset(
@@ -552,18 +547,20 @@ def main():
         config=config,
     )
 
+    added = len(dataset) - start_count
     duration = time.time() - start_time
 
     cu.log(
         "INFO",
-        f"Data fetching completed in {duration:.2f} seconds."
+        f"Fetched details for {added} apps "
+        f"in {duration:.2f} seconds."
     )
 
     save_dataset(dataset, args.outfile)
 
     cu.log(
         "INFO",
-        f"Dataset saved to '{args.outfile}' "
+        f"Saved dataset to '{args.outfile}' "
         f"with {len(dataset)} entries."
     )
 
