@@ -548,33 +548,35 @@ def main():
     start_count = len(dataset)
     start_time = time.time()
 
-    build_dataset(
-        app_list,
-        dataset,
-        outfile=args.outfile,
-        config=config,
-    )
+    try:
+        build_dataset(
+            app_list,
+            dataset,
+            outfile=args.outfile,
+            config=config,
+        )
 
-    added = len(dataset) - start_count
-    duration = time.time() - start_time
+    except KeyboardInterrupt:
+        cu.log("INFO", "Quitting...")
 
-    cu.log(
-        "INFO",
-        f"Fetched details for {added} apps "
-        f"in {duration:.2f} seconds."
-    )
+    finally:
+        added = len(dataset) - start_count
+        duration = time.time() - start_time
 
-    save_dataset(dataset, args.outfile)
+        cu.log(
+            "INFO",
+            f"Fetched details for {added} apps "
+            f"in {duration:.2f} seconds."
+        )
 
-    cu.log(
-        "INFO",
-        f"Saved dataset to '{args.outfile}' "
-        f"with {len(dataset)} entries."
-    )
+        save_dataset(dataset, args.outfile)
+
+        cu.log(
+            "INFO",
+            f"Saved dataset to '{args.outfile}' "
+            f"with {len(dataset)} entries."
+        )
 
 
 if __name__ == "__main__":
-    try:
-        main()
-    except KeyboardInterrupt:
-        print("Quitting...")
+    main()
