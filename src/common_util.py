@@ -18,8 +18,8 @@ def log(type, msg):
 
 
 def get_steam_api_key():
-    # if api_key := os.getenv("STEAM_API_KEY"):
-    #     return api_key
+    if api_key := os.getenv("STEAM_API_KEY"):
+        return api_key
 
     if os.path.exists(ENV_FILE):
         with open(ENV_FILE, encoding=ENCODING) as file:
