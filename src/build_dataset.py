@@ -52,7 +52,7 @@ class DatasetConfig:
 
 
 def load_app_list():
-    app_list = cu.load_json("data/app_list.json")
+    app_list = cu.load_json("app_list.json")
 
     if not app_list:
         cu.log(
