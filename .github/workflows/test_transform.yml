@@ -3,7 +3,13 @@ name: CI_transform
 on:
   push:
     branches:
-      - transform
+      - main
+      - "feature/**"
+
+  pull_request:
+    branches:
+      - main
+
 
 jobs:
 
@@ -13,7 +19,7 @@ jobs:
     steps:
 
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: action/checkout@v4
 
       - name: Setup Python
         uses: actions/setup-python@v5
