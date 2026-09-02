@@ -4,11 +4,13 @@ import duckdb
 
 # Find the current path direction
 BASE_DIR = Path(__file__).resolve().parent
+DB_PATH = (BASE_DIR / "data/steam_games.db").as_posix()
+RAW_TABLE = (BASE_DIR / "data/games_dataset.csv").as_posix()
+TABLE_NAME = 'transform_games_dataset'
+OUTPUT_DATASET = (BASE_DIR / "data/transform_games_dataset.csv").as_posix()
 
-con = duckdb.connect("steam_games.db")
-RAW_TABLE = (BASE_DIR / "test_data.csv").as_posix()
-TABLE_NAME = 'transform_games_list'
-
+# create direction to duckdb database
+con = duckdb.connect(DB_PATH)
 # create table and tranform data  
 def transform_data(con, raw_table, table_name):
     # Insert and transform data 
@@ -36,25 +38,28 @@ def transform_data(con, raw_table, table_name):
             TRIM(metacritic_url) AS metacritic_url, -- check if NULL or start with 'https: //
             TRIM(support_url) AS support_url, -- check if NULL or start with 'https: //
             TRIM(support_email) AS support_email, 
-            TRIM(supported_languages) AS supported_languages, -- have more than one value like Japanese, English, Swedish
-            TRIM(full_audio_languages) AS full_audio_languages, -- have more than one value
+            TRIM(interface_languages) AS interface_languages,
+            TRIM(audio_languages) AS audio_languages,
             TRIM(developers) AS developers, -- have more than one value 
             TRIM(publishers) AS publishers, -- publishers have more than one value
-            TRIM(categories) AS categories, -- have more than one value
-            TRIM(genres) AS genres
+            TRY_CAST(category_ids AS INT) AS category_ids,
+            TRIM(category_descriptions) AS category_descriptions,
+            TRY_CAST(genre_ids AS INT) AS genre_ids,
+            TRIM(genre_descriptions) AS genre_descriptions,
+
 
         FROM read_csv_auto('{raw_table}')
 """)
 
 if __name__ == "__main__":
     transform_data(con, RAW_TABLE, TABLE_NAME)
-    con.execute(f"COPY {TABLE_NAME} TO transform_game_list.csv (FORMAT CSV, HEADER true)")
+    con.execute(f"COPY {TABLE_NAME} TO ('{OUTPUT_DATASET}') (FORMAT CSV, HEADER true)")
 
 print(
-    con.execute("""
+    con.execute(f"""
         sUMMARIZE
         SELECT *
-        FROM read_csv_auto(transform_game_list.csv)
+        FROM read_csv_auto('{OUTPUT_DATASET}')
     """).fetchdf()
 )
 
