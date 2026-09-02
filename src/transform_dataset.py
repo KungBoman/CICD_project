@@ -3,13 +3,26 @@ import duckdb
 import common_util as cu
 
 # Find the current path direction
-RAW_TABLE = (cu.DATA_DIR / "raw_games_dataset.csv")
+RAW_TABLE = cu.DATA_DIR / "raw_games_dataset.csv"
 TABLE_NAME = 'curated_games_dataset'
-OUTPUT_DATASET = (cu.DATA_DIR / "curated_games_dataset.csv")
+OUTPUT_DATASET = cu.DATA_DIR / "curated_games_dataset.csv"
+
+
+def load_dataset(raw_data: str):
+    if raw_data.endswith(".json"):
+        return f"read_json('{raw_data}')"
+    elif raw_data.endswith(".csv"):
+        return f"read_csv('{raw_data}')"
+    elif raw_data.endswith(".parquet"):
+        return f"read_parquet('{raw_data}')"
+    else:
+        raise ValueError(f"Not support the format: '{raw_data}'")
 
 
 # create table and tranform data
 def transform_data(con, raw_table, table_name):
+    read_dataset = load_dataset(str(raw_table))
+
     # Insert and transform data
     con.execute(f"""
     CREATE OR REPLACE TABLE {table_name} AS 
@@ -44,8 +57,8 @@ def transform_data(con, raw_table, table_name):
             TRY_CAST(genre_ids AS INT) AS genre_ids,
             TRIM(genre_descriptions) AS genre_descriptions,
 
-
-        FROM read_csv_auto('{raw_table}')
+        FROM --read_csv_auto('{raw_table}')
+            {read_dataset}
     """)
 
 
