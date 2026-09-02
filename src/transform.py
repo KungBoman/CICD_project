@@ -1,19 +1,16 @@
-from pathlib import Path
-
 import duckdb
 
-# Find the current path direction
-BASE_DIR = Path(__file__).resolve().parent
-DB_PATH = (BASE_DIR / "data/steam_games.db").as_posix()
-RAW_TABLE = (BASE_DIR / "data/games_dataset.csv").as_posix()
-TABLE_NAME = 'transform_games_dataset'
-OUTPUT_DATASET = (BASE_DIR / "data/transform_games_dataset.csv").as_posix()
+import common_util as cu
 
-# create direction to duckdb database
-con = duckdb.connect(DB_PATH)
-# create table and tranform data  
+# Find the current path direction
+RAW_TABLE = (cu.DATA_DIR / "raw_games_dataset.csv")
+TABLE_NAME = 'curated_games_dataset'
+OUTPUT_DATASET = (cu.DATA_DIR / "curated_games_dataset.csv")
+
+
+# create table and tranform data
 def transform_data(con, raw_table, table_name):
-    # Insert and transform data 
+    # Insert and transform data
     con.execute(f"""
     CREATE OR REPLACE TABLE {table_name} AS 
         SELECT
@@ -49,18 +46,34 @@ def transform_data(con, raw_table, table_name):
 
 
         FROM read_csv_auto('{raw_table}')
-""")
+    """)
+
+
+def log_summarize():
+    print(
+        con.execute(f"""
+                sUMMARIZE
+                SELECT *
+                FROM read_csv_auto('{OUTPUT_DATASET}')
+            """).fetchdf()
+    )
+
+
+def main():
+    # create a in-memory duckdb database
+    con = duckdb.connect(":memory:")
+
+    try:
+        transform_data(con, RAW_TABLE, TABLE_NAME)
+
+        con.execute(
+            f"COPY {TABLE_NAME} TO '{OUTPUT_DATASET}' "
+            "(FORMAT CSV, HEADER true)"
+        )
+        # log_summarize()
+    finally:
+        con.close()
+
 
 if __name__ == "__main__":
-    transform_data(con, RAW_TABLE, TABLE_NAME)
-    con.execute(f"COPY {TABLE_NAME} TO ('{OUTPUT_DATASET}') (FORMAT CSV, HEADER true)")
-
-print(
-    con.execute(f"""
-        sUMMARIZE
-        SELECT *
-        FROM read_csv_auto('{OUTPUT_DATASET}')
-    """).fetchdf()
-)
-
-
+    main()
