@@ -3,7 +3,7 @@ from decimal import Decimal
 
 import duckdb
 
-from transform import transform_data
+from transform_dataset import transform_data
 
 
 def test_price_is_cast_to_decimal(tmp_path):
