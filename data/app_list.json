@@ -18324,10 +18324,6 @@
         "name": "Heckabomb"
     },
     {
-        "appid": 344340,
-        "name": "Front Office Football Seven"
-    },
-    {
         "appid": 344410,
         "name": "Magnetic: Cage Closed"
     },
@@ -439400,10 +439396,6 @@
         "name": "Honey Peach Clicker"
     },
     {
-        "appid": 3056390,
-        "name": "HAELE 3D - Portrait Studio Pro - Drawing References"
-    },
-    {
         "appid": 3056420,
         "name": "You know my name?"
     },
@@ -634736,6 +634728,10 @@
         "name": "MonsTile"
     },
     {
+        "appid": 4355190,
+        "name": "Lust Coven"
+    },
+    {
         "appid": 4355200,
         "name": "Incredulity"
     },
@@ -706976,6 +706972,10 @@
         "name": "The Last Frame"
     },
     {
+        "appid": 4908160,
+        "name": "Sweet Memories"
+    },
+    {
         "appid": 4908180,
         "name": "Spinvestor"
     },
@@ -712206,6 +712206,10 @@
     {
         "appid": 4947030,
         "name": "RELOADED"
+    },
+    {
+        "appid": 4947090,
+        "name": "Ring's Guard"
     },
     {
         "appid": 4947120,
@@ -719818,6 +719822,10 @@
     {
         "appid": 5007320,
         "name": "SPIN HEROES: Paths of Evolution"
+    },
+    {
+        "appid": 5007330,
+        "name": "YAZAN: Lost Child"
     },
     {
         "appid": 5007370,
@@ -728140,6 +728148,10 @@
         "name": "Mapborn"
     },
     {
+        "appid": 5081390,
+        "name": "Slap Boxing Simulator"
+    },
+    {
         "appid": 5081400,
         "name": "HOSHIKUI"
     },
@@ -731265,7 +731277,7 @@
     },
     {
         "appid": 5115560,
-        "name": "Arcade Vault Manager : Game Sell Simulator"
+        "name": "Arcade Vault Manager"
     },
     {
         "appid": 5115680,
@@ -733680,6 +733692,10 @@
         "name": "PARROT CLICKER"
     },
     {
+        "appid": 5144690,
+        "name": "AI Domination 98"
+    },
+    {
         "appid": 5144770,
         "name": "Mosaic of Life"
     },
@@ -735312,6 +735328,10 @@
         "name": "ONE STEP WAR"
     },
     {
+        "appid": 5174610,
+        "name": "Protect The Core"
+    },
+    {
         "appid": 5174650,
         "name": "Trials of Dash"
     },
@@ -735512,12 +735532,20 @@
         "name": "Ministry of Time"
     },
     {
+        "appid": 5180240,
+        "name": "SkinJack"
+    },
+    {
         "appid": 5180330,
         "name": "天邪鬼ノ悪夢"
     },
     {
         "appid": 5180400,
         "name": "DONT BE FOOL"
+    },
+    {
+        "appid": 5180470,
+        "name": "Shadowlight"
     },
     {
         "appid": 5180570,
@@ -735590,6 +735618,10 @@
     {
         "appid": 5184070,
         "name": "Floor 13: Onryo"
+    },
+    {
+        "appid": 5185260,
+        "name": "ToyStorm"
     },
     {
         "appid": 5185450,
