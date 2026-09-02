@@ -63,5 +63,11 @@ def insert_games(connection, rows):
     connection.commit()
 
 
+def load_data(input_file):
+    rows = read_csv_data(input_file)
+    connection = get_db_connection()
 
+    create_games_table(connection)
+    insert_games(connection, rows)
 
+    connection.close()
