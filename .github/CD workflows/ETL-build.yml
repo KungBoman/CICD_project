@@ -1,0 +1,49 @@
+name: ETL build
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      STEAM_API_KEY: ${{ secrets.STEAM_API_KEY }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: 3.12
+          cache: pip
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Extract app list
+        run: python src/fetch_app_list.py
+
+      - name: Extract details, transform and load
+        run: |
+          mkdir -p build
+          echo '{}' > build/games_dataset.json
+          python src/build_dataset.py \
+            -i build/games_dataset.json \
+            -o build/games_dataset.json \
+            -m 5 \
+            --log-progress false
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: steam-etl-build
+          path: build/
