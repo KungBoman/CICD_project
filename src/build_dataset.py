@@ -38,6 +38,7 @@ DEFAULT_RETRY_DELAY = 10
 DEFAULT_INCREMENTAL_RETRY_DELAY = False
 DEFAULT_SANITIZE_TEXT = True
 DEFAULT_FORCE_REWRITE = False
+DEFAULT_LOG_PROGRESS = True
 
 
 @dataclass
@@ -52,9 +53,9 @@ class DatasetConfig:
     incremental_retry_delay: float = DEFAULT_INCREMENTAL_RETRY_DELAY
     sanitize_text: bool = DEFAULT_SANITIZE_TEXT
     force: bool = DEFAULT_FORCE_REWRITE
-    ignore_list_data: dict = None
+    log_progress: bool = DEFAULT_LOG_PROGRESS
 
-    # TODO: Move ignore_list_data and config to a context dataclass
+    ignore_list_data: dict = None  # TODO: Move ignore_list_data and config to a context dataclass
 
 
 def load_app_list():
@@ -473,11 +474,18 @@ def build_dataset(
 
     added = 0
 
+    if not config.log_progress:
+        cu.log(
+            "INFO",
+            f"Fetching details for {config.max_apps} applications..."
+        )
+
     with tqdm(
         total=config.max_apps,
         desc="[INFO] Fetching details for applications",
         unit="app",
-        smoothing=0.1
+        smoothing=0.1,
+        disable=not config.log_progress
     ) as progress:
         for app in app_list:
             appid = str(app["appid"])
@@ -588,6 +596,13 @@ def parse_arguments():
         help="Overwrite existing dataset entries."
     )
 
+    parser.add_argument(
+        "--log-progress",
+        type=cu.str_to_bool,
+        default=DEFAULT_LOG_PROGRESS,
+        help="Prints a progress bar in terminal."
+    )
+
     return parser.parse_args()
 
 
@@ -604,6 +619,7 @@ def main():
         incremental_retry_delay=args.incremental_retry_delay,
         sanitize_text=args.sanitize_text,
         force=args.force,
+        log_progress=args.log_progress,
         ignore_list_data=ignore_list.load_ignore_list()
     )
 
