@@ -16,10 +16,12 @@ def create_games_table(connection):
     with connection.cursor() as cursor:
         cursor.execute("""
             CREATE TABLE IF NOT EXISTS games (
-                appid BIGINT PRIMARY KEY,
-                name TEXT
-                ....
-            
+                appid INTEGER PRIMARY KEY,
+                name TEXT,
+                release_date DATE,
+                is_free BOOLEAN,
+                price DECIMAL(10,2),
+                currency TEXT
             )
 
         """)
