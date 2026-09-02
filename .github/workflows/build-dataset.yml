@@ -33,7 +33,8 @@ jobs:
             -d 0 \
             -r 4 \
             -rd 10 \
-            --incremental-retry-delay true
+            --incremental-retry-delay true \
+            --log-progress false
 
       - name: Commit and push dataset
         run: |
