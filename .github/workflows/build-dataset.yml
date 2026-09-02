@@ -20,13 +20,13 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: "3.x"
-          
+
       - name: Install dependencies
         run: pip install -r requirements.txt
 
       - name: Build dataset
         run: |
-          python build_dataset.py \
+          python src/build_dataset.py \
             -i data/games_dataset.csv \
             -o data/games_dataset.csv \
             -m 10 \
@@ -43,5 +43,4 @@ jobs:
           git add data/games_dataset.csv
           git add data/games_dataset.json
           git commit -m "Update games dataset"
-          git push 
-
+          git push
