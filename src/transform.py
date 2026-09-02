@@ -49,7 +49,7 @@ def transform_data(con, raw_table, table_name):
     """)
 
 
-def log_summarize():
+def log_summarize(con):
     print(
         con.execute(f"""
                 sUMMARIZE
@@ -70,7 +70,7 @@ def main():
             f"COPY {TABLE_NAME} TO '{OUTPUT_DATASET}' "
             "(FORMAT CSV, HEADER true)"
         )
-        # log_summarize()
+        # log_summarize(con)
     finally:
         con.close()
 
