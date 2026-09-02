@@ -1,0 +1,45 @@
+name: CI - main
+
+# TRIGGER: körs vid push direkt till main samt vid pull requests mot main.
+# (Feature-branches täcks redan av micro-branch-testing.yml.)
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Hämtar koden till runnern
+      - name: Checka ut koden
+        uses: actions/checkout@v4
+
+      # 2. Samma Python-version som resten av teamets workflows använder
+      - name: Installera Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      # 3. Installerar projektets beroenden + lint/testverktyg
+      - name: Installera beroenden
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install ruff pytest
+
+      # 4. Lintning - samma verktyg (ruff) som teamet redan standardiserat på
+      - name: Kör lintning
+        run: ruff check .
+
+      # 5. Kör hela testsviten (build_dataset, common_util, get_app_list, pipeline)
+      #    Alla nätverksanrop är mockade i testerna, så ingen STEAM_API_KEY behövs här.
+      - name: Kör tester
+        run: pytest -v
