@@ -44,12 +44,13 @@ def insert_games(connection, rows):
                 INSERT INTO games (
                     appid,
                     name,
-                    rekease_date,
+                    release_date,
                     is_free,
                     price,
                     currency
                 )
                 VALUES (%s, %s, %s, %s, %s, %s)
+                ON CONFLICT (appid) DO NOTHING
                 """,
                 (
                     row["appid"],
@@ -71,3 +72,7 @@ def load_data(input_file):
     insert_games(connection, rows)
 
     connection.close()
+
+
+if __name__ == "__main__":
+    load_data("data/transform_games_dataset.csv")
