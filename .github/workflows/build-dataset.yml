@@ -27,8 +27,10 @@ jobs:
       - name: Build dataset
         run: |
           python src/build_dataset.py \
-            -m 10 \
-            -d 1.5 \
+            -i raw_games_dataset.json \
+            -o raw_games_dataset.json \
+            -m 200 \
+            -d 0 \
             -r 4 \
             -rd 10 \
             --incremental-retry-delay true
@@ -38,7 +40,8 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-          git add data/games_dataset.csv
-          git add data/games_dataset.json
-          git commit -m "Update games dataset"
+          git add data/raw_games_dataset.csv
+          git add data/raw_games_dataset.json
+          git add data/ignore_list.json
+          git commit -m "Update raw games dataset"
           git push
