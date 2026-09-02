@@ -5,9 +5,9 @@ build a dataset
 import argparse
 import datetime
 import html
+import os
 import re
 import sys
-import os
 import time
 from dataclasses import dataclass
 
@@ -394,7 +394,7 @@ def load_dataset(filename=DEFAULT_DATASET_INFILE):
 
 
 def save_dataset(dataset, filename):
-    name, extension = os.path.splitext(filename)
+    name, _extension = os.path.splitext(filename)
 
     cu.save_json(dataset, name + ".json")
     cu.save_csv(dataset, name + ".csv")

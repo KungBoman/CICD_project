@@ -11,7 +11,8 @@ Example:
 }
 """
 
-from datetime import date
+
+import datetime
 
 import common_util as cu
 
@@ -41,7 +42,9 @@ def add(
     """Add an appid to the ignore list or update its last_seen date."""
 
     appid = str(appid)
-    today = date.today().isoformat()
+    today = datetime.datetime.now(
+        datetime.timezone.utc
+    ).date().isoformat()
 
     if appid in ignored_appids:
         ignored_appids[appid]["last_seen"] = today
