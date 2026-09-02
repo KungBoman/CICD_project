@@ -201,37 +201,28 @@ def clean_description(text, config=None):
     return text.strip()
 
 
-def extract_languages(text):
+def extract_languages(raw_languages):
     interface_languages = []
     audio_languages = []
 
-    if not text:
+    if not raw_languages:
         return interface_languages, audio_languages
 
-    text = html.unescape(text)
-
     # Remove HTML tags
-    text = re.sub(r"<[^>]+>", "", text)
+    raw_languages = re.sub(r"<[^<]+?>", "", raw_languages)
 
     # Remove the footnote text
-    text = text.replace(
+    raw_languages = raw_languages.replace(
         "languages with full audio support",
         ""
     )
 
-    for language in text.split(","):
-        language = language.strip()
+    languages = raw_languages.split(', ')
 
-        if not language:
-            continue
-
-        is_full_audio = "*" in language
-        language = language.replace("*", "").strip()
-
-        interface_languages.append(language)
-
-        if is_full_audio:
-            audio_languages.append(language)
+    for lang in languages:
+        if "*" in lang:
+            audio_languages.append(lang.replace("*", ""))
+        interface_languages.append(lang.replace("*", ""))
 
     return interface_languages, audio_languages
 
