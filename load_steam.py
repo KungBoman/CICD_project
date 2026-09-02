@@ -1,5 +1,6 @@
 import psycopg2
 import csv
+import os
 
 
 def read_csv_data(input_file):
@@ -8,7 +9,14 @@ def read_csv_data(input_file):
         return list(reader)
 
 
-def get_db_connetion():
+def get_db_connection():
+    return psycopg2.connect(
+        host=os.getenv("DB_HOST", "localhost"),
+        port=os.getenv("DB_PORT", "5432"),
+        dbname=os.getenv("DB_NAME", "steam_games"),
+        user=os.getenv("DB_USER", "postgres"),
+        password=os.getenv("DB_PASSWORD")
+    )
 
 
 
