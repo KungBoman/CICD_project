@@ -31,16 +31,29 @@ def create_games_table(connection):
 def insert_games(connection, rows): 
     with connection.cursor() as cursor:
         for row in rows:
-            cursor.execute("""
-                INSERT INTO games (appid, name)
-                VALUES (%s, %s)
+            cursor.execute(
+                """
+                INSERT INTO games (
+                    appid,
+                    name,
+                    rekease_date,
+                    is_free,
+                    price,
+                    currency
+                )
+                VALUES (%s, %s, %s, %s, %s, %s)
                 """,
                 (
                     row["appid"],
-                    row["name"]
+                    row["name"],
+                    row["release_date"],
+                    row["is_free"],
+                    row["price"],
+                    row["currency"],
                 )
             )
+    connection.commit()
 
 
-def load_data(input_file):
+
 
