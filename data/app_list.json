@@ -394164,6 +394164,10 @@
         "name": "Slipstream: Rogue Space"
     },
     {
+        "appid": 2765870,
+        "name": "My Paper Plane Is Better"
+    },
+    {
         "appid": 2765880,
         "name": "Starters Orders Touch Horse Racing"
     },
@@ -628968,6 +628972,10 @@
         "name": "Bomb Survival"
     },
     {
+        "appid": 4309950,
+        "name": "SESSION // ZERO"
+    },
+    {
         "appid": 4309970,
         "name": "Soulbound Odyssey"
     },
@@ -637826,6 +637834,10 @@
     {
         "appid": 4378810,
         "name": "Bury Me Again"
+    },
+    {
+        "appid": 4378830,
+        "name": "万圣夜砰砰砰!（Halloween Poppp)"
     },
     {
         "appid": 4378840,
@@ -665712,6 +665724,10 @@
         "name": "Psyai"
     },
     {
+        "appid": 4586520,
+        "name": "The Price of Grief"
+    },
+    {
         "appid": 4586550,
         "name": "Barketype"
     },
@@ -678234,6 +678250,10 @@
     {
         "appid": 4677660,
         "name": "眼忙嘴乱"
+    },
+    {
+        "appid": 4677740,
+        "name": "Terminal Reign"
     },
     {
         "appid": 4677750,
@@ -692320,6 +692340,10 @@
         "name": "Eve"
     },
     {
+        "appid": 4793470,
+        "name": "Risel of the Slave City"
+    },
+    {
         "appid": 4793530,
         "name": "Remains on the bus"
     },
@@ -693502,6 +693526,10 @@
     {
         "appid": 4803280,
         "name": "Little Girls Escapeventures"
+    },
+    {
+        "appid": 4803300,
+        "name": "凌迟模拟器"
     },
     {
         "appid": 4803330,
@@ -704202,6 +704230,10 @@
     {
         "appid": 4887550,
         "name": "THROB"
+    },
+    {
+        "appid": 4887600,
+        "name": "Eastfold Club Manager"
     },
     {
         "appid": 4887610,
@@ -731840,6 +731872,10 @@
         "name": "Bullet Debt"
     },
     {
+        "appid": 5122330,
+        "name": "Console Space"
+    },
+    {
         "appid": 5122370,
         "name": "Retro Club Dynasty Season 92/93"
     },
@@ -732082,6 +732118,10 @@
     {
         "appid": 5124760,
         "name": "August Star | Sao tháng Tám"
+    },
+    {
+        "appid": 5124790,
+        "name": "Strip Bubbles: A night in the City"
     },
     {
         "appid": 5124830,
@@ -734880,6 +734920,10 @@
         "name": "A Bad Dream: Trypophobia"
     },
     {
+        "appid": 5166070,
+        "name": "Endess Elo"
+    },
+    {
         "appid": 5166150,
         "name": "Agents! Please?"
     },
@@ -735586,5 +735630,9 @@
     {
         "appid": 5187180,
         "name": "GraveFeast"
+    },
+    {
+        "appid": 5188050,
+        "name": "Hell Dream 👺"
     }
 ]
