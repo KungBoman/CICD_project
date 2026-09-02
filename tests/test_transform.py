@@ -31,6 +31,5 @@ def test_price_is_cast_to_decimal(tmp_path):
             "SELECT price FROM test_games"
             ).fetchone()[0]
 
-    # Check if result is 19.99
     assert result == Decimal("4.99")
 
