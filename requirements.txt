@@ -1,2 +1,6 @@
+requests
 pandas
+pytest
+argparse
+tqdm
 duckdb
