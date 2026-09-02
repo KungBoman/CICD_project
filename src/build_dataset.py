@@ -468,8 +468,6 @@ def build_dataset(
                 added += 1
                 progress.update(1)
 
-            save_dataset(dataset, outfile)
-
             if config.max_apps is not None and added >= config.max_apps:
                 break
 
