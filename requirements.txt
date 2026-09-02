@@ -1,3 +1,7 @@
+requests
 pandas
-duckdb
 pytest
+ruff
+argparse
+tqdm
+duckdb
