@@ -4,3 +4,4 @@ pytest
 argparse
 tqdm
 psycopg2
+duckdb

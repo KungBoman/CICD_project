@@ -1,7 +1,7 @@
-name: CICD_Project - Steam Data Pipeline
+name: CI - main
 
-# TRIGGER: vad som startar workflown.
-# push till main + varje pull request mot main + möjlighet att köra manuellt.
+# TRIGGER: körs vid push direkt till main samt vid pull requests mot main.
+# (Feature-branches täcks redan av micro-branch-testing.yml.)
 on:
   push:
     branches: [ main ]
@@ -9,37 +9,37 @@ on:
     branches: [ main ]
   workflow_dispatch:
 
+permissions:
+  contents: read
+
 jobs:
   build-and-test:
-    runs-on: ubuntu-latest   # "en tom dator" - en färsk Ubuntu-runner från GitHub
+    runs-on: ubuntu-latest
 
     steps:
-      # 1. Hämtar koden från din branch till runnern
+      # 1. Hämtar koden till runnern
       - name: Checka ut koden
         uses: actions/checkout@v4
 
-      # 2. Installerar rätt Python-version på den tomma datorn
+      # 2. Samma Python-version som resten av teamets workflows använder
       - name: Installera Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.11'
+          python-version: "3.12"
+          cache: pip
 
-      # 3. Installerar alla beroenden som pipelinen behöver (requests, pandas, pytest osv.)
+      # 3. Installerar projektets beroenden + lint/testverktyg
       - name: Installera beroenden
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
+          pip install ruff pytest
 
-      # 4. Lintning - fångar enkla kodfel/stilfel innan testerna ens körs
+      # 4. Lintning - samma verktyg (ruff) som teamet redan standardiserat på
       - name: Kör lintning
-        run: |
-          pip install flake8
-          flake8 . --max-line-length=100
+        run: ruff check .
 
-      # 5. Kör testerna - Jahans enhetstester + pipeline-/integrationstestet (run_pipeline.py mot exempeldata)
-      #    Om Steam-anropet kräver en API-nyckel skickas den in som secret, aldrig i klartext.
+      # 5. Kör hela testsviten (build_dataset, common_util, get_app_list, pipeline)
+      #    Alla nätverksanrop är mockade i testerna, så ingen STEAM_API_KEY behövs här.
       - name: Kör tester
-        env:
-          STEAM_API_KEY: ${{ secrets.STEAM_API_KEY }}
-        run: |
-          pytest -v
+        run: pytest -v
