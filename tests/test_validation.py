@@ -2,14 +2,11 @@ from pathlib import Path
 
 import pandas as pd
 
-# Define the root directory of the repository.
-# Since this test file is inside the "tests" folder,
-# ".parent.parent" moves up from "tests" to the repository root.
-BASE_DIR = Path(__file__).resolve().parent.parent
+import common_util as cu
 
 # Define the location of the transformed dataset.
 # Hoa's transformation creates this CSV file inside the "data" folder.
-DATASET_PATH = BASE_DIR / "data" / "transform_games_dataset.csv"
+DATASET_PATH = cu.DATA_DIR / "curated_games_dataset.csv"
 
 
 def load_dataset():
@@ -46,6 +43,7 @@ def test_appid_not_null():
     # .all() requires every row to pass the check.
     assert df["appid"].notna().all()
 
+
 def test_appid_unique():
     """
     Validate that every appid is unique.
@@ -60,6 +58,7 @@ def test_appid_unique():
     # Check that every appid appears only once.
     # Pandas' .is_unique returns True if all values in the column are unique.
     assert df["appid"].is_unique
+
 
 def test_name_not_empty():
     """
@@ -79,6 +78,7 @@ def test_name_not_empty():
     # Check that every game has a non-empty name.
     assert names.ne("").all()
 
+
 def test_price_not_negative():
     """
     Validate that game prices are never negative.
@@ -96,6 +96,7 @@ def test_price_not_negative():
 
     # Check that every available price is greater than or equal to zero.
     assert (prices >= 0).all()
+
 
 def test_downloadable_content_not_negative():
     """
@@ -115,6 +116,7 @@ def test_downloadable_content_not_negative():
     # Check that every available value is greater than or equal to zero.
     assert (downloadable_content >= 0).all()
 
+
 def test_achievements_not_negative():
     """
     Validate that the number of achievements is not negative.
@@ -133,6 +135,7 @@ def test_achievements_not_negative():
     # Check that every available value is greater than or equal to zero.
     assert (achievements >= 0).all()
 
+
 def test_recommendations_not_negative():
     """
     Validate that the number of recommendations is not negative.
@@ -150,6 +153,7 @@ def test_recommendations_not_negative():
 
     # Check that every available value is greater than or equal to zero.
     assert (recommendations >= 0).all()
+
 
 def test_metacritic_score_valid_range():
     """
@@ -170,12 +174,13 @@ def test_metacritic_score_valid_range():
     # Check that every available score is between 0 and 100, inclusive.
     assert scores.between(0, 100).all()
 
+
 def test_free_game_price_is_null():
     """
     Validate the business rule for free games.
 
     If a game is marked as free (is_free = True), its price should
-    be NULL because a free game does not have a purchase price.
+    be 0 because a free game does not have a purchase price.
     """
 
     # Load the transformed dataset.
@@ -184,7 +189,5 @@ def test_free_game_price_is_null():
     # Select only the rows where the game is marked as free.
     free_games = df[df["is_free"] == True]
 
-    # Check that all free games have a missing (NULL/NaN) price.
-    # Pandas represents NULL values in a CSV as NaN.
-    assert free_games["price"].isna().all()
-
+    # Check that all free games have a price of 0.
+    assert (free_games["price"] == 0).all()
