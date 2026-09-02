@@ -2,6 +2,7 @@
 from decimal import Decimal
 
 import duckdb
+
 from transform import transform_data
 
 
