@@ -15,6 +15,7 @@ import requests
 from tqdm import tqdm
 
 import common_util as cu
+import ignore_list
 
 STEAM_APP_DETAILS_URL = "https://store.steampowered.com/api/appdetails"
 """
@@ -24,6 +25,7 @@ Get-App-Details?utm_source=chatgpt.com
 """
 
 REQUEST_TIMEOUT = 15
+SAVE_FREQUENCY = 50
 
 DEFAULT_DATASET_INFILE = "games_dataset.json"
 DEFAULT_DATASET_OUTFILE = "games_dataset.json"
@@ -50,6 +52,9 @@ class DatasetConfig:
     incremental_retry_delay: float = DEFAULT_INCREMENTAL_RETRY_DELAY
     sanitize_text: bool = DEFAULT_SANITIZE_TEXT
     force: bool = DEFAULT_FORCE_REWRITE
+    ignore_list_data: dict = None
+
+    # TODO: Move ignore_list_data and config to a context dataclass
 
 
 def load_app_list():
@@ -116,6 +121,13 @@ def get_app_details(appid, config=None):
         app_data = data.get(str(appid))
 
         if not app_data:
+            ignore_list.add(
+                config.ignore_list_data,
+                appid,
+                reason="no_data",
+            )
+            ignore_list.save(config.ignore_list_data)
+
             cu.log(
                 "WARNING",
                 f"No app data returned for {appid}. "
@@ -124,6 +136,13 @@ def get_app_details(appid, config=None):
             return None
 
         if not app_data.get("success"):
+            ignore_list.add(
+                config.ignore_list_data,
+                appid,
+                reason="steam_success_false",
+            )
+            ignore_list.save(config.ignore_list_data)
+
             cu.log(
                 "WARNING",
                 f"Steam API returned success=false for app {appid}. "
@@ -134,6 +153,13 @@ def get_app_details(appid, config=None):
         details = app_data.get("data")
 
         if details is None:
+            ignore_list.add(
+                config.ignore_list_data,
+                appid,
+                reason="steam_success_true_no_data",
+            )
+            ignore_list.save(config.ignore_list_data)
+
             cu.log(
                 "WARNING",
                 f"Steam API returned success=true but no data "
@@ -397,6 +423,9 @@ def process_app(app, dataset, config=None) -> bool:
 
     appid = str(app["appid"])
 
+    if ignore_list.is_ignored(config.ignore_list_data, appid):
+        return False
+
     try:
         details = get_app_details(appid, config=config)
 
@@ -408,6 +437,13 @@ def process_app(app, dataset, config=None) -> bool:
             return False
 
         if details.get("type") != "game":
+            ignore_list.add(
+                config.ignore_list_data,
+                appid,
+                reason="not_a_game",
+            )
+            ignore_list.save(config.ignore_list_data)
+
             cu.log(
                 "WARNING",
                 f"Skipping app {appid}; not a game."
@@ -467,6 +503,9 @@ def build_dataset(
             ):
                 added += 1
                 progress.update(1)
+
+            if added > 0 and added % SAVE_FREQUENCY == 0:
+                save_dataset(dataset, outfile)
 
             if config.max_apps is not None and added >= config.max_apps:
                 break
@@ -573,7 +612,8 @@ def main():
         retry_delay=args.retry_delay,
         incremental_retry_delay=args.incremental_retry_delay,
         sanitize_text=args.sanitize_text,
-        force=args.force
+        force=args.force,
+        ignore_list_data=ignore_list.load_ignore_list()
     )
 
     cu.log("INFO", "Starting build_dataset.py")
@@ -613,6 +653,7 @@ def main():
             f"Saved dataset to '{args.outfile}' "
             f"with {len(dataset)} entries."
         )
+        ignore_list.print_analysis(config.ignore_list_data)
 
 
 if __name__ == "__main__":
