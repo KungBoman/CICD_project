@@ -7,6 +7,7 @@ import datetime
 import html
 import re
 import sys
+import os
 import time
 from dataclasses import dataclass
 
@@ -376,12 +377,18 @@ def load_dataset(filename=DEFAULT_DATASET_INFILE):
 
 
 def save_dataset(dataset, filename):
-    if filename.endswith(".json"):
-        cu.save_json(dataset, filename)
-    elif filename.endswith(".csv"):
-        cu.save_csv(dataset, filename)
-    else:
-        raise ValueError(f"Unsupported file format: {filename}")
+    name, extension = os.path.splitext(filename)
+
+    cu.save_json(dataset, name + ".json")
+    cu.save_csv(dataset, name + ".csv")
+
+    # match extension:
+    #     case ".json":
+    #         cu.save_json(dataset, filename)
+    #     case ".csv":
+    #         cu.save_csv(dataset, filename)
+    #     case _:
+    #         raise ValueError(f"Unsupported file format: {filename}")
 
 
 def process_app(app, dataset, config=None) -> bool:
