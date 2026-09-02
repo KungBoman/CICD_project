@@ -42,6 +42,6 @@ jobs:
 
           git add data/raw_games_dataset.csv
           git add data/raw_games_dataset.json
-          git add data/ignore_list.json
+          git add data/ignored_appids.json
           git commit -m "Update raw games dataset"
           git push
