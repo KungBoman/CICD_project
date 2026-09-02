@@ -1,7 +1,3 @@
-requests
 pandas
+duckdb
 pytest
-argparse
-tqdm
-duckdb==1.5.4
-pandas==3.0.3
