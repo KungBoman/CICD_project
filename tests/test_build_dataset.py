@@ -1,12 +1,19 @@
 from unittest.mock import MagicMock, patch
 
 import build_dataset
+import ignore_list
 
 
 def make_mock_response(data):
     response = MagicMock()
     response.json.return_value = data
     return response
+
+
+def make_config():
+    return build_dataset.DatasetConfig(
+        ignore_list_data=ignore_list.load_ignore_list()
+    )
 
 
 def test_get_app_details():
@@ -51,7 +58,7 @@ def test_get_app_details_missing_app():
     with patch("build_dataset.requests.get") as mock_get:
         mock_get.return_value = make_mock_response(mock_response)
 
-        result = build_dataset.get_app_details(123)
+        result = build_dataset.get_app_details(123, config=make_config())
 
     assert result is None
 
@@ -59,6 +66,7 @@ def test_get_app_details_missing_app():
 def test_get_app_details_unsuccessful():
     mock_response = {
         "123": {
+            "appid": 123,
             "success": False
         }
     }
@@ -66,7 +74,7 @@ def test_get_app_details_unsuccessful():
     with patch("build_dataset.requests.get") as mock_get:
         mock_get.return_value = make_mock_response(mock_response)
 
-        result = build_dataset.get_app_details(123)
+        result = build_dataset.get_app_details(123, config=make_config())
 
     assert result is None
 

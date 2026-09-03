@@ -20,27 +20,37 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: "3.x"
-          
+
       - name: Install dependencies
         run: pip install -r requirements.txt
 
       - name: Build dataset
         run: |
+<<<<<<< HEAD
           python build_dataset.py \
           -i data/games_dataset.csv \
             -o data/games_dataset.csv \
             -m 10 \
             -d 1.5 \
+=======
+          python src/build_dataset.py \
+            -i raw_games_dataset.json \
+            -o raw_games_dataset.json \
+            -m 1000 \
+            # -d 0 \
+>>>>>>> e5c50764d3aef9dd6584faac19b6896c67c3b099
             -r 4 \
             -rd 10 \
-            --incremental-retry-delay true
+            --incremental-retry-delay true \
+            # --log-progress false
 
       - name: Commit and push dataset
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-          git add data/games_dataset.json
-          git commit -m "Update games dataset"
-          git push 
-
+          git add data/raw_games_dataset.csv
+          git add data/raw_games_dataset.json
+          git add data/ignored_appids.json
+          git commit -m "Update raw games dataset"
+          git push

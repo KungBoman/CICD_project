@@ -5,6 +5,7 @@ build a dataset
 import argparse
 import datetime
 import html
+import os
 import re
 import sys
 import time
@@ -14,6 +15,7 @@ import requests
 from tqdm import tqdm
 
 import common_util as cu
+import ignore_list
 
 STEAM_APP_DETAILS_URL = "https://store.steampowered.com/api/appdetails"
 """
@@ -23,9 +25,10 @@ Get-App-Details?utm_source=chatgpt.com
 """
 
 REQUEST_TIMEOUT = 15
+SAVE_FREQUENCY = 50
 
-DEFAULT_DATASET_INFILE = "data/games_dataset.json"
-DEFAULT_DATASET_OUTFILE = "data/games_dataset.json"
+DEFAULT_DATASET_INFILE = "games_dataset.json"
+DEFAULT_DATASET_OUTFILE = "games_dataset.json"
 DEFAULT_MAX_APPS = None
 DEFAULT_COUNTRY_CODE = "se"
 DEFAULT_LANGUAGE = "en"
@@ -35,6 +38,7 @@ DEFAULT_RETRY_DELAY = 10
 DEFAULT_INCREMENTAL_RETRY_DELAY = False
 DEFAULT_SANITIZE_TEXT = True
 DEFAULT_FORCE_REWRITE = False
+DEFAULT_LOG_PROGRESS = True
 
 
 @dataclass
@@ -49,10 +53,13 @@ class DatasetConfig:
     incremental_retry_delay: float = DEFAULT_INCREMENTAL_RETRY_DELAY
     sanitize_text: bool = DEFAULT_SANITIZE_TEXT
     force: bool = DEFAULT_FORCE_REWRITE
+    log_progress: bool = DEFAULT_LOG_PROGRESS
+
+    ignore_list_data: dict = None  # TODO: Move ignore_list_data and config to a context dataclass
 
 
 def load_app_list():
-    app_list = cu.load_json("data/app_list.json")
+    app_list = cu.load_json("app_list.json")
 
     if not app_list:
         cu.log(
@@ -115,6 +122,13 @@ def get_app_details(appid, config=None):
         app_data = data.get(str(appid))
 
         if not app_data:
+            ignore_list.add(
+                config.ignore_list_data,
+                appid,
+                reason="no_data",
+            )
+            ignore_list.save(config.ignore_list_data)
+
             cu.log(
                 "WARNING",
                 f"No app data returned for {appid}. "
@@ -123,6 +137,13 @@ def get_app_details(appid, config=None):
             return None
 
         if not app_data.get("success"):
+            ignore_list.add(
+                config.ignore_list_data,
+                appid,
+                reason="steam_success_false",
+            )
+            ignore_list.save(config.ignore_list_data)
+
             cu.log(
                 "WARNING",
                 f"Steam API returned success=false for app {appid}. "
@@ -133,6 +154,13 @@ def get_app_details(appid, config=None):
         details = app_data.get("data")
 
         if details is None:
+            ignore_list.add(
+                config.ignore_list_data,
+                appid,
+                reason="steam_success_true_no_data",
+            )
+            ignore_list.save(config.ignore_list_data)
+
             cu.log(
                 "WARNING",
                 f"Steam API returned success=true but no data "
@@ -174,37 +202,28 @@ def clean_description(text, config=None):
     return text.strip()
 
 
-def extract_languages(text):
+def extract_languages(raw_languages):
     interface_languages = []
     audio_languages = []
 
-    if not text:
+    if not raw_languages:
         return interface_languages, audio_languages
 
-    text = html.unescape(text)
-
     # Remove HTML tags
-    text = re.sub(r"<[^>]+>", "", text)
+    raw_languages = re.sub(r"<[^<]+?>", "", raw_languages)
 
     # Remove the footnote text
-    text = text.replace(
+    raw_languages = raw_languages.replace(
         "languages with full audio support",
         ""
     )
 
-    for language in text.split(","):
-        language = language.strip()
+    languages = raw_languages.split(', ')
 
-        if not language:
-            continue
-
-        is_full_audio = "*" in language
-        language = language.replace("*", "").strip()
-
-        interface_languages.append(language)
-
-        if is_full_audio:
-            audio_languages.append(language)
+    for lang in languages:
+        if "*" in lang:
+            audio_languages.append(lang.replace("*", ""))
+        interface_languages.append(lang.replace("*", ""))
 
     return interface_languages, audio_languages
 
@@ -376,12 +395,18 @@ def load_dataset(filename=DEFAULT_DATASET_INFILE):
 
 
 def save_dataset(dataset, filename):
-    if filename.endswith(".json"):
-        cu.save_json(dataset, filename)
-    elif filename.endswith(".csv"):
-        cu.save_csv(dataset, filename)
-    else:
-        raise ValueError(f"Unsupported file format: {filename}")
+    name, _extension = os.path.splitext(filename)
+
+    cu.save_json(dataset, name + ".json")
+    cu.save_csv(dataset, name + ".csv")
+
+    # match extension:
+    #     case ".json":
+    #         cu.save_json(dataset, filename)
+    #     case ".csv":
+    #         cu.save_csv(dataset, filename)
+    #     case _:
+    #         raise ValueError(f"Unsupported file format: {filename}")
 
 
 def process_app(app, dataset, config=None) -> bool:
@@ -389,6 +414,9 @@ def process_app(app, dataset, config=None) -> bool:
         config = DatasetConfig()
 
     appid = str(app["appid"])
+
+    if ignore_list.is_ignored(config.ignore_list_data, appid):
+        return False
 
     try:
         details = get_app_details(appid, config=config)
@@ -401,6 +429,13 @@ def process_app(app, dataset, config=None) -> bool:
             return False
 
         if details.get("type") != "game":
+            ignore_list.add(
+                config.ignore_list_data,
+                appid,
+                reason="not_a_game",
+            )
+            ignore_list.save(config.ignore_list_data)
+
             cu.log(
                 "WARNING",
                 f"Skipping app {appid}; not a game."
@@ -439,11 +474,18 @@ def build_dataset(
 
     added = 0
 
+    if not config.log_progress:
+        cu.log(
+            "INFO",
+            f"Fetching details for {config.max_apps} applications..."
+        )
+
     with tqdm(
         total=config.max_apps,
         desc="[INFO] Fetching details for applications",
         unit="app",
-        smoothing=0.1
+        smoothing=0.1,
+        disable=not config.log_progress
     ) as progress:
         for app in app_list:
             appid = str(app["appid"])
@@ -461,7 +503,8 @@ def build_dataset(
                 added += 1
                 progress.update(1)
 
-            save_dataset(dataset, outfile)
+            if added > 0 and added % SAVE_FREQUENCY == 0:
+                save_dataset(dataset, outfile)
 
             if config.max_apps is not None and added >= config.max_apps:
                 break
@@ -513,7 +556,7 @@ def parse_arguments():
 
     parser.add_argument(
         "-d", "--delay",
-        type=int,
+        type=float,
         default=DEFAULT_REQUEST_DELAY,
         help="Delay in seconds between requests."
     )
@@ -553,6 +596,13 @@ def parse_arguments():
         help="Overwrite existing dataset entries."
     )
 
+    parser.add_argument(
+        "--log-progress",
+        type=cu.str_to_bool,
+        default=DEFAULT_LOG_PROGRESS,
+        help="Prints a progress bar in terminal."
+    )
+
     return parser.parse_args()
 
 
@@ -568,7 +618,9 @@ def main():
         retry_delay=args.retry_delay,
         incremental_retry_delay=args.incremental_retry_delay,
         sanitize_text=args.sanitize_text,
-        force=args.force
+        force=args.force,
+        log_progress=args.log_progress,
+        ignore_list_data=ignore_list.load_ignore_list()
     )
 
     cu.log("INFO", "Starting build_dataset.py")
@@ -608,6 +660,7 @@ def main():
             f"Saved dataset to '{args.outfile}' "
             f"with {len(dataset)} entries."
         )
+        ignore_list.print_analysis(config.ignore_list_data)
 
 
 if __name__ == "__main__":

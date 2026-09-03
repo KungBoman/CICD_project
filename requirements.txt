@@ -1,6 +1,7 @@
 requests
 pandas
 pytest
+ruff
 argparse
 tqdm
-duckdb==1.5.4
+duckdb
