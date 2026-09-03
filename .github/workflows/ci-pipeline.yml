@@ -1,7 +1,16 @@
-name: Integration Test Pipeline
+name: CI Pipeline
 
 on:
   workflow_dispatch:
+  push:
+    branches:
+      - main
+      - extract-mathias
+      - transform
+      - validation
+  pull_request:
+    branches:
+      - main
 
 permissions:
   contents: read
@@ -17,12 +26,15 @@ jobs:
         uses: actions/setup-python@v4
         with:
           python-version: 3.12
+          cache: pip
 
-      - name: Install requirements.txt
+      - name: Install requirements
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
-          pip install pytest
 
-      - name: Run on test folder
-        run: pytest tests/
+      # - name: Run lintning
+      #   run: ruff check .
+
+      - name: Run tests
+        run: pytest -v

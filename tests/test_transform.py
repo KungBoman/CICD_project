@@ -3,7 +3,7 @@ from decimal import Decimal
 
 import duckdb
 
-from transform import transform_data
+from transform_dataset import transform_data
 
 
 def test_price_is_cast_to_decimal(tmp_path):
@@ -17,7 +17,7 @@ def test_price_is_cast_to_decimal(tmp_path):
 
     )
 
-    # Create a temporary database 
+    # Create a temporary database
     con = duckdb.connect(":memory:")
 
     # Run transform function
@@ -29,9 +29,7 @@ def test_price_is_cast_to_decimal(tmp_path):
 
     # Get price from test_game
     result = con.execute(
-            "SELECT price FROM test_games"
-            ).fetchone()[0]
+        "SELECT price FROM test_games"
+    ).fetchone()[0]
 
-    # Check if result is 19.99
     assert result == Decimal("4.99")
-

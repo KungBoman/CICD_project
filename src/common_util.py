@@ -3,13 +3,13 @@ import argparse
 import csv
 import json
 import os
-import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 DATA_DIR = ROOT / "data"
 
 ENCODING = "utf-8"
+ENV_FILE = "env/.env"
 
 
 def log(type, msg):
@@ -17,13 +17,21 @@ def log(type, msg):
 
 
 def get_steam_api_key():
-    api_key = os.getenv("STEAM_API_KEY")
-
-    if api_key:
+    if api_key := os.getenv("STEAM_API_KEY"):
         return api_key
 
-    log("ERROR", "Environment variable 'STEAM_API_KEY' not found.")
-    sys.exit(1)
+    if os.path.exists(ENV_FILE):
+        with open(ENV_FILE, encoding=ENCODING) as file:
+            for line in file:
+                key, _, value = line.strip().partition("=")
+
+                if key == "STEAM_API_KEY":
+                    return value
+
+    raise RuntimeError(
+        f"STEAM_API_KEY not found. "
+        f"Set the environment variable or add it to {ENV_FILE}."
+    )
 
 
 def load_json(filename) -> dict:
