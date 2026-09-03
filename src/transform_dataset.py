@@ -4,7 +4,7 @@ from pathlib import Path
 import duckdb
 
 # Find the current path direction
-BASE_DIR = Path(__file__).resolve().parent
+BASE_DIR = Path(__file__).resolve().parent.parent
 DB_PATH = (BASE_DIR / "data/steam_games.db").as_posix()
 RAW_TABLE = (BASE_DIR / "data/raw_games_dataset.json").as_posix()
 TABLE_NAME = 'curated_games_dataset'
