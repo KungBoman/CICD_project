@@ -1,5 +1,7 @@
 import json
+
 import duckdb
+
 import common_util as cu
 
 # Find the current path direction
@@ -22,7 +24,7 @@ def flatten_json(raw_table, output_flatten):
     elif isinstance(data, list):
         records = data
     else:
-        raise ValueError(f"Json is not supported: {type(data)}")
+        raise TypeError(f"Json is not supported: {type(data)}")
     #save json file after flattening
     with open(output_flatten, "w", encoding="utf-8") as out:
         json.dump(records, out, ensure_ascii=False)

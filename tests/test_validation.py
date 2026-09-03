@@ -1,6 +1,7 @@
 
-import common_util as cu
 import pandas as pd
+
+import common_util as cu
 
 # Define the location of the transformed dataset.
 # Hoa's transformation creates this CSV file inside the "data" folder.

@@ -5,6 +5,7 @@ from decimal import Decimal
 
 import duckdb
 import pytest
+
 from src.transform_dataset import flatten_json, load_dataset, transform_data
 
 
