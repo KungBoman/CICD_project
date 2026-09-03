@@ -1,19 +1,14 @@
 import json
-from pathlib import Path
-
 import duckdb
+import common_util as cu
 
 # Find the current path direction
-BASE_DIR = Path(__file__).resolve().parent.parent
-DB_PATH = (BASE_DIR / "data/steam_games.db").as_posix()
-RAW_TABLE = (BASE_DIR / "data/raw_games_dataset.json").as_posix()
+RAW_TABLE = cu.DATA_DIR / "raw_games_dataset.csv"
 TABLE_NAME = 'curated_games_dataset'
 FLATTEN_TABLE_NAME = 'flatten_raw_games_dataset'
-OUTPUT_FLATTEN_DATASET = (BASE_DIR / "data/flatten_raw_games_dataset.json").as_posix()
-OUTPUT_DATASET = (BASE_DIR / "data/curated_games_dataset.csv").as_posix()
+OUTPUT_FLATTEN_DATASET = cu.DATA_DIR / "flatten_raw_games_dataset.json"
+OUTPUT_DATASET = cu.DATA_DIR / "curated_games_dataset.csv"
 
-# create direction to duckdb database
-con = duckdb.connect(DB_PATH)
 
 # Flattening raw json file
 def flatten_json(raw_table, output_flatten):
@@ -46,7 +41,8 @@ def load_dataset(raw_data):
 
 # create table and tranform dataset  
 def transform_data(con, raw_table, table_name):
-    read_dataset = load_dataset(OUTPUT_FLATTEN_DATASET)
+    read_dataset = load_dataset(str(raw_table))
+
     # Insert and transform data 
     con.execute(f"""
     CREATE OR REPLACE TABLE {table_name} AS 
@@ -85,18 +81,27 @@ def transform_data(con, raw_table, table_name):
             {read_dataset}
 """)
 
-if __name__ == "__main__":
-    flatten_json(RAW_TABLE, OUTPUT_FLATTEN_DATASET)
-    transform_data(con, RAW_TABLE, TABLE_NAME)
-    con.execute(f"COPY {TABLE_NAME} TO ('{OUTPUT_DATASET}') (FORMAT CSV, HEADER true)")
+def log_summarize(con):
+    print(
+        con.execute(f"""
+                sUMMARIZE
+                SELECT *
+                FROM read_csv_auto('{OUTPUT_DATASET}')
+            """).fetchdf()
+    )
 
-print(
-    con.execute(f"""
-        sUMMARIZE
-        SELECT *
-        FROM read_csv_auto('{OUTPUT_DATASET}')
-    """).fetchdf()
-)
+def main():
+    # create a in-memory duckdb database
+    con = duckdb.connect(":memory:")
 
+    try:
+        flatten_json(RAW_TABLE, OUTPUT_FLATTEN_DATASET)
+        transform_data(con, RAW_TABLE, TABLE_NAME)
 
-
+        con.execute(
+            f"COPY {TABLE_NAME} TO '{OUTPUT_DATASET}' "
+            "(FORMAT CSV, HEADER true)"
+        )
+        # log_summarize(con)
+    finally:
+        con.close()
