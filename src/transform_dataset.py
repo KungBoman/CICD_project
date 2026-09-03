@@ -1,8 +1,7 @@
 import json
 
-import duckdb
-
 import common_util as cu
+import duckdb
 
 # Find the current path direction
 RAW_TABLE = cu.DATA_DIR / "raw_games_dataset.csv"
@@ -107,3 +106,6 @@ def main():
         # log_summarize(con)
     finally:
         con.close()
+
+if __name__ == "__main__":
+    main()
