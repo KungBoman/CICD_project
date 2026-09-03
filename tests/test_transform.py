@@ -8,7 +8,11 @@ import duckdb
 import pytest
 from src.transform_dataset import flatten_json, load_dataset, transform_data
 
+<<<<<<< HEAD
 print(sys.path)
+=======
+from transform_dataset import transform_data
+>>>>>>> 86b749deb0587cf2efa95137628943f0b634ae7a
 
 # ---- test flatten_json ----
  # in case raw data is a dict
