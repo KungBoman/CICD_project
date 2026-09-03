@@ -29,7 +29,7 @@ jobs:
           python src/build_dataset.py \
             -i raw_games_dataset.json \
             -o raw_games_dataset.json \
-            # -m 1000 \
+            -m 1000 \
             # -d 0 \
             -r 4 \
             -rd 10 \
