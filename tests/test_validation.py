@@ -1,7 +1,6 @@
 
-import pandas as pd
-
 import common_util as cu
+import pandas as pd
 
 # Define the location of the transformed dataset.
 # Hoa's transformation creates this CSV file inside the "data" folder.
@@ -186,7 +185,7 @@ def test_free_game_price_is_null():
     df = load_dataset()
 
     # Select only the rows where the game is marked as free.
-    free_games = df[df["is_free"] == True]
+    free_games = df["is_free"]
 
     # Check that all free games have a price of 0.
     assert (free_games["price"] == 0).all()
