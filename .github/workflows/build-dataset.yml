@@ -29,12 +29,12 @@ jobs:
           python src/build_dataset.py \
             -i raw_games_dataset.json \
             -o raw_games_dataset.json \
-            -m 20 \
-            -d 0 \
+            # -m 1000 \
+            # -d 0 \
             -r 4 \
             -rd 10 \
             --incremental-retry-delay true \
-            --log-progress false
+            # --log-progress false
 
       - name: Commit and push dataset
         run: |
