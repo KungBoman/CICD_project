@@ -1,19 +1,29 @@
-from pathlib import Path
-
 import duckdb
 
-# Find the current path direction
-BASE_DIR = Path(__file__).resolve().parent
-DB_PATH = (BASE_DIR / "data/steam_games.db").as_posix()
-RAW_TABLE = (BASE_DIR / "data/games_dataset.csv").as_posix()
-TABLE_NAME = 'transform_games_dataset'
-OUTPUT_DATASET = (BASE_DIR / "data/transform_games_dataset.csv").as_posix()
+import common_util as cu
 
-# create direction to duckdb database
-con = duckdb.connect(DB_PATH)
-# create table and tranform data  
+# Find the current path direction
+RAW_TABLE = cu.DATA_DIR / "raw_games_dataset.csv"
+TABLE_NAME = 'curated_games_dataset'
+OUTPUT_DATASET = cu.DATA_DIR / "curated_games_dataset.csv"
+
+
+def load_dataset(raw_data: str):
+    if raw_data.endswith(".json"):
+        return f"read_json('{raw_data}')"
+    elif raw_data.endswith(".csv"):
+        return f"read_csv('{raw_data}')"
+    elif raw_data.endswith(".parquet"):
+        return f"read_parquet('{raw_data}')"
+    else:
+        raise ValueError(f"Not support the format: '{raw_data}'")
+
+
+# create table and tranform data
 def transform_data(con, raw_table, table_name):
-    # Insert and transform data 
+    read_dataset = load_dataset(str(raw_table))
+
+    # Insert and transform data
     con.execute(f"""
     CREATE OR REPLACE TABLE {table_name} AS 
         SELECT
@@ -47,20 +57,36 @@ def transform_data(con, raw_table, table_name):
             TRY_CAST(genre_ids AS INT) AS genre_ids,
             TRIM(genre_descriptions) AS genre_descriptions,
 
+        FROM --read_csv_auto('{raw_table}')
+            {read_dataset}
+    """)
 
-        FROM read_csv_auto('{raw_table}')
-""")
+
+def log_summarize(con):
+    print(
+        con.execute(f"""
+                sUMMARIZE
+                SELECT *
+                FROM read_csv_auto('{OUTPUT_DATASET}')
+            """).fetchdf()
+    )
+
+
+def main():
+    # create a in-memory duckdb database
+    con = duckdb.connect(":memory:")
+
+    try:
+        transform_data(con, RAW_TABLE, TABLE_NAME)
+
+        con.execute(
+            f"COPY {TABLE_NAME} TO '{OUTPUT_DATASET}' "
+            "(FORMAT CSV, HEADER true)"
+        )
+        # log_summarize(con)
+    finally:
+        con.close()
+
 
 if __name__ == "__main__":
-    transform_data(con, RAW_TABLE, TABLE_NAME)
-    con.execute(f"COPY {TABLE_NAME} TO ('{OUTPUT_DATASET}') (FORMAT CSV, HEADER true)")
-
-print(
-    con.execute(f"""
-        sUMMARIZE
-        SELECT *
-        FROM read_csv_auto('{OUTPUT_DATASET}')
-    """).fetchdf()
-)
-
-
+    main()
