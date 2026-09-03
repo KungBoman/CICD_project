@@ -1,3 +1,4 @@
+import json
 from pathlib import Path
 
 import duckdb
@@ -5,12 +6,33 @@ import duckdb
 # Find the current path direction
 BASE_DIR = Path(__file__).resolve().parent
 DB_PATH = (BASE_DIR / "data/steam_games.db").as_posix()
-RAW_TABLE = (BASE_DIR / "data/raw_games_dataset.csv").as_posix()
+RAW_TABLE = (BASE_DIR / "data/raw_games_dataset.json").as_posix()
 TABLE_NAME = 'curated_games_dataset'
+FLATTEN_TABLE_NAME = 'flatten_raw_games_dataset'
+OUTPUT_FLATTEN_DATASET = (BASE_DIR / "data/flatten_raw_games_dataset.json").as_posix()
 OUTPUT_DATASET = (BASE_DIR / "data/curated_games_dataset.csv").as_posix()
 
 # create direction to duckdb database
 con = duckdb.connect(DB_PATH)
+
+# Flattening raw json file
+def flatten_json(raw_table, output_flatten):
+    with open(raw_table, "r", encoding="utf-8") as f:
+        data = json.load(f)
+
+    # Transform JSON object into a Python dict
+    if isinstance(data, dict):
+        records = list(data.values())
+    # Transform JSON object into a Python list   
+    elif isinstance(data, list):
+        records = data
+    else:
+        raise ValueError(f"Json is not supported: {type(data)}")
+    #save json file after flattening
+    with open(output_flatten, "w", encoding="utf-8") as out:
+        json.dump(records, out, ensure_ascii=False)
+
+    return output_flatten
 
 def load_dataset(raw_data):
     if raw_data.endswith(".json"):
@@ -24,8 +46,7 @@ def load_dataset(raw_data):
 
 # create table and tranform dataset  
 def transform_data(con, raw_table, table_name):
-
-    read_dataset = load_dataset(raw_table)
+    read_dataset = load_dataset(OUTPUT_FLATTEN_DATASET)
     # Insert and transform data 
     con.execute(f"""
     CREATE OR REPLACE TABLE {table_name} AS 
@@ -55,17 +76,17 @@ def transform_data(con, raw_table, table_name):
             TRIM(audio_languages) AS audio_languages,
             TRIM(developers) AS developers, -- have more than one value 
             TRIM(publishers) AS publishers, -- publishers have more than one value
-            TRY_CAST(category_ids AS INT) AS category_ids,
+            TRIM(category_ids) AS category_ids,
             TRIM(category_descriptions) AS category_descriptions,
             TRY_CAST(genre_ids AS INT) AS genre_ids,
-            TRIM(genre_descriptions) AS genre_descriptions,
-
+            TRIM(genre_descriptions) AS genre_descriptions
 
         FROM --read_csv_auto('{raw_table}')
             {read_dataset}
 """)
 
 if __name__ == "__main__":
+    flatten_json(RAW_TABLE, OUTPUT_FLATTEN_DATASET)
     transform_data(con, RAW_TABLE, TABLE_NAME)
     con.execute(f"COPY {TABLE_NAME} TO ('{OUTPUT_DATASET}') (FORMAT CSV, HEADER true)")
 
