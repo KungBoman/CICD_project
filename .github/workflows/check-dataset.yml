@@ -1,0 +1,86 @@
+name: Check-dataset
+
+on:
+  workflow_dispatch:
+  workflow_run:
+    workflows: ["Update raw dataset"]
+    types: [completed]
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  check:
+    if: github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout main
+        uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Test raw dataset
+        run: |
+          python - <<'PY'
+          import csv
+          import json
+          import sys
+          from pathlib import Path
+
+          json_path = Path("data/raw_games_dataset.json")
+          csv_path = Path("data/raw_games_dataset.csv")
+
+          if not json_path.is_file() or json_path.stat().st_size == 0:
+              sys.exit("missing or empty data/raw_games_dataset.json")
+          if not csv_path.is_file() or csv_path.stat().st_size == 0:
+              sys.exit("missing or empty data/raw_games_dataset.csv")
+
+          data = json.loads(json_path.read_text(encoding="utf-8"))
+          if not isinstance(data, dict) or len(data) < 1:
+              sys.exit("JSON dataset is empty")
+
+          required = {
+              "appid",
+              "name",
+              "release_date",
+              "price",
+              "is_free",
+              "windows",
+              "mac",
+              "linux",
+          }
+          bad = []
+          for appid, row in data.items():
+              if not isinstance(row, dict):
+                  bad.append((appid, ["row_not_object"]))
+                  continue
+              missing = sorted(required - set(row))
+              if missing:
+                  bad.append((appid, missing))
+
+          if bad:
+              print(bad[:10])
+              sys.exit(f"{len(bad)} rows failed validation")
+
+          with csv_path.open(encoding="utf-8", newline="") as handle:
+              rows = list(csv.DictReader(handle))
+
+          if len(rows) != len(data):
+              sys.exit(
+                  f"CSV/JSON length mismatch: {len(rows)} vs {len(data)}"
+              )
+
+          print(f"OK: {len(data)} games")
+          PY
+
+      - name: Upload dataset artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: raw-dataset-${{ github.run_id }}
+          path: |
+            data/raw_games_dataset.json
+            data/raw_games_dataset.csv
+            data/app_list.json
+            data/ignored_appids.json
+          if-no-files-found: error
