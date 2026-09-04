@@ -24,7 +24,7 @@ import requests
 
 import common_util as cu
 
-APPLIST_FILE = "data/app_list.json"
+APP_LIST_FILE = "app_list.json"
 
 STEAM_APP_LIST_URL = "https://api.steampowered.com/IStoreService/GetAppList/v1/"
 
@@ -145,11 +145,11 @@ def main():
         f"Fetched {len(app_list)} applications "
         f"in {duration:.2f} seconds.")
 
-    cu.save_json(app_list, APPLIST_FILE)
+    cu.save_json(app_list, APP_LIST_FILE)
 
     cu.log(
         "INFO",
-        f"App list saved to '{APPLIST_FILE}' "
+        f"App list saved to '{APP_LIST_FILE}' "
         f"with {len(app_list)} entries."
     )
 

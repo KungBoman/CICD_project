@@ -217,5 +217,5 @@ __marimo__/
 # Streamlit
 .streamlit/secrets.toml
 
-# training 
-training_web_scraper/
+# dataset-test
+data/training_web_scraper
