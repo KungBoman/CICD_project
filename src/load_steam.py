@@ -1,6 +1,7 @@
 import psycopg2
 import csv
 import os
+import common_util as cu
 
 
 def read_csv_data(input_file):
@@ -75,4 +76,4 @@ def load_data(input_file):
 
 
 if __name__ == "__main__":
-    load_data("data/transform_games_dataset.csv")
+    load_data(cu.DATA_DIR / "curated_games_dataset.csv")
