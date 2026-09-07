@@ -51,7 +51,6 @@ def insert_games(connection, rows):
                     currency
                 )
                 VALUES (%s, %s, %s, %s, %s, %s)
-                ON CONFLICT (appid) DO NOTHING
                 """,
                 (
                     row["appid"],
@@ -66,13 +65,24 @@ def insert_games(connection, rows):
 
 
 def load_data(input_file):
-    rows = read_csv_data(input_file)
-    connection = get_db_connection()
+    connection = None
 
-    create_games_table(connection)
-    insert_games(connection, rows)
+    try: 
+        rows = read_csv_data(input_file)
+        connection = get_db_connection()
 
-    connection.close()
+        create_games_table(connection)
+        insert_games(connection, rows)
+
+        print(f"[SUCCESS] Loaded {len(rows)} rows into PostgreSQL.")
+
+    except Exception as e:
+        print(f"[ERROR] Load failed {e}")
+        raise
+
+    finally:
+        connection.close()
+        print("[INFO] Database connection closed")
 
 
 if __name__ == "__main__":
