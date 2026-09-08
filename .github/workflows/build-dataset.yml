@@ -26,19 +26,11 @@ jobs:
 
       - name: Build dataset
         run: |
-<<<<<<< HEAD
-          python build_dataset.py \
-          -i data/games_dataset.csv \
-            -o data/games_dataset.csv \
-            -m 10 \
-            -d 1.5 \
-=======
           python src/build_dataset.py \
             -i raw_games_dataset.json \
             -o raw_games_dataset.json \
             -m 1000 \
             # -d 0 \
->>>>>>> e5c50764d3aef9dd6584faac19b6896c67c3b099
             -r 4 \
             -rd 10 \
             --incremental-retry-delay true \
