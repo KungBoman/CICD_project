@@ -1,8 +1,7 @@
 import json
 
-import duckdb
-
 import common_util as cu
+import duckdb
 
 # Find the current path direction
 RAW_TABLE = cu.DATA_DIR / "raw_games_dataset.json"
@@ -108,7 +107,7 @@ def main():
             f"COPY {TABLE_NAME} TO '{OUTPUT_DATASET}' "
             "(FORMAT CSV, HEADER true)"
         )
-        log_summarize(con)
+        # log_summarize(con)
     finally:
         con.close()
 
