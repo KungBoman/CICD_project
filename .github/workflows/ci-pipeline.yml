@@ -18,23 +18,64 @@ permissions:
 jobs:
   pipeline-test:
     runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_DB: steam_games
+          POSTGRES_USER: steam_user
+          POSTGRES_PASSWORD: steam_password
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U steam_user -d steam_games"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
     steps:
       - name: Check out repo
         uses: actions/checkout@v4
 
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
-          python-version: 3.12
-          cache: pip
+          python-version: "3.12"
+          cache: "pip"
+          cache-dependency-path: requirements.txt
 
       - name: Install requirements
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      # - name: Run lintning
+      - name: Create database schema
+        env:
+          PGPASSWORD: steam_password
+        run: |
+          psql \
+            -h localhost \
+            -p 5432 \
+            -U steam_user \
+            -d steam_games \
+            -c "CREATE TABLE IF NOT EXISTS games (
+              appid INTEGER PRIMARY KEY,
+              name TEXT,
+              release_date DATE,
+              is_free BOOLEAN,
+              price DECIMAL(10,2),
+              currency TEXT
+            );"
+
+      # - name: Run linting
       #   run: ruff check .
 
       - name: Run tests
+        env:
+          DB_HOST: localhost
+          DB_PORT: 5432
+          DB_NAME: steam_games
+          DB_USER: steam_user
+          DB_PASSWORD: steam_password
         run: pytest -v
