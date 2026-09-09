@@ -1,0 +1,92 @@
+name: Production Pipeline
+
+on:
+    workflow_dispatch:
+
+permissions:
+    contents: write
+
+jobs:
+    production:
+        runs-on: ubuntu-latest
+
+        # Acts as a mock-production database
+        services:
+            postgres:
+                image: postgres:16
+                env:
+                    POSTGRES_DB: steam_games
+                    POSTGRES_USER: steam_user
+                    POSTGRES_PASSWORD: steam_password
+                ports:
+                    - 5432:5432
+                options: >-
+                    --health-cmd "pg_isready -U steam_user -d steam_games"
+                    --health-interval 10s
+                    --health-timeout 5s
+                    --health-retries 5
+
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v4
+
+            - name: Set up Python
+              uses: actions/setup-python@v5
+              with:
+                  python-version: "3.12"
+                  cache: "pip"
+                  cache-dependency-path: requirements.txt
+
+            - name: Install dependencies
+              run: pip install -r requirements.txt
+
+            - name: Fetch app list
+              env:
+                  STEAM_API_KEY: ${{ secrets.STEAM_API_KEY }}
+              run: python src/fetch_app_list.py
+
+            - name: Build dataset
+              run: |
+                  python src/build_dataset.py \
+                    -i raw_games_dataset.json \
+                    -o raw_games_dataset.json \
+                    -m 200 \
+                    -d 0 \
+                    -r 4 \
+                    -rd 10 \
+                    --incremental-retry-delay true \
+                    --log-progress true
+
+            - name: Transform dataset
+              run: python src/transform_dataset.py
+
+            - name: Load to database
+              env:
+                  DB_HOST: ${{ secrets.DB_HOST }}
+                  DB_PORT: ${{ secrets.DB_PORT }}
+                  DB_NAME: ${{ secrets.DB_NAME }}
+                  DB_USER: ${{ secrets.DB_USER }}
+                  DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+              run: python src/load_steam.py
+
+            - name: Commit and push
+              run: |
+                  git config user.name "github-actions[bot]"
+                  git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+                  git checkout main
+
+                  git add data/app_list.json
+
+                  git add data/raw_games_dataset.csv
+                  git add data/raw_games_dataset.json
+                  git add data/ignored_appids.json
+
+                  git add data/curated_games_dataset.csv
+
+                  if ! git diff --cached --quiet; then
+                    git commit -m "Update Production Pipeline"
+                    git push origin main
+                  else
+                    echo "No changes for main."
+                  fi
