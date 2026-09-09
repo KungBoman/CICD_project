@@ -52,6 +52,7 @@ def insert_games(connection, rows):
                     currency
                 )
                 VALUES (%s, %s, %s, %s, %s, %s)
+                ON CONFLICT (appid) DO NOTHING
                 """,
                 (
                     row["appid"],
@@ -82,7 +83,8 @@ def load_data(input_file):
         raise
 
     finally:
-        connection.close()
+        if connection is not None:
+            connection.close()
         print("[INFO] Database connection closed")
 
 
