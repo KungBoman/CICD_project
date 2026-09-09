@@ -75,7 +75,7 @@ def transform_data(con, raw_table, table_name):
             TRIM(publishers) AS publishers, -- publishers have more than one value
             TRIM(category_ids) AS category_ids,
             TRIM(category_descriptions) AS category_descriptions,
-            TRY_CAST(genre_ids AS INT) AS genre_ids,
+            TRIM(genre_ids) AS genre_ids,
             TRIM(genre_descriptions) AS genre_descriptions
 
         FROM {read_dataset}
