@@ -78,16 +78,34 @@ with tab3:
         response = requests.get(f"{API_URL}/games/{appid}")
 
         if response.status_code == 200:
-            game_list = response.json()
-            # find_game_with_id returns whatever run_query returns, which is always a list
-            # (even though appid is a PK and matches at most one row) — so unwrap the first item here
-            game = game_list[0] if isinstance(game_list, list) else game_list
+            game = response.json()  # giờ đã là dict trực tiếp, không cần unwrap list nữa
+
             st.subheader(game["name"])
             if game.get("header_image"):
                 st.image(game["header_image"])
-            st.write(game.get("short_description", ""))
+
             price_text = "Free" if game["is_free"] else f"${game['price']}"
             st.write(f"Price: {price_text} | Metacritic: {game.get('metacritic_score', 'N/A')}")
+
+            # Release date + achievements
+            st.write(f"Release date: {game.get('release_date') or 'TBA'} | Achievements: {game.get('achievements', 0)}")
+
+            # Supported languages
+            if game.get("interface_languages"):
+                st.write(f"Interface languages: {game['interface_languages']}")
+            if game.get("audio_languages"):
+                st.write(f"Audio languages: {game['audio_languages']}")
+
+            # Full description
+            with st.expander("Full description"):
+                st.write(game.get("detailed_description", "No description available."))
+
+            # Trailer — link only, since it's HLS/DASH streaming format, not a plain mp4
+            if game.get("trailer_url"):
+                st.markdown(f"🎬 [Watch trailer]({game['trailer_url']})")
+            else:
+                st.caption("No trailer available for this game.")
+
         elif response.status_code == 404:
             st.warning("No game found with this ID.")
         else:
