@@ -14,6 +14,46 @@ def list_games( limit: int = Query(20, ge=1, le=100), offset: int = Query(0, ge=
     except RuntimeError as e:
         raise HTTPException(status_code=500, detail=str(e))
 
+# get free games, move this up becase that static routes must always be placed before dynamic routes like games/{appid}
+@app.get("/games/free")
+def get_free_games(limit: int = Query(20, ge=1, le=100), offset: int = Query(0, ge=0)):
+    try:
+        games = run_query("SELECT * FROM games_applications WHERE is_free = TRUE LIMIT :limit OFFSET :offset",
+                         {"limit": limit, "offset": offset}) 
+        return games
+    
+    except RuntimeError as e:
+            raise HTTPException(status_code=500, detail=str(e))
+
+# get windows games     
+@app.get("/games/platform/windows")
+def search_windows_games(limit: int = Query(20, ge=1, le=100), offset: int = Query(0, ge=0)):
+     try:
+        games = run_query("SELECT * FROM games_applications WHERE windows = TRUE LIMIT :limit OFFSET :offset",
+                         {"limit": limit, "offset": offset})
+        return games
+     except RuntimeError as e:
+             raise HTTPException(status_code=500, detail=str(e))
+
+# get mac games
+@app.get("/games/platform/mac")
+def search_mac_games(limit: int = Query(20, ge=1, le=100), offset: int = Query(0, ge=0)):
+     try:
+        games = run_query("SELECT * FROM games_applications WHERE mac = TRUE LIMIT :limit OFFSET :offset",
+                         {"limit": limit, "offset": offset})
+        return games
+     except RuntimeError as e:
+             raise HTTPException(status_code=500, detail=str(e))
+
+@app.get("/games/platform/linux")
+def search_linux_games(limit: int = Query(20, ge=1, le=100), offset: int = Query(0, ge=0)):
+     try:
+        games = run_query("SELECT * FROM games_applications WHERE linux = TRUE LIMIT :limit OFFSET :offset",
+                         {"limit": limit, "offset": offset})
+        return games
+     except RuntimeError as e:
+             raise HTTPException(status_code=500, detail=str(e))
+
 # get game info with their id
 @app.get("/games/{appid}")
 def find_game_with_id(appid:int):
@@ -27,7 +67,7 @@ def find_game_with_id(appid:int):
             raise HTTPException(status_code=500, detail=str(e))
 
 # get games info with their name
-@app.get("//games/search")
+@app.get("/games/search")
 def search_games(name: str):
     try:
         games = run_query("SELECT * FROM games_applications WHERE name ILIKE :name",
@@ -38,17 +78,8 @@ def search_games(name: str):
     except RuntimeError as e:
         raise HTTPException(status_code=500, detail=str(e))
             
+     
 
-@app.get("/games/free")
-def get_free_games( limit: int = Query(20, ge=1, le=100), offset: int = Query(0, ge=0)):
-    try:
-        games = run_query("SELECT * FROM games_applications WHERE is_free = TRUE LIMIT :limit OFFSET :offset",
-                         {"limit": limit, "offset": offset}) 
-        return games
-    
-    except RuntimeError as e:
-            raise HTTPException(status_code=500, detail=str(e))
-        
     
 
 
