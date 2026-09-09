@@ -33,10 +33,23 @@ jobs:
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
-
+      
     steps:
       - name: Check out repo
         uses: actions/checkout@v4
+        
+      - name: Install fdupes
+        run: sudo apt-get update && sudo apt-get install -y fdupes
+    
+      - name: Find duplicate files
+        run: |
+          fdupes -r --noempty -A . | tee duplicates.txt
+          if [ -s duplicates.txt ]; then
+            echo "Duplicate files found:"
+            cat duplicates.txt
+            exit 1
+          fi
+          echo "No duplicate files found."
 
       - name: Set up Python
         uses: actions/setup-python@v5
