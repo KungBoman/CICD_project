@@ -45,6 +45,7 @@ jobs:
                       -U steam_user \
                       -d steam_games \
                       -c "CREATE TABLE IF NOT EXISTS games (
+                      id SERIAL PRIMARY KEY,
                       appid INTEGER PRIMARY KEY,
                       name TEXT,
                       release_date DATE,
