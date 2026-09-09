@@ -3,7 +3,7 @@ name: Build dataset
 on:
   workflow_dispatch:
   schedule:
-    - cron: "0 * * * *"
+    - cron: "0 */6 * * *"
 
 permissions:
   contents: write
@@ -29,12 +29,12 @@ jobs:
           python src/build_dataset.py \
             -i raw_games_dataset.json \
             -o raw_games_dataset.json \
-            -m 1000 \
-            # -d 0 \
+            -m 200 \
+            -d 0 \
             -r 4 \
             -rd 10 \
             --incremental-retry-delay true \
-            # --log-progress false
+            --log-progress true
 
       - name: Commit and push dataset
         run: |
