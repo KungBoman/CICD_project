@@ -1,5 +1,6 @@
-from database_connection import engine
 from sqlalchemy import text
+
+from database_connection import engine
 
 
 def normalize_multivalue_columns():

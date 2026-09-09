@@ -1,8 +1,9 @@
 import time
 
 import requests
-from database_connection import engine
 from sqlalchemy import text
+
+from database_connection import engine
 
 STEAM_API_URL = "https://store.steampowered.com/api/appdetails"
 REQUEST_TIMEOUT = 10

@@ -1,5 +1,6 @@
-from database_connection import run_query
 from fastapi import FastAPI, HTTPException, Query
+
+from database_connection import run_query
 
 app = FastAPI(title="Steam Games API")
 

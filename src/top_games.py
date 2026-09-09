@@ -1,5 +1,6 @@
-from database_connection import engine
 from sqlalchemy import text
+
+from database_connection import engine
 
 TABLE_NAME = "top_lists"
 

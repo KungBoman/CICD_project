@@ -1,7 +1,8 @@
 import json
 
-import common_util as cu
 import duckdb
+
+import common_util as cu
 
 # Find the current path direction
 RAW_TABLE = cu.DATA_DIR / "raw_games_dataset.json"
