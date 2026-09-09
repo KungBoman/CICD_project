@@ -64,9 +64,14 @@
         "first_seen": "2026-09-02",
         "last_seen": "2026-09-02"
     },
-    "123": {
+    "201330": {
         "reason": "steam_success_false",
-        "first_seen": "2026-09-03",
-        "last_seen": "2026-09-03"
+        "first_seen": "2026-09-09",
+        "last_seen": "2026-09-09"
+    },
+    "202570": {
+        "reason": "steam_success_false",
+        "first_seen": "2026-09-09",
+        "last_seen": "2026-09-09"
     }
 }

@@ -5,6 +5,7 @@ pandas
 pytest
 ruff
 tqdm
+psycopg2
 duckdb
 fastapi
 uvicorn
