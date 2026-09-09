@@ -1,7 +1,13 @@
+argparse
+tqdm
 requests
 pandas
 pytest
 ruff
-argparse
 tqdm
 duckdb
+fastapi
+uvicorn
+sqlalchemy
+python-dotenv
+psycopg2
