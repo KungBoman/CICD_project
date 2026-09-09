@@ -33,14 +33,14 @@ jobs:
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
-      
+
     steps:
       - name: Check out repo
         uses: actions/checkout@v4
-        
+
       - name: Install fdupes
         run: sudo apt-get update && sudo apt-get install -y fdupes
-    
+
       - name: Find duplicate files
         run: |
           fdupes -r --noempty -A . | tee duplicates.txt
@@ -63,6 +63,9 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
+      - name: Run linting
+        run: ruff check .
+
       - name: Create database schema
         env:
           PGPASSWORD: steam_password
@@ -80,9 +83,6 @@ jobs:
               price DECIMAL(10,2),
               currency TEXT
             );"
-
-      # - name: Run linting
-      #   run: ruff check .
 
       - name: Run tests
         env:

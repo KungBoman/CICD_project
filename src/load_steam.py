@@ -1,6 +1,8 @@
-import psycopg2
 import csv
 import os
+
+import psycopg2
+
 import common_util as cu
 
 
@@ -16,9 +18,8 @@ def get_db_connection():
         port=os.getenv("DB_PORT", "5432"),
         dbname=os.getenv("DB_NAME", "steam_games"),
         user=os.getenv("DB_USER", "postgres"),
-        password=os.getenv("DB_PASSWORD")
+        password=os.getenv("DB_PASSWORD"),
     )
-
 
 
 def create_games_table(connection):
@@ -37,7 +38,7 @@ def create_games_table(connection):
     connection.commit()
 
 
-def insert_games(connection, rows): 
+def insert_games(connection, rows):
     with connection.cursor() as cursor:
         for row in rows:
             cursor.execute(
@@ -59,7 +60,7 @@ def insert_games(connection, rows):
                     row["is_free"],
                     row["price"],
                     row["currency"],
-                )
+                ),
             )
     connection.commit()
 
@@ -67,7 +68,7 @@ def insert_games(connection, rows):
 def load_data(input_file):
     connection = None
 
-    try: 
+    try:
         rows = read_csv_data(input_file)
         connection = get_db_connection()
 

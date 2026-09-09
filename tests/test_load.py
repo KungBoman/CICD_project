@@ -1,11 +1,12 @@
 import csv
 
 from load_steam import (
-    read_csv_data,
-    get_db_connection,
     create_games_table,
+    get_db_connection,
     insert_games,
+    read_csv_data,
 )
+
 
 def test_full_load(tmp_path):
     file_path = tmp_path / "test_games.csv"
