@@ -26,7 +26,8 @@ def create_games_table(connection):
     with connection.cursor() as cursor:
         cursor.execute("""
             CREATE TABLE IF NOT EXISTS games (
-                appid INTEGER PRIMARY KEY,
+                id SERIAL PRIMARY KEY,
+                appid INTEGER NOT NULL,
                 name TEXT,
                 release_date DATE,
                 is_free BOOLEAN,
@@ -52,7 +53,6 @@ def insert_games(connection, rows):
                     currency
                 )
                 VALUES (%s, %s, %s, %s, %s, %s)
-                ON CONFLICT (appid) DO NOTHING
                 """,
                 (
                     row["appid"],

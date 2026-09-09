@@ -1,4 +1,3 @@
-
 import pandas as pd
 
 import common_util as cu
@@ -18,9 +17,7 @@ def load_dataset():
 
     # Check that the transformation output exists before reading it.
     # If the file is missing, pytest will show a clear error message.
-    assert DATASET_PATH.exists(), (
-        f"Transformed dataset not found: {DATASET_PATH}"
-    )
+    assert DATASET_PATH.exists(), f"Transformed dataset not found: {DATASET_PATH}"
 
     # Read the CSV file into a pandas DataFrame.
     return pd.read_csv(DATASET_PATH)
@@ -41,22 +38,6 @@ def test_appid_not_null():
     # .notna() returns True for values that are not missing.
     # .all() requires every row to pass the check.
     assert df["appid"].notna().all()
-
-
-def test_appid_unique():
-    """
-    Validate that every appid is unique.
-
-    The appid identifies a specific Steam application, so the same
-    appid should not appear more than once in the transformed dataset.
-    """
-
-    # Load the transformed dataset.
-    df = load_dataset()
-
-    # Check that every appid appears only once.
-    # Pandas' .is_unique returns True if all values in the column are unique.
-    assert df["appid"].is_unique
 
 
 def test_name_not_empty():

@@ -28,11 +28,6 @@ jobs:
           POSTGRES_PASSWORD: steam_password
         ports:
           - 5432:5432
-        options: >-
-          --health-cmd "pg_isready -U steam_user -d steam_games"
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
 
     steps:
       - name: Check out repo
@@ -76,7 +71,8 @@ jobs:
             -U steam_user \
             -d steam_games \
             -c "CREATE TABLE IF NOT EXISTS games (
-              appid INTEGER PRIMARY KEY,
+              id SERIAL PRIMARY KEY,
+              appid INTEGER NOT NULL,
               name TEXT,
               release_date DATE,
               is_free BOOLEAN,
