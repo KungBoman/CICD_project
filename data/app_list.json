@@ -201829,7 +201829,7 @@
     },
     {
         "appid": 1549250,
-        "name": "UNDECEMBER: The Forge"
+        "name": "UNDECEMBER: The Farside"
     },
     {
         "appid": 1549270,
@@ -414324,6 +414324,10 @@
         "name": "Project 37"
     },
     {
+        "appid": 2894770,
+        "name": "PokerLines"
+    },
+    {
         "appid": 2894780,
         "name": "塔防设计师(Tower Defense Designer)"
     },
@@ -462833,7 +462837,7 @@
     },
     {
         "appid": 3202440,
-        "name": "Enigma's Edge"
+        "name": "Fathom"
     },
     {
         "appid": 3202460,
@@ -624292,6 +624296,10 @@
         "name": "Send In The Vampires"
     },
     {
+        "appid": 4278650,
+        "name": "Dumb Ideas With Friends"
+    },
+    {
         "appid": 4278680,
         "name": "AMIGO: The Broken Loop"
     },
@@ -650296,6 +650304,10 @@
         "name": "Escape from Vacov"
     },
     {
+        "appid": 4467420,
+        "name": "Navinosuke: The Yo-kai Buster"
+    },
+    {
         "appid": 4467430,
         "name": "Ashes of Torment"
     },
@@ -665910,6 +665922,10 @@
     {
         "appid": 4583570,
         "name": "Stravaeger"
+    },
+    {
+        "appid": 4583630,
+        "name": "Shadowverse WB Latin America"
     },
     {
         "appid": 4583670,
@@ -684265,7 +684281,7 @@
     },
     {
         "appid": 4719700,
-        "name": "SINKING INTO THE VOID"
+        "name": "Gokutoshi (獄闘士)"
     },
     {
         "appid": 4719710,
@@ -686226,6 +686242,10 @@
     {
         "appid": 4736640,
         "name": "Sinheritance"
+    },
+    {
+        "appid": 4736650,
+        "name": "선생님, 진도 나갈까요?"
     },
     {
         "appid": 4736700,
@@ -690256,6 +690276,10 @@
         "name": "Ghost Writer"
     },
     {
+        "appid": 4770220,
+        "name": "Shelterra the Skyworld"
+    },
+    {
         "appid": 4770280,
         "name": "Rutterkin"
     },
@@ -692182,6 +692206,10 @@
     {
         "appid": 4785230,
         "name": "Super Optimal Amount of Punching"
+    },
+    {
+        "appid": 4785380,
+        "name": "Samuel Prince Attorney at Law Chapter 5"
     },
     {
         "appid": 4785390,
@@ -698333,7 +698361,7 @@
     },
     {
         "appid": 4834490,
-        "name": "德州扑克 Pixel Texas Hold'em"
+        "name": "德州扑克"
     },
     {
         "appid": 4834620,
@@ -707192,6 +707220,10 @@
         "name": "Digital Druid"
     },
     {
+        "appid": 4901450,
+        "name": "Dungeon Jam"
+    },
+    {
         "appid": 4901470,
         "name": "Lucy's Nightmare"
     },
@@ -712756,6 +712788,10 @@
         "name": "Suas Escolhas - O Caso do Magnata Desaparecido"
     },
     {
+        "appid": 4941080,
+        "name": "She Tells Her Story"
+    },
+    {
         "appid": 4941130,
         "name": "A Studied Seduction"
     },
@@ -713826,6 +713862,10 @@
     {
         "appid": 4949170,
         "name": "Ray26 - Sync Synth"
+    },
+    {
+        "appid": 4949180,
+        "name": "MMO: Massive Mommy Orgy"
     },
     {
         "appid": 4949190,
@@ -715458,6 +715498,10 @@
     {
         "appid": 4960550,
         "name": "TOWER BOY"
+    },
+    {
+        "appid": 4960570,
+        "name": "小贼修仙记"
     },
     {
         "appid": 4960600,
@@ -719781,7 +719825,7 @@
     },
     {
         "appid": 4993450,
-        "name": "Oshi Slang Stream"
+        "name": "My Oshi Uses Too Much Slang!"
     },
     {
         "appid": 4993490,
@@ -725220,6 +725264,10 @@
         "name": "币圈模拟器"
     },
     {
+        "appid": 5038760,
+        "name": "Torchlike"
+    },
+    {
         "appid": 5038810,
         "name": "Detonate & Dash"
     },
@@ -726452,6 +726500,10 @@
         "name": "Can I See Your...Plants?"
     },
     {
+        "appid": 5048450,
+        "name": "盗墓者手记 The Tomb Raider’s Journal"
+    },
+    {
         "appid": 5048480,
         "name": "KUBO 3"
     },
@@ -727400,6 +727452,10 @@
         "name": "Normal Human Jobs"
     },
     {
+        "appid": 5056320,
+        "name": "Fantorob"
+    },
+    {
         "appid": 5056360,
         "name": "Crypt Survivor"
     },
@@ -728282,6 +728338,10 @@
     {
         "appid": 5063680,
         "name": "Stellar End"
+    },
+    {
+        "appid": 5063690,
+        "name": "The Wandering Earth: The Last Full Moon"
     },
     {
         "appid": 5063700,
@@ -730052,6 +730112,10 @@
         "name": "Uncosy"
     },
     {
+        "appid": 5078790,
+        "name": "Chronicles of the Six Sages"
+    },
+    {
         "appid": 5078830,
         "name": "Internal Conflict"
     },
@@ -730634,6 +730698,10 @@
     {
         "appid": 5083870,
         "name": "Solarise"
+    },
+    {
+        "appid": 5083910,
+        "name": "You Only Dream Once - Unknown Player’s Island Adventure"
     },
     {
         "appid": 5083960,
@@ -731970,6 +732038,10 @@
     {
         "appid": 5095680,
         "name": "A cointoss roguelike"
+    },
+    {
+        "appid": 5095690,
+        "name": "Ship Busters"
     },
     {
         "appid": 5095720,
@@ -734368,6 +734440,10 @@
         "name": "Verdict"
     },
     {
+        "appid": 5119350,
+        "name": "Pixel Hold'em: Poker Coach "
+    },
+    {
         "appid": 5119400,
         "name": "WORKS: Motorsport Factory"
     },
@@ -734590,6 +734666,10 @@
     {
         "appid": 5121670,
         "name": "Chasing the Sky"
+    },
+    {
+        "appid": 5121690,
+        "name": "打工人生存模拟器"
     },
     {
         "appid": 5121720,
@@ -735454,6 +735534,10 @@
     {
         "appid": 5129690,
         "name": "Blova"
+    },
+    {
+        "appid": 5129770,
+        "name": "SUNSOFT is Back! Retro Game Selection 2"
     },
     {
         "appid": 5129790,
@@ -737412,6 +737496,10 @@
         "name": "Froggy Roams"
     },
     {
+        "appid": 5151200,
+        "name": "Azalea"
+    },
+    {
         "appid": 5151230,
         "name": "Knead a Break"
     },
@@ -737586,6 +737674,10 @@
     {
         "appid": 5153600,
         "name": "Fragment Sky"
+    },
+    {
+        "appid": 5153610,
+        "name": "Gizmo"
     },
     {
         "appid": 5153690,
@@ -739784,6 +739876,10 @@
         "name": "天邪鬼ノ悪夢"
     },
     {
+        "appid": 5180370,
+        "name": "Qrack"
+    },
+    {
         "appid": 5180380,
         "name": "Fabulorium"
     },
@@ -739986,6 +740082,10 @@
     {
         "appid": 5183230,
         "name": "Mega Sokofox World"
+    },
+    {
+        "appid": 5183270,
+        "name": "DEGUL DEGUL 999"
     },
     {
         "appid": 5183300,
@@ -740308,6 +740408,10 @@
         "name": "Cheat With Me, Not On Me"
     },
     {
+        "appid": 5189030,
+        "name": "ROBOT DRAFT: LAST HUMAN"
+    },
+    {
         "appid": 5189090,
         "name": "FORK BOMB: A Programming Game"
     },
@@ -740552,6 +740656,10 @@
         "name": "无人放置"
     },
     {
+        "appid": 5193930,
+        "name": "我的桌宠会修仙"
+    },
+    {
         "appid": 5193960,
         "name": "There Is Eternal War"
     },
@@ -740620,6 +740728,10 @@
         "name": "Primal Heir: The Mortal Realm"
     },
     {
+        "appid": 5194670,
+        "name": "SCORE80"
+    },
+    {
         "appid": 5194840,
         "name": "JUST PRESS SPACE"
     },
@@ -740630,6 +740742,10 @@
     {
         "appid": 5195080,
         "name": "Rumored Massage Parlor Secret Menu"
+    },
+    {
+        "appid": 5195100,
+        "name": "Tarnish Online"
     },
     {
         "appid": 5195170,
@@ -740780,6 +740896,10 @@
         "name": "Eswahr Eternal"
     },
     {
+        "appid": 5198550,
+        "name": "Pirate Guy 2 New Land"
+    },
+    {
         "appid": 5198650,
         "name": "Stinky Tofu: Kitchen Survivor"
     },
@@ -740790,6 +740910,10 @@
     {
         "appid": 5198730,
         "name": "Diversion"
+    },
+    {
+        "appid": 5198760,
+        "name": "跑得快 PaoDeKuai"
     },
     {
         "appid": 5199040,
@@ -740870,6 +740994,10 @@
     {
         "appid": 5201690,
         "name": "The Liberators"
+    },
+    {
+        "appid": 5201830,
+        "name": "Investors Paradise"
     },
     {
         "appid": 5201860,
@@ -741180,6 +741308,10 @@
         "name": "The Narrator"
     },
     {
+        "appid": 5216780,
+        "name": "Infinite Chess"
+    },
+    {
         "appid": 5217110,
         "name": "Tidy Up the Bookstore"
     },
@@ -741224,6 +741356,10 @@
         "name": "Legacybound"
     },
     {
+        "appid": 5220360,
+        "name": "HemoSim"
+    },
+    {
         "appid": 5221100,
         "name": "Deadbeats"
     },
@@ -741240,11 +741376,23 @@
         "name": "Chessfolk"
     },
     {
+        "appid": 5222080,
+        "name": "Oinkenomics"
+    },
+    {
         "appid": 5222260,
         "name": "Outbreak Horizon"
     },
     {
         "appid": 5222360,
         "name": "Pay your Deeds"
+    },
+    {
+        "appid": 5222900,
+        "name": "Redemptions Ocean"
+    },
+    {
+        "appid": 5223660,
+        "name": "Visual Novel: DARKENED MIRROR"
     }
 ]
