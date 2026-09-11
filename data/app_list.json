@@ -16541,7 +16541,7 @@
     },
     {
         "appid": 332610,
-        "name": "Mystik Belle"
+        "name": "Mystik Belle: Enchanted Edition"
     },
     {
         "appid": 332620,
@@ -148458,6 +148458,10 @@
     {
         "appid": 1218440,
         "name": "Tanks 2020"
+    },
+    {
+        "appid": 1218450,
+        "name": "リスキル・マイスキル"
     },
     {
         "appid": 1218460,
@@ -288512,6 +288516,10 @@
         "name": "Coins Collector Sport Car"
     },
     {
+        "appid": 2101640,
+        "name": "GACHA AND SLEEP"
+    },
+    {
         "appid": 2101650,
         "name": "Entanglement"
     },
@@ -298636,10 +298644,6 @@
         "name": "Hoiwa Hub"
     },
     {
-        "appid": 2165690,
-        "name": "PRO ERA"
-    },
-    {
         "appid": 2165720,
         "name": "Monsters of Seabrook"
     },
@@ -305085,7 +305089,7 @@
     },
     {
         "appid": 2204270,
-        "name": "Rake Remastered"
+        "name": "Stillwood"
     },
     {
         "appid": 2204350,
@@ -322790,10 +322794,6 @@
     {
         "appid": 2313850,
         "name": "Knock Out Walls"
-    },
-    {
-        "appid": 2313930,
-        "name": "NFL Pro Era II"
     },
     {
         "appid": 2313940,
@@ -488568,6 +488568,10 @@
         "name": "蜀汉再临：源起 Restart ShuHan Dynasty:Origin"
     },
     {
+        "appid": 3371490,
+        "name": "Arcane Legion"
+    },
+    {
         "appid": 3371500,
         "name": "傲世修仙录"
     },
@@ -516716,10 +516720,6 @@
         "name": "Sweet Roommate"
     },
     {
-        "appid": 3560160,
-        "name": "Bearly Awesome"
-    },
-    {
         "appid": 3560170,
         "name": "Yagazem Elements"
     },
@@ -521669,7 +521669,7 @@
     },
     {
         "appid": 3591430,
-        "name": "Magnetic Girls!"
+        "name": "Nono & Soso"
     },
     {
         "appid": 3591440,
@@ -625576,6 +625576,10 @@
         "name": "Rollin' Ravioli"
     },
     {
+        "appid": 4287140,
+        "name": "Bunker Hill"
+    },
+    {
         "appid": 4287150,
         "name": "机猫推推箱"
     },
@@ -663164,6 +663168,10 @@
         "name": "With Your Coworker"
     },
     {
+        "appid": 4564380,
+        "name": "Time to Work!"
+    },
+    {
         "appid": 4564390,
         "name": "Heroes of Ropascia"
     },
@@ -663506,6 +663514,10 @@
     {
         "appid": 4566370,
         "name": "空跃之旅：像素天穹（SKY LEAP PIXEL SKY)"
+    },
+    {
+        "appid": 4566390,
+        "name": "CROUPIERED"
     },
     {
         "appid": 4566430,
@@ -686776,6 +686788,10 @@
         "name": "Diamond Eye"
     },
     {
+        "appid": 4740090,
+        "name": "Home D.O."
+    },
+    {
         "appid": 4740160,
         "name": "Abyssalis"
     },
@@ -695594,6 +695610,10 @@
     {
         "appid": 4812840,
         "name": "The Adventurer's Guide to Another World"
+    },
+    {
+        "appid": 4812860,
+        "name": "BBQ Rush"
     },
     {
         "appid": 4812880,
@@ -716524,6 +716544,10 @@
         "name": "Unbox Super Card"
     },
     {
+        "appid": 4966200,
+        "name": "Marrow of Y"
+    },
+    {
         "appid": 4966210,
         "name": "Rivet of Y"
     },
@@ -716558,6 +716582,10 @@
     {
         "appid": 4966510,
         "name": "Walls Have Eyes"
+    },
+    {
+        "appid": 4966560,
+        "name": "SUPER GAHAKU"
     },
     {
         "appid": 4966590,
@@ -723854,6 +723882,10 @@
     {
         "appid": 5025890,
         "name": "A Mystic Journey With : Solara"
+    },
+    {
+        "appid": 5025950,
+        "name": "Giblings"
     },
     {
         "appid": 5025980,
@@ -732684,6 +732716,10 @@
         "name": "Dub Night Live"
     },
     {
+        "appid": 5099300,
+        "name": "Everin Days"
+    },
+    {
         "appid": 5099310,
         "name": "One Night Liar"
     },
@@ -734908,6 +734944,10 @@
         "name": "Faultfinder"
     },
     {
+        "appid": 5120380,
+        "name": "Fury Camp"
+    },
+    {
         "appid": 5120530,
         "name": "Wayward Wind"
     },
@@ -735494,6 +735534,10 @@
     {
         "appid": 5125780,
         "name": "Pixel Planet Survivor"
+    },
+    {
+        "appid": 5125790,
+        "name": "Puzzles Are Better Together"
     },
     {
         "appid": 5125860,
@@ -737344,6 +737388,10 @@
         "name": "Roll Brighter"
     },
     {
+        "appid": 5145040,
+        "name": "Build My World"
+    },
+    {
         "appid": 5145120,
         "name": "Prescription of Throes"
     },
@@ -738352,6 +738400,10 @@
         "name": "Loong And Fox"
     },
     {
+        "appid": 5156880,
+        "name": "Blay"
+    },
+    {
         "appid": 5156990,
         "name": "俄罗斯方块"
     },
@@ -738830,6 +738882,10 @@
     {
         "appid": 5162530,
         "name": "MasonsHaven"
+    },
+    {
+        "appid": 5162540,
+        "name": "昼夜事件"
     },
     {
         "appid": 5162600,
@@ -739964,6 +740020,10 @@
         "name": "A Little Leverage - Isekai Daytrader"
     },
     {
+        "appid": 5175050,
+        "name": "Until The Seventh Night - Frostbitten"
+    },
+    {
         "appid": 5175060,
         "name": "Inkognito"
     },
@@ -740264,6 +740324,10 @@
         "name": "Hentai World Costume"
     },
     {
+        "appid": 5178900,
+        "name": "Espresso Presso"
+    },
+    {
         "appid": 5179030,
         "name": "The Long Graze"
     },
@@ -740282,6 +740346,10 @@
     {
         "appid": 5179160,
         "name": "HUNTMAZE"
+    },
+    {
+        "appid": 5179240,
+        "name": "Serene Chess"
     },
     {
         "appid": 5179260,
@@ -740350,6 +740418,10 @@
     {
         "appid": 5179720,
         "name": "Ravens of War"
+    },
+    {
+        "appid": 5179740,
+        "name": "醜イ"
     },
     {
         "appid": 5179780,
@@ -741456,6 +741528,10 @@
         "name": "Slap the Gamer"
     },
     {
+        "appid": 5195870,
+        "name": "Tierras Encantadas"
+    },
+    {
         "appid": 5195880,
         "name": "Where Did I Park?"
     },
@@ -741908,6 +741984,10 @@
         "name": "Big Sister"
     },
     {
+        "appid": 5206820,
+        "name": "猫猫爱钓鱼 Cat Fishing"
+    },
+    {
         "appid": 5207000,
         "name": "Exit_ComputerLab"
     },
@@ -742052,6 +742132,10 @@
         "name": "Soundkeeper: Listen and Sort"
     },
     {
+        "appid": 5213400,
+        "name": "Partway"
+    },
+    {
         "appid": 5213550,
         "name": "Spooky Sex Party"
     },
@@ -742156,6 +742240,10 @@
         "name": "Spirit of the Birch"
     },
     {
+        "appid": 5218370,
+        "name": "Organized Chaos"
+    },
+    {
         "appid": 5218460,
         "name": "ANT HELL"
     },
@@ -742188,6 +742276,10 @@
         "name": "Sediment"
     },
     {
+        "appid": 5219560,
+        "name": "Turing's Hive"
+    },
+    {
         "appid": 5219600,
         "name": "White Noise"
     },
@@ -742212,8 +742304,16 @@
         "name": "HemoSim"
     },
     {
+        "appid": 5220440,
+        "name": "ELDRITCH SLAYER"
+    },
+    {
         "appid": 5220610,
         "name": "Setlist Shuffle"
+    },
+    {
+        "appid": 5220890,
+        "name": "Old Times"
     },
     {
         "appid": 5221100,
@@ -742230,6 +742330,10 @@
     {
         "appid": 5221760,
         "name": "Send 'em Flying"
+    },
+    {
+        "appid": 5221810,
+        "name": "QURIOUS: GENESIS"
     },
     {
         "appid": 5221860,
@@ -742254,6 +742358,10 @@
     {
         "appid": 5222360,
         "name": "Pay your Deeds"
+    },
+    {
+        "appid": 5222590,
+        "name": "Forest Explorer"
     },
     {
         "appid": 5222790,
@@ -742292,12 +742400,20 @@
         "name": "A Needle In A Haystack: Sorting Game"
     },
     {
+        "appid": 5223960,
+        "name": "Ember Crown"
+    },
+    {
         "appid": 5224110,
         "name": "Logistica: Under Glass"
     },
     {
         "appid": 5224250,
         "name": "My Fantasy Pet Shop"
+    },
+    {
+        "appid": 5224540,
+        "name": "AREA 51: The Awakening"
     },
     {
         "appid": 5224930,
@@ -742328,6 +742444,10 @@
         "name": "Left to Your Own Devices"
     },
     {
+        "appid": 5226920,
+        "name": "Asuka and the flute of pain"
+    },
+    {
         "appid": 5226950,
         "name": "Solvane: The Iron Reach"
     },
@@ -742340,6 +742460,10 @@
         "name": "艾兰军校"
     },
     {
+        "appid": 5227980,
+        "name": "TROPHY FLEET"
+    },
+    {
         "appid": 5228310,
         "name": "Surrounded by Scrunchies"
     },
@@ -742348,11 +742472,23 @@
         "name": "Martial Instinct 👊"
     },
     {
+        "appid": 5230100,
+        "name": "PATTY STATE"
+    },
+    {
+        "appid": 5230640,
+        "name": "赛博剑仙：天道协议"
+    },
+    {
         "appid": 5231590,
         "name": "Hentai Miyu"
     },
     {
         "appid": 5233000,
         "name": "Last Light Maintenance"
+    },
+    {
+        "appid": 5234140,
+        "name": "INTERSECTION I"
     }
 ]
