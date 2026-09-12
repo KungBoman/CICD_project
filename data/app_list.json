@@ -15432,6 +15432,10 @@
         "name": "Tharsis"
     },
     {
+        "appid": 323080,
+        "name": "Flesh & Bone"
+    },
+    {
         "appid": 323190,
         "name": "Frostpunk"
     },
@@ -165853,7 +165857,7 @@
     },
     {
         "appid": 1331880,
-        "name": "MALTIVA"
+        "name": "Moltiva"
     },
     {
         "appid": 1331900,
@@ -615404,6 +615408,10 @@
         "name": "GUN GOTHICA"
     },
     {
+        "appid": 4220120,
+        "name": "BrosLand"
+    },
+    {
         "appid": 4220130,
         "name": "Toilet Femdom 2: Christmas Afterparty"
     },
@@ -641678,6 +641686,10 @@
     {
         "appid": 4403880,
         "name": "科拉诺克岛：恐龙战纪"
+    },
+    {
+        "appid": 4403890,
+        "name": "Peekaboom"
     },
     {
         "appid": 4403900,
@@ -689148,6 +689160,10 @@
         "name": "Arcane Idle"
     },
     {
+        "appid": 4759360,
+        "name": "Stem The Tide"
+    },
+    {
         "appid": 4759400,
         "name": "Atelier's Key"
     },
@@ -698270,6 +698286,10 @@
     {
         "appid": 4832150,
         "name": "星轨 Star Curve "
+    },
+    {
+        "appid": 4832160,
+        "name": "Snap Shifter"
     },
     {
         "appid": 4832170,
@@ -710080,6 +710100,10 @@
         "name": "MONSTERGOTCHI"
     },
     {
+        "appid": 4919170,
+        "name": "Myriad"
+    },
+    {
         "appid": 4919240,
         "name": "GuessWorld"
     },
@@ -713646,6 +713670,10 @@
     {
         "appid": 4944800,
         "name": "OBITT Escape from the room"
+    },
+    {
+        "appid": 4944870,
+        "name": "Fuse Beads Simulator 3D"
     },
     {
         "appid": 4944880,
@@ -722133,7 +722161,7 @@
     },
     {
         "appid": 5008850,
-        "name": "異常監視"
+        "name": "注意力向上プログラム / Vigilance Improvement Program"
     },
     {
         "appid": 5008870,
@@ -722430,6 +722458,10 @@
     {
         "appid": 5011170,
         "name": "The Safe Job"
+    },
+    {
+        "appid": 5011260,
+        "name": "INVERT: The Fracture"
     },
     {
         "appid": 5011310,
@@ -725744,10 +725776,6 @@
         "name": "JOINT LIABILITY"
     },
     {
-        "appid": 5038410,
-        "name": "Waifu Clicker"
-    },
-    {
         "appid": 5038420,
         "name": "I Hear the Forest"
     },
@@ -728624,6 +728652,10 @@
         "name": "Gradanix"
     },
     {
+        "appid": 5061370,
+        "name": "Lustara"
+    },
+    {
         "appid": 5061380,
         "name": "New Dawn Protocol"
     },
@@ -730896,6 +730928,10 @@
         "name": "Africa Survival"
     },
     {
+        "appid": 5080170,
+        "name": "Riftmaw"
+    },
+    {
         "appid": 5080180,
         "name": "Horny City"
     },
@@ -732526,10 +732562,6 @@
     {
         "appid": 5094250,
         "name": "10 Billion Blocks"
-    },
-    {
-        "appid": 5094270,
-        "name": "Chasing the Perfect Shot"
     },
     {
         "appid": 5094290,
@@ -735366,6 +735398,10 @@
     {
         "appid": 5120690,
         "name": "Cheesy Michael Ball"
+    },
+    {
+        "appid": 5120750,
+        "name": "FIVE STAT FRENZY!"
     },
     {
         "appid": 5120760,
@@ -738576,10 +738612,6 @@
         "name": "Runechain Towers"
     },
     {
-        "appid": 5153040,
-        "name": "HER HIDDEN VOICE EPISODE 1"
-    },
-    {
         "appid": 5153070,
         "name": "Theme Park Together"
     },
@@ -738806,6 +738838,10 @@
     {
         "appid": 5155860,
         "name": "Third Bloc"
+    },
+    {
+        "appid": 5155880,
+        "name": "Darkshot"
     },
     {
         "appid": 5155890,
@@ -739218,6 +739254,10 @@
     {
         "appid": 5160660,
         "name": "Bunker and Friends"
+    },
+    {
+        "appid": 5160710,
+        "name": "DITY: Origins"
     },
     {
         "appid": 5160720,
@@ -740244,6 +740284,10 @@
         "name": "DEBTBOUND: Never Unplug"
     },
     {
+        "appid": 5171730,
+        "name": "Crappy Corp"
+    },
+    {
         "appid": 5171740,
         "name": "Desk Hunter"
     },
@@ -740504,6 +740548,10 @@
         "name": "Post Office: Tidy Up"
     },
     {
+        "appid": 5174560,
+        "name": "Motive Power"
+    },
+    {
         "appid": 5174570,
         "name": "Rattlecrown"
     },
@@ -740610,6 +740658,10 @@
     {
         "appid": 5175480,
         "name": "Chuddy Clicker"
+    },
+    {
+        "appid": 5175560,
+        "name": "Security Night Shift"
     },
     {
         "appid": 5175780,
@@ -741006,6 +741058,10 @@
     {
         "appid": 5180140,
         "name": "Laserpunk"
+    },
+    {
+        "appid": 5180150,
+        "name": "Beastwood Haven"
     },
     {
         "appid": 5180160,
@@ -741490,6 +741546,10 @@
     {
         "appid": 5186090,
         "name": "Idle Digger Bots Deluxe"
+    },
+    {
+        "appid": 5186110,
+        "name": "Demons of the Dread Sea"
     },
     {
         "appid": 5186120,
@@ -742516,6 +742576,10 @@
         "name": "Incredible Dracula: Bloodwood Secrets"
     },
     {
+        "appid": 5201290,
+        "name": "桌面-宜居星球"
+    },
+    {
         "appid": 5201360,
         "name": "Oda's Ordinary Lives"
     },
@@ -742562,6 +742626,10 @@
     {
         "appid": 5202120,
         "name": "Stranded in Paradise"
+    },
+    {
+        "appid": 5202260,
+        "name": "OFF SOUNDINGS"
     },
     {
         "appid": 5202310,
@@ -742872,6 +742940,14 @@
         "name": "Embersong: History Is Yours"
     },
     {
+        "appid": 5208540,
+        "name": "How to Hunt"
+    },
+    {
+        "appid": 5208780,
+        "name": "Find The Box"
+    },
+    {
         "appid": 5208830,
         "name": "Method in the Witchness"
     },
@@ -742910,6 +742986,10 @@
     {
         "appid": 5210050,
         "name": "Love is Everywhere"
+    },
+    {
+        "appid": 5210430,
+        "name": "Break the Piñatas"
     },
     {
         "appid": 5210500,
@@ -743172,6 +743252,10 @@
         "name": "Escape from Tower"
     },
     {
+        "appid": 5220200,
+        "name": "Rever4 OCHIRO"
+    },
+    {
         "appid": 5220240,
         "name": "Legacybound"
     },
@@ -743352,6 +743436,10 @@
         "name": "Emberholme"
     },
     {
+        "appid": 5226480,
+        "name": "SightSplice"
+    },
+    {
         "appid": 5226910,
         "name": "Left to Your Own Devices"
     },
@@ -743406,6 +743494,10 @@
     {
         "appid": 5227980,
         "name": "TROPHY FLEET"
+    },
+    {
+        "appid": 5228280,
+        "name": "Trampoline to Tomorrow"
     },
     {
         "appid": 5228300,
@@ -743562,6 +743654,14 @@
     {
         "appid": 5236010,
         "name": "Assassin Of Werewolf"
+    },
+    {
+        "appid": 5236020,
+        "name": "Beam Me Up, Bro!"
+    },
+    {
+        "appid": 5236400,
+        "name": "无冕之龙 | Uncrowned Dragon"
     },
     {
         "appid": 5236560,
