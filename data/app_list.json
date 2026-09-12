@@ -555884,6 +555884,10 @@
         "name": "Ancient Archer"
     },
     {
+        "appid": 3824140,
+        "name": "Evomon World"
+    },
+    {
         "appid": 3824170,
         "name": "Master of the House DX"
     },
@@ -616418,6 +616422,10 @@
     {
         "appid": 4226690,
         "name": "Wishseeker"
+    },
+    {
+        "appid": 4226700,
+        "name": "YerAna: The Tree ofLife"
     },
     {
         "appid": 4226750,
@@ -690544,6 +690552,10 @@
         "name": "Raise the banners"
     },
     {
+        "appid": 4771050,
+        "name": "Gake of Cliff"
+    },
+    {
         "appid": 4771120,
         "name": "Survivors: Beyond the Shore"
     },
@@ -697104,6 +697116,10 @@
         "name": "Sudoku Bigger Picture"
     },
     {
+        "appid": 4823660,
+        "name": "MMORPG Sandbox"
+    },
+    {
         "appid": 4823670,
         "name": "A Nibble Tale"
     },
@@ -697754,6 +697770,10 @@
     {
         "appid": 4828300,
         "name": "SagaCraft"
+    },
+    {
+        "appid": 4828330,
+        "name": "Pixel Run"
     },
     {
         "appid": 4828340,
@@ -726404,6 +726424,10 @@
         "name": "PartyScape Chronicles"
     },
     {
+        "appid": 5043330,
+        "name": "Snake Echos"
+    },
+    {
         "appid": 5043340,
         "name": "Misdealt"
     },
@@ -729122,6 +729146,10 @@
     {
         "appid": 5065490,
         "name": "Stranding Echoes"
+    },
+    {
+        "appid": 5065500,
+        "name": "Vinculum"
     },
     {
         "appid": 5065510,
@@ -737356,6 +737384,10 @@
         "name": "Desk Disaster"
     },
     {
+        "appid": 5139220,
+        "name": "Moving Pieces"
+    },
+    {
         "appid": 5139270,
         "name": "British Pub Simulator"
     },
@@ -738278,6 +738310,10 @@
     {
         "appid": 5148510,
         "name": "Tea Party For 4"
+    },
+    {
+        "appid": 5148530,
+        "name": "Catalyst of Quoralis"
     },
     {
         "appid": 5148590,
@@ -742796,6 +742832,10 @@
         "name": "The Last Elementalist"
     },
     {
+        "appid": 5205090,
+        "name": "Will It Launch?"
+    },
+    {
         "appid": 5205180,
         "name": "Milky"
     },
@@ -743014,6 +743054,10 @@
     {
         "appid": 5210930,
         "name": "QTZ"
+    },
+    {
+        "appid": 5211080,
+        "name": "Quarantine 16"
     },
     {
         "appid": 5211650,
@@ -743434,6 +743478,10 @@
     {
         "appid": 5225480,
         "name": "Emberholme"
+    },
+    {
+        "appid": 5226350,
+        "name": "Devour Protocol"
     },
     {
         "appid": 5226480,
