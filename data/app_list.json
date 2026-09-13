@@ -603068,6 +603068,10 @@
         "name": "Mimic Meadows"
     },
     {
+        "appid": 4136690,
+        "name": "Spirits of Jinmenju"
+    },
+    {
         "appid": 4136710,
         "name": "ペンギンブロック"
     },
@@ -669352,6 +669356,10 @@
         "name": "Succubi Domini"
     },
     {
+        "appid": 4606480,
+        "name": "Nozie Tower Defense XL"
+    },
+    {
         "appid": 4606500,
         "name": "Signalfall"
     },
@@ -699066,6 +699074,10 @@
     {
         "appid": 4838200,
         "name": "Almost At Pity"
+    },
+    {
+        "appid": 4838230,
+        "name": "Rift Crashers"
     },
     {
         "appid": 4838280,
@@ -735456,6 +735468,10 @@
         "name": "Wayward Wind"
     },
     {
+        "appid": 5120570,
+        "name": "panda Gambler"
+    },
+    {
         "appid": 5120610,
         "name": "HYPERSCALE"
     },
@@ -736446,6 +736462,10 @@
     {
         "appid": 5129470,
         "name": "AETHERIA"
+    },
+    {
+        "appid": 5129480,
+        "name": "Pig Up"
     },
     {
         "appid": 5129540,
@@ -737496,6 +737516,10 @@
         "name": "Arrow Simulator"
     },
     {
+        "appid": 5139870,
+        "name": "Inhabitant: A Family Curse"
+    },
+    {
         "appid": 5139880,
         "name": "QuizStream"
     },
@@ -737570,6 +737594,10 @@
     {
         "appid": 5140640,
         "name": "Crown Bluff"
+    },
+    {
+        "appid": 5140650,
+        "name": "Tech Chaos"
     },
     {
         "appid": 5140700,
@@ -739332,6 +739360,10 @@
         "name": "Silent Sonata II: Dead Air"
     },
     {
+        "appid": 5160530,
+        "name": "Knowlands: Battle of Wits"
+    },
+    {
         "appid": 5160550,
         "name": "Astral Phase"
     },
@@ -740502,6 +740534,10 @@
     {
         "appid": 5173000,
         "name": "Hit The Beer"
+    },
+    {
+        "appid": 5173040,
+        "name": "Brain Boost Fit"
     },
     {
         "appid": 5173190,
@@ -742124,6 +742160,10 @@
         "name": "Neon Bastion"
     },
     {
+        "appid": 5192020,
+        "name": "Vestibule"
+    },
+    {
         "appid": 5192360,
         "name": "Lead the Charge"
     },
@@ -743552,6 +743592,10 @@
         "name": "SightSplice"
     },
     {
+        "appid": 5226510,
+        "name": "Tab-lings"
+    },
+    {
         "appid": 5226910,
         "name": "Left to Your Own Devices"
     },
@@ -743676,6 +743720,10 @@
         "name": "PATTY STATE"
     },
     {
+        "appid": 5230200,
+        "name": "Deepworks"
+    },
+    {
         "appid": 5230220,
         "name": "言葉遠征 ~~ 日语学习RPG ~~"
     },
@@ -743790,5 +743838,9 @@
     {
         "appid": 5237490,
         "name": "Neon Sisters 🚨"
+    },
+    {
+        "appid": 5239600,
+        "name": "My Zombies Are Hungry"
     }
 ]
