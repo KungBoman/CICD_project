@@ -515085,7 +515085,7 @@
     },
     {
         "appid": 3549030,
-        "name": "无尽地下城"
+        "name": "Heavensmith: Dungeon Unbound"
     },
     {
         "appid": 3549060,
@@ -662824,6 +662824,10 @@
         "name": "Your Chibi Chicken: Lo-Fi Desktop Pet"
     },
     {
+        "appid": 4560960,
+        "name": "Lúmina: Prelude"
+    },
+    {
         "appid": 4561010,
         "name": "Gun Restoration Shop Simulator"
     },
@@ -684308,6 +684312,10 @@
         "name": "門 GATE"
     },
     {
+        "appid": 4718220,
+        "name": "Shapolor"
+    },
+    {
         "appid": 4718270,
         "name": "Blosharper"
     },
@@ -697208,6 +697216,10 @@
         "name": "TetraPlinko"
     },
     {
+        "appid": 4823880,
+        "name": "PAINTCASSO: A Cozy 3D Paint by Number Game"
+    },
+    {
         "appid": 4823890,
         "name": "APEX Swoop: Card Game"
     },
@@ -700516,6 +700528,10 @@
         "name": "REAVEN WOOD HOTEL : ROOM 207"
     },
     {
+        "appid": 4847990,
+        "name": ".Rise // Access"
+    },
+    {
         "appid": 4848080,
         "name": "仙路漫漫"
     },
@@ -703278,6 +703294,10 @@
     {
         "appid": 4869240,
         "name": "BCI: A Telepathic Romance"
+    },
+    {
+        "appid": 4869250,
+        "name": "The orb"
     },
     {
         "appid": 4869280,
@@ -712888,6 +712908,10 @@
         "name": "Hentai Sweeper"
     },
     {
+        "appid": 4939030,
+        "name": "Motion De Censure"
+    },
+    {
         "appid": 4939050,
         "name": "Aunt Hattie's Quilts"
     },
@@ -720188,6 +720212,10 @@
         "name": "Stack Factory"
     },
     {
+        "appid": 4992350,
+        "name": "Painwives"
+    },
+    {
         "appid": 4992400,
         "name": "Minky"
     },
@@ -723170,6 +723198,10 @@
     {
         "appid": 5016410,
         "name": "Mokomon: Five Elements"
+    },
+    {
+        "appid": 5016420,
+        "name": "誅仙記_THE ABYSS GAZER"
     },
     {
         "appid": 5016500,
@@ -727876,6 +727908,10 @@
         "name": "My Naughty Nun: Forbidden Confession"
     },
     {
+        "appid": 5053730,
+        "name": "メリーさん New Testament"
+    },
+    {
         "appid": 5053760,
         "name": "Beggar Lords"
     },
@@ -732308,6 +732344,10 @@
         "name": "THE CASE OF THE LAST SHAWARMA"
     },
     {
+        "appid": 5090750,
+        "name": "Matter Scatter"
+    },
+    {
         "appid": 5090780,
         "name": "MAGIYA"
     },
@@ -733494,6 +733534,10 @@
     {
         "appid": 5101340,
         "name": "Eye of the Giant"
+    },
+    {
+        "appid": 5101360,
+        "name": "Break Free"
     },
     {
         "appid": 5101390,
@@ -735928,6 +735972,10 @@
         "name": "Egg to Monster"
     },
     {
+        "appid": 5124150,
+        "name": "Zero Castle"
+    },
+    {
         "appid": 5124170,
         "name": "Paw's Boba Shop"
     },
@@ -736582,6 +736630,10 @@
     {
         "appid": 5130110,
         "name": "The Grand Furnace"
+    },
+    {
+        "appid": 5130130,
+        "name": "Society Ciphers: The Invisible Man"
     },
     {
         "appid": 5130150,
@@ -738704,6 +738756,10 @@
         "name": "Rock Flipper"
     },
     {
+        "appid": 5151950,
+        "name": "Icemania"
+    },
+    {
         "appid": 5151960,
         "name": "Actors"
     },
@@ -738930,6 +738986,10 @@
     {
         "appid": 5154790,
         "name": "Flash Freeze"
+    },
+    {
+        "appid": 5154800,
+        "name": "Drink Tea Fight Monsters"
     },
     {
         "appid": 5154830,
@@ -740152,6 +740212,10 @@
         "name": "TsundereSQL"
     },
     {
+        "appid": 5168130,
+        "name": "Hit or Die"
+    },
+    {
         "appid": 5168150,
         "name": "Hoboville"
     },
@@ -741176,6 +741240,10 @@
         "name": "TCG Cards Everywhere!"
     },
     {
+        "appid": 5179520,
+        "name": "Maiba Taya"
+    },
+    {
         "appid": 5179540,
         "name": "Hentai Tales: Steamy Cat Girl Sisters"
     },
@@ -741804,6 +741872,10 @@
         "name": "Sumi Archery"
     },
     {
+        "appid": 5186900,
+        "name": "Solarlapse"
+    },
+    {
         "appid": 5186920,
         "name": "Eishockey Manager Legacy"
     },
@@ -742146,6 +742218,10 @@
     {
         "appid": 5191000,
         "name": "Тройной след"
+    },
+    {
+        "appid": 5191020,
+        "name": "Grass Cutting Game"
     },
     {
         "appid": 5191050,
@@ -742956,6 +743032,10 @@
         "name": "Makarov Math Suite"
     },
     {
+        "appid": 5204250,
+        "name": "模拟穿越-三国"
+    },
+    {
         "appid": 5204310,
         "name": "Furry Memories: Love Coach"
     },
@@ -743456,6 +743536,10 @@
         "name": "Thread the Wall"
     },
     {
+        "appid": 5219410,
+        "name": "Ping & Prowl 声东迹西"
+    },
+    {
         "appid": 5219420,
         "name": "Vitality"
     },
@@ -743514,6 +743598,10 @@
     {
         "appid": 5221110,
         "name": "Airline Magnate"
+    },
+    {
+        "appid": 5221150,
+        "name": "Towers & Tentacles"
     },
     {
         "appid": 5221450,
@@ -743598,6 +743686,10 @@
     {
         "appid": 5223350,
         "name": "strawberry season"
+    },
+    {
+        "appid": 5223400,
+        "name": "四番旅館 The 4th Ryokan"
     },
     {
         "appid": 5223650,
@@ -743920,6 +744012,10 @@
         "name": "Beam Me Up, Bro!"
     },
     {
+        "appid": 5236190,
+        "name": "Power Showdown"
+    },
+    {
         "appid": 5236400,
         "name": "无冕之龙 | Uncrowned Dragon"
     },
@@ -743936,11 +744032,27 @@
         "name": "Neon Sisters 🚨"
     },
     {
+        "appid": 5239510,
+        "name": "Bomb Star Bounce"
+    },
+    {
         "appid": 5239600,
         "name": "My Zombies Are Hungry"
     },
     {
+        "appid": 5240500,
+        "name": "永夜无期：光圈2号 Evernight Imperative: Iris 2"
+    },
+    {
+        "appid": 5240650,
+        "name": "S.O.V.A."
+    },
+    {
         "appid": 5240710,
         "name": "Break Order"
+    },
+    {
+        "appid": 5242170,
+        "name": "Horror Golf"
     }
 ]
