@@ -459392,6 +459392,10 @@
         "name": "RIG Riot"
     },
     {
+        "appid": 3180380,
+        "name": "Haven"
+    },
+    {
         "appid": 3180400,
         "name": "Particle Accelerator"
     },
@@ -506898,6 +506902,10 @@
     {
         "appid": 3489150,
         "name": "Meow"
+    },
+    {
+        "appid": 3489210,
+        "name": "What Lies Within"
     },
     {
         "appid": 3489220,
@@ -640220,6 +640228,10 @@
         "name": "Line of Contact"
     },
     {
+        "appid": 4392600,
+        "name": "Surf Academy"
+    },
+    {
         "appid": 4392620,
         "name": "DJINN SCROLLS"
     },
@@ -721040,6 +721052,10 @@
         "name": "Smile Your Day"
     },
     {
+        "appid": 4998200,
+        "name": "Paper Planes"
+    },
+    {
         "appid": 4998230,
         "name": "挖穿地球"
     },
@@ -726942,6 +726958,10 @@
     {
         "appid": 5046220,
         "name": "Forgotten Possessions"
+    },
+    {
+        "appid": 5046230,
+        "name": "Salchichon Simulator"
     },
     {
         "appid": 5046240,
@@ -742016,6 +742036,10 @@
         "name": "Necromancer: The Fallen Serve"
     },
     {
+        "appid": 5188500,
+        "name": "CaddiShack"
+    },
+    {
         "appid": 5188570,
         "name": "A Rover's Journey"
     },
@@ -742606,6 +742630,10 @@
     {
         "appid": 5195930,
         "name": "Night Shift Motel"
+    },
+    {
+        "appid": 5196040,
+        "name": "HOLY CAPYBARA"
     },
     {
         "appid": 5196090,
@@ -743952,6 +743980,10 @@
         "name": "PATTY STATE"
     },
     {
+        "appid": 5230120,
+        "name": "Treaty Ground: Corridor 2032"
+    },
+    {
         "appid": 5230200,
         "name": "Deepworks"
     },
@@ -743998,6 +744030,10 @@
     {
         "appid": 5232370,
         "name": "A Lot Of Steps"
+    },
+    {
+        "appid": 5232980,
+        "name": "Total Biochem"
     },
     {
         "appid": 5233000,
