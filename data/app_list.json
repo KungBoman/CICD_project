@@ -541460,6 +541460,10 @@
         "name": "Parasensor"
     },
     {
+        "appid": 3722100,
+        "name": "Match & Magic"
+    },
+    {
         "appid": 3722150,
         "name": "Overpowered 1 - Mars Infestation"
     },
@@ -593136,6 +593140,10 @@
         "name": "Dirge of the Scarlet Star"
     },
     {
+        "appid": 4068320,
+        "name": "ProjectX"
+    },
+    {
         "appid": 4068360,
         "name": "Bottom Squad"
     },
@@ -608842,6 +608850,10 @@
     {
         "appid": 4175590,
         "name": "The Beast Within"
+    },
+    {
+        "appid": 4175600,
+        "name": "Mighty Loot"
     },
     {
         "appid": 4175620,
@@ -653576,6 +653588,10 @@
         "name": "Cat Cook: Defense"
     },
     {
+        "appid": 4499240,
+        "name": "Count The Draw"
+    },
+    {
         "appid": 4499300,
         "name": "The Sievert Scale"
     },
@@ -661984,6 +662000,10 @@
         "name": "Fireworks Designer 烟花设计师"
     },
     {
+        "appid": 4555160,
+        "name": "Splashdown"
+    },
+    {
         "appid": 4555170,
         "name": "Upwell"
     },
@@ -664362,6 +664382,10 @@
     {
         "appid": 4572120,
         "name": "Dirt Clicker"
+    },
+    {
+        "appid": 4572140,
+        "name": "Vibe Punch"
     },
     {
         "appid": 4572160,
@@ -697692,6 +697716,10 @@
         "name": "TinyWind"
     },
     {
+        "appid": 4827160,
+        "name": "Coin Fall"
+    },
+    {
         "appid": 4827190,
         "name": "US Open Wheel 85-95 Manager"
     },
@@ -704886,6 +704914,10 @@
     {
         "appid": 4881110,
         "name": "OniJack"
+    },
+    {
+        "appid": 4881120,
+        "name": "B.L.U.E. NOVA"
     },
     {
         "appid": 4881130,
@@ -719912,6 +719944,10 @@
         "name": "Immortal Zenith: Idle to Ascension"
     },
     {
+        "appid": 4989540,
+        "name": "Seagazer"
+    },
+    {
         "appid": 4989570,
         "name": "Grand Opening: The Apothecary"
     },
@@ -732096,6 +732132,10 @@
         "name": "The Gaffer"
     },
     {
+        "appid": 5088400,
+        "name": "SMASH Co."
+    },
+    {
         "appid": 5088420,
         "name": "Under the Rust"
     },
@@ -732330,6 +732370,10 @@
     {
         "appid": 5090150,
         "name": "Ball Game"
+    },
+    {
+        "appid": 5090230,
+        "name": "Era Echo"
     },
     {
         "appid": 5090250,
@@ -733394,6 +733438,10 @@
     {
         "appid": 5099960,
         "name": "爱在触及之处 Love Where Touches"
+    },
+    {
+        "appid": 5099990,
+        "name": "농구제왕"
     },
     {
         "appid": 5100020,
@@ -740676,6 +740724,10 @@
         "name": "Moonshine Ville"
     },
     {
+        "appid": 5172560,
+        "name": "烹之道-北境烟火"
+    },
+    {
         "appid": 5172610,
         "name": "天使の月配送 - Angel's Moon Delivery"
     },
@@ -741780,6 +741832,10 @@
         "name": "Keep The Circle Alive"
     },
     {
+        "appid": 5184950,
+        "name": "Inspiration Test"
+    },
+    {
         "appid": 5184980,
         "name": "Escape From Argos 7"
     },
@@ -741914,6 +741970,10 @@
     {
         "appid": 5186430,
         "name": "Basement10"
+    },
+    {
+        "appid": 5186450,
+        "name": "Tavern Rivals"
     },
     {
         "appid": 5186550,
@@ -742952,6 +743012,10 @@
         "name": "The Liberators"
     },
     {
+        "appid": 5201780,
+        "name": "Blight Runners"
+    },
+    {
         "appid": 5201830,
         "name": "Investors Paradise"
     },
@@ -743168,6 +743232,10 @@
         "name": "Rest in Profit"
     },
     {
+        "appid": 5205230,
+        "name": "Project Apex RC"
+    },
+    {
         "appid": 5205270,
         "name": "Knight's Party"
     },
@@ -743194,6 +743262,10 @@
     {
         "appid": 5205810,
         "name": "Green Horizon"
+    },
+    {
+        "appid": 5205960,
+        "name": "I'll Keep It"
     },
     {
         "appid": 5206040,
@@ -743324,6 +743396,10 @@
         "name": "Method in the Witchness"
     },
     {
+        "appid": 5208840,
+        "name": "Siege of Akanor"
+    },
+    {
         "appid": 5208870,
         "name": "Where Sinners Sleep"
     },
@@ -743410,6 +743486,10 @@
     {
         "appid": 5212620,
         "name": "Tide and Crown"
+    },
+    {
+        "appid": 5212650,
+        "name": "Water Trees Simulator"
     },
     {
         "appid": 5212800,
@@ -743660,6 +743740,10 @@
         "name": "HemoSim"
     },
     {
+        "appid": 5220430,
+        "name": "Hell Ascension"
+    },
+    {
         "appid": 5220440,
         "name": "ELDRITCH SLAYER"
     },
@@ -743838,6 +743922,10 @@
     {
         "appid": 5225480,
         "name": "Emberholme"
+    },
+    {
+        "appid": 5226290,
+        "name": "Zenden"
     },
     {
         "appid": 5226350,
@@ -744052,6 +744140,10 @@
         "name": "Compactor Baron"
     },
     {
+        "appid": 5233770,
+        "name": "BLOKSTAR HERO"
+    },
+    {
         "appid": 5233860,
         "name": "餘燼之軍 EmbersOfWar"
     },
@@ -744126,6 +744218,10 @@
     {
         "appid": 5237490,
         "name": "Neon Sisters 🚨"
+    },
+    {
+        "appid": 5237960,
+        "name": "Approved! A Quiet Day of Paperwork"
     },
     {
         "appid": 5239510,
