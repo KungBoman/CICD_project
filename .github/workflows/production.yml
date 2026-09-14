@@ -102,8 +102,8 @@ jobs:
                   python src/build_dataset.py \
                     -i raw_games_dataset.json \
                     -o raw_games_dataset.json \
-                    -m 20 \
-                    -d 0 \
+                    -m 780 \
+                    -d 1.5 \
                     -r 4 \
                     -rd 10 \
                     --incremental-retry-delay true \
