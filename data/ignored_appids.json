@@ -173,5 +173,10 @@
         "reason": "steam_success_false",
         "first_seen": "2026-09-15",
         "last_seen": "2026-09-15"
+    },
+    "473930": {
+        "reason": "not_a_game",
+        "first_seen": "2026-09-15",
+        "last_seen": "2026-09-15"
     }
 }
