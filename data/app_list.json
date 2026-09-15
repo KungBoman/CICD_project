@@ -265116,6 +265116,10 @@
         "name": "Largescale Warfare alpha"
     },
     {
+        "appid": 1935550,
+        "name": "Augmego"
+    },
+    {
         "appid": 1935580,
         "name": "Office Elevator"
     },
@@ -399668,6 +399672,10 @@
         "name": "Prime"
     },
     {
+        "appid": 2802090,
+        "name": "大胤·宦海"
+    },
+    {
         "appid": 2802140,
         "name": "Hello World"
     },
@@ -444030,6 +444038,10 @@
     {
         "appid": 3084450,
         "name": "Taigania"
+    },
+    {
+        "appid": 3084460,
+        "name": "Lightholm"
     },
     {
         "appid": 3084490,
@@ -534313,7 +534325,7 @@
     },
     {
         "appid": 3673160,
-        "name": "Sol Titan: Echno"
+        "name": "Sol Titan"
     },
     {
         "appid": 3673180,
@@ -588236,6 +588248,10 @@
         "name": "LITTLE CAT TINY STRAYS"
     },
     {
+        "appid": 4031860,
+        "name": "Tic Card Toe"
+    },
+    {
         "appid": 4031880,
         "name": "Al Mara Academy"
     },
@@ -603962,6 +603978,10 @@
     {
         "appid": 4142540,
         "name": "gAillery: Don't Trust Your Eyes"
+    },
+    {
+        "appid": 4142560,
+        "name": "Smoke and Steel"
     },
     {
         "appid": 4142570,
@@ -627694,6 +627714,10 @@
     {
         "appid": 4298770,
         "name": "Capy's Hot Springs Haven"
+    },
+    {
+        "appid": 4298780,
+        "name": "Lumenweld"
     },
     {
         "appid": 4298790,
@@ -655376,6 +655400,10 @@
         "name": "Sanguis OS"
     },
     {
+        "appid": 4512140,
+        "name": "Burning Roots"
+    },
+    {
         "appid": 4512180,
         "name": "Vivid Intrusion"
     },
@@ -663798,6 +663826,10 @@
     {
         "appid": 4566780,
         "name": "ALFA: Antiterror"
+    },
+    {
+        "appid": 4566790,
+        "name": "Umbrae Ordinis: Age Of Whispers"
     },
     {
         "appid": 4566830,
@@ -672480,6 +672512,10 @@
         "name": "Cloud Journey VR "
     },
     {
+        "appid": 4626930,
+        "name": "Chain Reactions"
+    },
+    {
         "appid": 4626940,
         "name": "Scratch the Ticket"
     },
@@ -674602,6 +674638,10 @@
     {
         "appid": 4642030,
         "name": "Bee Killings Inn"
+    },
+    {
+        "appid": 4642040,
+        "name": "Youth Centre Simulator"
     },
     {
         "appid": 4642050,
@@ -691518,6 +691558,10 @@
     {
         "appid": 4776600,
         "name": "Stellar Protocol"
+    },
+    {
+        "appid": 4776650,
+        "name": "方块战舰"
     },
     {
         "appid": 4776760,
@@ -711452,6 +711496,10 @@
         "name": "Rebuilt: Last Settlement"
     },
     {
+        "appid": 4926690,
+        "name": "Weed Out"
+    },
+    {
         "appid": 4926710,
         "name": "Metal Detecting Days"
     },
@@ -713014,6 +713062,10 @@
     {
         "appid": 4938100,
         "name": "Somewhere in İstanbul"
+    },
+    {
+        "appid": 4938110,
+        "name": "Hallowers the pilgrimage"
     },
     {
         "appid": 4938130,
@@ -717348,6 +717400,10 @@
         "name": "DrpDrv"
     },
     {
+        "appid": 4967770,
+        "name": "Fast Point"
+    },
+    {
         "appid": 4967790,
         "name": "Catson Files: Wizard Town"
     },
@@ -719732,6 +719788,10 @@
         "name": "Lineup, Dark Lord! : Auto Battler"
     },
     {
+        "appid": 4986510,
+        "name": "Humans Bots & Zombies"
+    },
+    {
         "appid": 4986540,
         "name": "尸潮永无止尽"
     },
@@ -721184,6 +721244,10 @@
         "name": "ローマ帝国の逆襲Counter Attack of Roman Empire"
     },
     {
+        "appid": 4997440,
+        "name": "MonMusu Breaker"
+    },
+    {
         "appid": 4997480,
         "name": "Mapping Creator"
     },
@@ -721694,6 +721758,10 @@
     {
         "appid": 5001460,
         "name": "Moros"
+    },
+    {
+        "appid": 5001490,
+        "name": "FALLENMAGE Received: Hypnosis's Curse"
     },
     {
         "appid": 5001510,
@@ -723322,6 +723390,10 @@
     {
         "appid": 5015330,
         "name": "Death Row"
+    },
+    {
+        "appid": 5015410,
+        "name": "Starfall"
     },
     {
         "appid": 5015420,
@@ -728248,6 +728320,10 @@
         "name": "Project Ricochet"
     },
     {
+        "appid": 5053940,
+        "name": "Amusement Factory"
+    },
+    {
         "appid": 5053960,
         "name": "GamingCouch.com"
     },
@@ -728754,6 +728830,10 @@
     {
         "appid": 5058490,
         "name": "BoBOTs"
+    },
+    {
+        "appid": 5058550,
+        "name": "萦回"
     },
     {
         "appid": 5058620,
@@ -730918,6 +730998,10 @@
     {
         "appid": 5075970,
         "name": "Lost Light"
+    },
+    {
+        "appid": 5075980,
+        "name": "Ordinary Suspects"
     },
     {
         "appid": 5076020,
@@ -733680,6 +733764,10 @@
         "name": "Chocoletters"
     },
     {
+        "appid": 5099730,
+        "name": "No Luck Left"
+    },
+    {
         "appid": 5099750,
         "name": "ナニワアンダーグラウンド"
     },
@@ -735496,6 +735584,10 @@
         "name": "Grumpy Hero Grinder"
     },
     {
+        "appid": 5116630,
+        "name": "Panda Minesweeper"
+    },
+    {
         "appid": 5116650,
         "name": "Space Couch Command"
     },
@@ -736598,6 +736690,10 @@
     {
         "appid": 5125790,
         "name": "Puzzles Are Better Together"
+    },
+    {
+        "appid": 5125800,
+        "name": "Pose This!"
     },
     {
         "appid": 5125860,
@@ -741728,6 +741824,10 @@
         "name": "Espresso Presso"
     },
     {
+        "appid": 5178950,
+        "name": "Tilemancer"
+    },
+    {
         "appid": 5179030,
         "name": "The Long Graze"
     },
@@ -742656,6 +742756,10 @@
         "name": "A Place for Every Potion"
     },
     {
+        "appid": 5189530,
+        "name": "Apple Worm: Logic Puzzle"
+    },
+    {
         "appid": 5189540,
         "name": "溶血症"
     },
@@ -743388,6 +743492,10 @@
         "name": "Charmwick: Magic Village Market"
     },
     {
+        "appid": 5199280,
+        "name": "DOOM MATES"
+    },
+    {
         "appid": 5199320,
         "name": "A Game About Picking Up Trash"
     },
@@ -743500,6 +743608,10 @@
         "name": "AGGRO: Thaumiel Mercenaries"
     },
     {
+        "appid": 5201420,
+        "name": "Desktop Arrow Defense"
+    },
+    {
         "appid": 5201530,
         "name": "Hansel & Cookie"
     },
@@ -743534,6 +743646,10 @@
     {
         "appid": 5201930,
         "name": "Real Estate Investor"
+    },
+    {
+        "appid": 5202040,
+        "name": "Monsters Can Cook"
     },
     {
         "appid": 5202090,
@@ -743820,6 +743936,10 @@
         "name": "A Drop of Magenta"
     },
     {
+        "appid": 5206980,
+        "name": "The Abominable Shitpit"
+    },
+    {
         "appid": 5207000,
         "name": "Exit_ComputerLab"
     },
@@ -743888,6 +744008,10 @@
         "name": "Mankind Must Bleed"
     },
     {
+        "appid": 5208160,
+        "name": "Brightcurse Suvivors"
+    },
+    {
         "appid": 5208170,
         "name": "Catoscope"
     },
@@ -743950,6 +744074,10 @@
     {
         "appid": 5209180,
         "name": "deal with the deep"
+    },
+    {
+        "appid": 5209210,
+        "name": "Clickore Station"
     },
     {
         "appid": 5209220,
@@ -744092,6 +744220,10 @@
         "name": "FPV Sky - Drone Simulator"
     },
     {
+        "appid": 5213650,
+        "name": "ARUS-1"
+    },
+    {
         "appid": 5213660,
         "name": "Gundrobe: an Incremental Gun Builder"
     },
@@ -744226,6 +744358,10 @@
     {
         "appid": 5217710,
         "name": "Patient Zero, My Love"
+    },
+    {
+        "appid": 5217720,
+        "name": "VOID - Eight Lives Left"
     },
     {
         "appid": 5217730,
@@ -744424,6 +744560,10 @@
         "name": "Pay your Deeds"
     },
     {
+        "appid": 5222440,
+        "name": "宗门经理人 - Sect Master"
+    },
+    {
         "appid": 5222460,
         "name": "Barely Outnumbered"
     },
@@ -744468,6 +744608,10 @@
         "name": "strawberry season"
     },
     {
+        "appid": 5223360,
+        "name": "Into the Country"
+    },
+    {
         "appid": 5223400,
         "name": "四番旅館 The 4th Ryokan"
     },
@@ -744490,6 +744634,10 @@
     {
         "appid": 5224020,
         "name": "Fortress Full Fury"
+    },
+    {
+        "appid": 5224030,
+        "name": "Frog is Crime"
     },
     {
         "appid": 5224110,
@@ -744888,6 +745036,14 @@
         "name": "Neon Sisters 🚨"
     },
     {
+        "appid": 5237500,
+        "name": "Folder Escape"
+    },
+    {
+        "appid": 5237770,
+        "name": "Starbloom Ranch"
+    },
+    {
         "appid": 5237960,
         "name": "Approved! A Quiet Day of Paperwork"
     },
@@ -744956,6 +745112,10 @@
         "name": "Cozy and Tidy"
     },
     {
+        "appid": 5241040,
+        "name": "黄昏幻形者"
+    },
+    {
         "appid": 5241470,
         "name": "City Scramble"
     },
@@ -744970,6 +745130,10 @@
     {
         "appid": 5242230,
         "name": "战国宏图"
+    },
+    {
+        "appid": 5242590,
+        "name": "Somewhere Else"
     },
     {
         "appid": 5243010,
@@ -745004,8 +745168,16 @@
         "name": "KICK//LINE"
     },
     {
+        "appid": 5245480,
+        "name": "The Last Summer Holiday"
+    },
+    {
         "appid": 5245720,
         "name": "Old War Together"
+    },
+    {
+        "appid": 5245790,
+        "name": "HOSPİTAL8"
     },
     {
         "appid": 5245830,
@@ -745020,15 +745192,51 @@
         "name": "Never Enough Corn"
     },
     {
+        "appid": 5246270,
+        "name": "Idle Purrates Clicker"
+    },
+    {
         "appid": 5246470,
         "name": "SkyAid"
+    },
+    {
+        "appid": 5246610,
+        "name": "Hentai Femboy Maid"
+    },
+    {
+        "appid": 5246620,
+        "name": "Hentai Femboy Business"
+    },
+    {
+        "appid": 5246800,
+        "name": "Mane, Tekel, Fares"
     },
     {
         "appid": 5246930,
         "name": "SkyStray"
     },
     {
+        "appid": 5247020,
+        "name": "Calcio Totale"
+    },
+    {
+        "appid": 5247790,
+        "name": "DenimDoug_909"
+    },
+    {
+        "appid": 5247970,
+        "name": "Visual Novel: The Neighbor with My Face"
+    },
+    {
         "appid": 5248190,
         "name": "Hell Healers"
+    },
+    {
+        "appid": 5250180,
+        "name": "Hentai Femboy Cleaner"
+    },
+    {
+        "appid": 5250400,
+        "name": "Hentai Femboy Housekeeper"
     }
 ]
