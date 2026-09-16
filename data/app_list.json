@@ -111712,6 +111712,10 @@
         "name": "Cover Sky"
     },
     {
+        "appid": 993280,
+        "name": "舌尖上的魔素师"
+    },
+    {
         "appid": 993290,
         "name": "JOBU-KI"
     },
@@ -135498,10 +135502,6 @@
     {
         "appid": 1141450,
         "name": "Dodge Rocket"
-    },
-    {
-        "appid": 1141510,
-        "name": "One Fantasy Shooter"
     },
     {
         "appid": 1141540,
@@ -307416,6 +307416,10 @@
         "name": "Greedland"
     },
     {
+        "appid": 2218430,
+        "name": "Stream Slugger"
+    },
+    {
         "appid": 2218440,
         "name": "TOD Fragments: Special Fun"
     },
@@ -379178,10 +379182,6 @@
     {
         "appid": 2669000,
         "name": "Dee's Nuts 2"
-    },
-    {
-        "appid": 2669010,
-        "name": "Deepophobia"
     },
     {
         "appid": 2669030,
@@ -470986,10 +470986,6 @@
     {
         "appid": 3255920,
         "name": "Escape The Quack"
-    },
-    {
-        "appid": 3255950,
-        "name": "Escape Protocol"
     },
     {
         "appid": 3255970,
@@ -662120,6 +662116,10 @@
         "name": "VRTS"
     },
     {
+        "appid": 4554760,
+        "name": "Elsewhere Owl Post"
+    },
+    {
         "appid": 4554770,
         "name": "Quacky"
     },
@@ -664776,10 +664776,6 @@
         "name": "Tap Tap Slap!"
     },
     {
-        "appid": 4573850,
-        "name": "Canopy"
-    },
-    {
         "appid": 4573860,
         "name": "Take Five"
     },
@@ -666070,6 +666066,10 @@
     {
         "appid": 4581860,
         "name": "Jett Rider - Mini Hero"
+    },
+    {
+        "appid": 4581880,
+        "name": "絶対遵守"
     },
     {
         "appid": 4581890,
@@ -684197,7 +684197,7 @@
     },
     {
         "appid": 4714420,
-        "name": " 策略战争:红蓝大战"
+        "name": "Color War"
     },
     {
         "appid": 4714490,
@@ -685033,7 +685033,7 @@
     },
     {
         "appid": 4723320,
-        "name": "Eternal Dread"
+        "name": "Eternal Fall"
     },
     {
         "appid": 4723380,
@@ -701010,6 +701010,10 @@
     {
         "appid": 4848760,
         "name": "The Greatest Sect Master"
+    },
+    {
+        "appid": 4848790,
+        "name": "To Rule... Bavarin"
     },
     {
         "appid": 4848830,
@@ -721044,6 +721048,10 @@
         "name": "Phantom Jay"
     },
     {
+        "appid": 4994020,
+        "name": "Downstairs Derby!"
+    },
+    {
         "appid": 4994070,
         "name": "Venture Capital Tycoon"
     },
@@ -728748,6 +728756,10 @@
         "name": "High Stakes"
     },
     {
+        "appid": 5054700,
+        "name": "Fakin It XL"
+    },
+    {
         "appid": 5054720,
         "name": "Alice in the Firewall"
     },
@@ -734632,6 +734644,10 @@
         "name": "Lifespan.exe"
     },
     {
+        "appid": 5104130,
+        "name": "Prosa Café"
+    },
+    {
         "appid": 5104140,
         "name": "Solar Arena"
     },
@@ -738380,6 +738396,10 @@
         "name": "HOPENOTHING"
     },
     {
+        "appid": 5136710,
+        "name": "Goblin Smasher"
+    },
+    {
         "appid": 5136810,
         "name": "Perfectly Folded"
     },
@@ -739892,6 +739912,10 @@
         "name": "Basketball Dynasty"
     },
     {
+        "appid": 5152790,
+        "name": "SCP: Rapture"
+    },
+    {
         "appid": 5152950,
         "name": "The Architect of Nowhere"
     },
@@ -740938,6 +740962,10 @@
     {
         "appid": 5164610,
         "name": "MEANINGLESS"
+    },
+    {
+        "appid": 5164620,
+        "name": "Horror Stories: Social Problems"
     },
     {
         "appid": 5164640,
@@ -742634,6 +742662,10 @@
     {
         "appid": 5180640,
         "name": "Move The Freak Out!"
+    },
+    {
+        "appid": 5180650,
+        "name": "Blue Collar'd"
     },
     {
         "appid": 5180680,
@@ -744600,6 +744632,10 @@
         "name": "Adventurer's Inn"
     },
     {
+        "appid": 5204830,
+        "name": "Deleted Wiki: Clean Up the Lost Files"
+    },
+    {
         "appid": 5204840,
         "name": "Sort Them Guns: Tidy Up"
     },
@@ -744744,6 +744780,10 @@
         "name": "Odyssée Stellaire 2"
     },
     {
+        "appid": 5207340,
+        "name": "Ping Pong Attack: Return of the Pong"
+    },
+    {
         "appid": 5207350,
         "name": "文景相生"
     },
@@ -744842,6 +744882,10 @@
     {
         "appid": 5208780,
         "name": "Find The Box"
+    },
+    {
+        "appid": 5208810,
+        "name": "梦幻三国志"
     },
     {
         "appid": 5208830,
@@ -744978,6 +745022,10 @@
     {
         "appid": 5212650,
         "name": "Water Trees Simulator"
+    },
+    {
+        "appid": 5212660,
+        "name": "Hope Delivery"
     },
     {
         "appid": 5212720,
@@ -745232,6 +745280,14 @@
         "name": "MARGIN: Raj Minerals"
     },
     {
+        "appid": 5217780,
+        "name": "Goblin: Lord of Death"
+    },
+    {
+        "appid": 5217800,
+        "name": "Afterlife Dreams: Anna - Part I"
+    },
+    {
         "appid": 5217810,
         "name": "Triviatro"
     },
@@ -745418,6 +745474,10 @@
     {
         "appid": 5221150,
         "name": "Towers & Tentacles"
+    },
+    {
+        "appid": 5221280,
+        "name": "Dinosaur Quiz Trivia - Prehistoric Brain Challenge"
     },
     {
         "appid": 5221450,
@@ -745708,6 +745768,10 @@
         "name": "Cozy Jigsaw"
     },
     {
+        "appid": 5227050,
+        "name": "Planet Escape Idle"
+    },
+    {
         "appid": 5227250,
         "name": "The Assistant - Season 3"
     },
@@ -745932,6 +745996,10 @@
         "name": "Terminal Dice"
     },
     {
+        "appid": 5232860,
+        "name": "Ghost//Root"
+    },
+    {
         "appid": 5232980,
         "name": "Total Biochem"
     },
@@ -746134,6 +746202,10 @@
     {
         "appid": 5238790,
         "name": "Everlasting Curse"
+    },
+    {
+        "appid": 5238820,
+        "name": "Life bar (Demo)"
     },
     {
         "appid": 5238840,
@@ -746452,8 +746524,16 @@
         "name": "Thugs in Fantasy"
     },
     {
+        "appid": 5248520,
+        "name": "ÓRBITA · La gran tirada"
+    },
+    {
         "appid": 5248600,
         "name": "Trickstir"
+    },
+    {
+        "appid": 5248900,
+        "name": "Champions of Apoth"
     },
     {
         "appid": 5248940,
@@ -746472,12 +746552,24 @@
         "name": "Wood Watch"
     },
     {
+        "appid": 5249670,
+        "name": "Wand Keeper"
+    },
+    {
         "appid": 5249730,
         "name": "The Legend of Trump"
     },
     {
+        "appid": 5250120,
+        "name": "Neon Chase"
+    },
+    {
         "appid": 5250180,
         "name": "Hentai Femboy Cleaner"
+    },
+    {
+        "appid": 5250370,
+        "name": "Anomalium"
     },
     {
         "appid": 5250400,
@@ -746502,6 +746594,10 @@
     {
         "appid": 5251010,
         "name": "Lethal Autonomous Lovers"
+    },
+    {
+        "appid": 5251040,
+        "name": "Orbit Fall"
     },
     {
         "appid": 5251190,
@@ -746568,6 +746664,10 @@
         "name": "Beluga Polo"
     },
     {
+        "appid": 5255700,
+        "name": "Mixed Waste Tidy Up the Landfill"
+    },
+    {
         "appid": 5255870,
         "name": "Working Dead"
     },
@@ -746576,7 +746676,23 @@
         "name": "Shelfbound"
     },
     {
+        "appid": 5255920,
+        "name": "No Shoes, No Mercy"
+    },
+    {
+        "appid": 5256390,
+        "name": "Ryuheidou's Game Shelf"
+    },
+    {
         "appid": 5256450,
         "name": "Please Fix!"
+    },
+    {
+        "appid": 5257970,
+        "name": "Redline Lust"
+    },
+    {
+        "appid": 5258220,
+        "name": "El Mequetrefe"
     }
 ]
