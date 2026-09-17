@@ -330748,6 +330748,10 @@
         "name": "Undead Space"
     },
     {
+        "appid": 2360430,
+        "name": "Lexomancy"
+    },
+    {
         "appid": 2360440,
         "name": "Dreamians: Card Battle"
     },
@@ -485173,7 +485177,7 @@
     },
     {
         "appid": 3349970,
-        "name": "Gamestonk Simulator: Gone Rogue"
+        "name": "Gamestonk Simulator"
     },
     {
         "appid": 3349980,
@@ -504206,6 +504210,10 @@
     {
         "appid": 3469890,
         "name": "Spell Rift"
+    },
+    {
+        "appid": 3469900,
+        "name": "Legend of the Crystal Skulls"
     },
     {
         "appid": 3469910,
@@ -617232,6 +617240,10 @@
         "name": "The Long Way Home"
     },
     {
+        "appid": 4231140,
+        "name": "Playground Ball"
+    },
+    {
         "appid": 4231210,
         "name": "Inn Over Your Head"
     },
@@ -696116,6 +696128,10 @@
         "name": "The End of the World Club"
     },
     {
+        "appid": 4811510,
+        "name": "MASH Commander"
+    },
+    {
         "appid": 4811530,
         "name": "The Awakening"
     },
@@ -705494,6 +705510,10 @@
     {
         "appid": 4881700,
         "name": "Hentai Clicker: Kaia is streaming"
+    },
+    {
+        "appid": 4881720,
+        "name": "Below The Loop"
     },
     {
         "appid": 4881800,
@@ -718220,6 +718240,10 @@
         "name": "Idle Mall Simulator"
     },
     {
+        "appid": 4970670,
+        "name": "YAOYA THE GAME"
+    },
+    {
         "appid": 4970680,
         "name": "The Legend of the Lawns"
     },
@@ -724600,6 +724624,10 @@
         "name": "ENTRANCE EXAM"
     },
     {
+        "appid": 5021130,
+        "name": "SLAUGHTER LOOP"
+    },
+    {
         "appid": 5021180,
         "name": "MindUP"
     },
@@ -728018,6 +728046,10 @@
     {
         "appid": 5046970,
         "name": "虞州的罪羊"
+    },
+    {
+        "appid": 5046980,
+        "name": "Rogue Femme"
     },
     {
         "appid": 5046990,
@@ -735136,6 +735168,10 @@
         "name": "Veridus The Walking Nightmare"
     },
     {
+        "appid": 5105490,
+        "name": "Sorcerous 2 City of Cults"
+    },
+    {
         "appid": 5105510,
         "name": "龍Game"
     },
@@ -735954,6 +735990,10 @@
     {
         "appid": 5112800,
         "name": "Don't Stop Cutting The Trees!"
+    },
+    {
+        "appid": 5112830,
+        "name": "You Can't Drink Gold"
     },
     {
         "appid": 5112880,
@@ -736794,6 +736834,10 @@
     {
         "appid": 5119900,
         "name": "Endless Roadtrip"
+    },
+    {
+        "appid": 5119940,
+        "name": "Shadow Rulers: World Order"
     },
     {
         "appid": 5119980,
@@ -741548,6 +741592,10 @@
         "name": "Underpaid"
     },
     {
+        "appid": 5165620,
+        "name": "Delta-19B"
+    },
+    {
         "appid": 5165650,
         "name": "Mind the Clown: Reborn"
     },
@@ -746144,6 +746192,10 @@
         "name": "Keepers of the Farkle"
     },
     {
+        "appid": 5221910,
+        "name": "Corner Cafe Capitalist"
+    },
+    {
         "appid": 5222030,
         "name": "HEATSINK"
     },
@@ -746310,6 +746362,10 @@
     {
         "appid": 5224440,
         "name": "Vug: From Caves to Stars"
+    },
+    {
+        "appid": 5224530,
+        "name": "MEAT AND FLOWERS"
     },
     {
         "appid": 5224540,
@@ -746544,6 +746600,10 @@
         "name": "BitVoid"
     },
     {
+        "appid": 5228830,
+        "name": "FreeSurf"
+    },
+    {
         "appid": 5229130,
         "name": "Late Night with Ken Hayes"
     },
@@ -746774,6 +746834,10 @@
     {
         "appid": 5234140,
         "name": "INTERSECTION I"
+    },
+    {
+        "appid": 5234320,
+        "name": "余烬边界"
     },
     {
         "appid": 5234330,
@@ -747164,12 +747228,20 @@
         "name": "Elroy: King of the Jungle"
     },
     {
+        "appid": 5245240,
+        "name": "Another Game About Stealing Cars"
+    },
+    {
         "appid": 5245280,
         "name": "KICK//LINE"
     },
     {
         "appid": 5245480,
         "name": "The Last Summer Holiday"
+    },
+    {
+        "appid": 5245590,
+        "name": "Sand Horde"
     },
     {
         "appid": 5245720,
@@ -747360,6 +747432,10 @@
         "name": "Hentai Femboy Housekeeper"
     },
     {
+        "appid": 5250520,
+        "name": "Where's WigglyJiggly"
+    },
+    {
         "appid": 5250550,
         "name": "A Monk's Quest"
     },
@@ -747382,6 +747458,10 @@
     {
         "appid": 5251040,
         "name": "Orbit Fall"
+    },
+    {
+        "appid": 5251100,
+        "name": "Meat Hell"
     },
     {
         "appid": 5251190,
@@ -747594,6 +747674,10 @@
     {
         "appid": 5262000,
         "name": "Nobody Clocks Out"
+    },
+    {
+        "appid": 5262180,
+        "name": "BountySisters"
     },
     {
         "appid": 5262450,
