@@ -213,5 +213,25 @@
         "reason": "steam_success_false",
         "first_seen": "2026-09-17",
         "last_seen": "2026-09-17"
+    },
+    "681810": {
+        "reason": "steam_success_false",
+        "first_seen": "2026-09-17",
+        "last_seen": "2026-09-17"
+    },
+    "681820": {
+        "reason": "steam_success_false",
+        "first_seen": "2026-09-17",
+        "last_seen": "2026-09-17"
+    },
+    "681830": {
+        "reason": "steam_success_false",
+        "first_seen": "2026-09-17",
+        "last_seen": "2026-09-17"
+    },
+    "681840": {
+        "reason": "steam_success_false",
+        "first_seen": "2026-09-17",
+        "last_seen": "2026-09-17"
     }
 }
