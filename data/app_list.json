@@ -229361,7 +229361,7 @@
     },
     {
         "appid": 1715630,
-        "name": "Satus Colony Survival"
+        "name": "TimbrianGuard"
     },
     {
         "appid": 1715660,
@@ -588541,7 +588541,7 @@
     },
     {
         "appid": 4033720,
-        "name": "Tidewood"
+        "name": "Loam"
     },
     {
         "appid": 4033730,
@@ -590450,6 +590450,10 @@
     {
         "appid": 4047620,
         "name": "宠物放置"
+    },
+    {
+        "appid": 4047630,
+        "name": "Sketch Switch"
     },
     {
         "appid": 4047640,
@@ -625724,6 +625728,10 @@
         "name": "Library Of Babel"
     },
     {
+        "appid": 4286840,
+        "name": "Two of A Kind"
+    },
+    {
         "appid": 4286910,
         "name": "EON Survivor"
     },
@@ -626189,7 +626197,7 @@
     },
     {
         "appid": 4289610,
-        "name": "蒙古之岚 剧本1：崇正学堂篇"
+        "name": "Mongolian Wind Script 1: Chongzheng Academy"
     },
     {
         "appid": 4289680,
@@ -634168,6 +634176,10 @@
         "name": "Breaking Point"
     },
     {
+        "appid": 4345260,
+        "name": "Masters of Magic"
+    },
+    {
         "appid": 4345290,
         "name": "Women of Xal 2"
     },
@@ -640901,7 +640913,7 @@
     },
     {
         "appid": 4396550,
-        "name": "Cybersport Manager"
+        "name": "Outdraft"
     },
     {
         "appid": 4396570,
@@ -664328,6 +664340,10 @@
         "name": "Anathema Requiem"
     },
     {
+        "appid": 4569890,
+        "name": "Паучок сторожит уголок"
+    },
+    {
         "appid": 4569940,
         "name": "We're Going Down"
     },
@@ -666573,7 +666589,7 @@
     },
     {
         "appid": 4585860,
-        "name": "Rogue Dot"
+        "name": "How To Train Your Virus"
     },
     {
         "appid": 4585880,
@@ -680270,6 +680286,10 @@
     {
         "appid": 4686090,
         "name": "Code Blue Idle"
+    },
+    {
+        "appid": 4686100,
+        "name": "Keep on Blessin'"
     },
     {
         "appid": 4686110,
@@ -707524,6 +707544,10 @@
         "name": "3DMOBA"
     },
     {
+        "appid": 4898010,
+        "name": "SUBRUNNER"
+    },
+    {
         "appid": 4898080,
         "name": "Manala: Equinox War"
     },
@@ -710358,6 +710382,10 @@
     {
         "appid": 4917390,
         "name": "Quit Stalin"
+    },
+    {
+        "appid": 4917440,
+        "name": "MOGGED: Looksmaxx or Die"
     },
     {
         "appid": 4917480,
@@ -714386,6 +714414,10 @@
     {
         "appid": 4945980,
         "name": "Grimoire of Blanks"
+    },
+    {
+        "appid": 4946050,
+        "name": "RageRoids"
     },
     {
         "appid": 4946070,
@@ -729724,6 +729756,10 @@
         "name": "The Thandor"
     },
     {
+        "appid": 5063020,
+        "name": "散人大极品"
+    },
+    {
         "appid": 5063050,
         "name": "灯守"
     },
@@ -732972,6 +733008,10 @@
         "name": "Kritsana"
     },
     {
+        "appid": 5089270,
+        "name": "Genius Witch's Roper Ranch"
+    },
+    {
         "appid": 5089280,
         "name": "Anomaly Center"
     },
@@ -734828,6 +734868,10 @@
         "name": "Spud Legends"
     },
     {
+        "appid": 5105720,
+        "name": "Monster Friends"
+    },
+    {
         "appid": 5105740,
         "name": "漢字魔導錄"
     },
@@ -735825,7 +735869,7 @@
     },
     {
         "appid": 5114970,
-        "name": "Let's Tidy Up! Backrooms"
+        "name": "Let's Tidy Up! Liminal"
     },
     {
         "appid": 5114990,
@@ -737556,6 +737600,10 @@
         "name": "Blova"
     },
     {
+        "appid": 5129730,
+        "name": "家出少女といっしょ。～ダウナーゲーマーJKとイチャラブ同棲生活～"
+    },
+    {
         "appid": 5129770,
         "name": "SUNSOFT is Back! Retro Game Selection 2"
     },
@@ -738202,6 +738250,10 @@
     {
         "appid": 5134870,
         "name": "Mow A Lawn"
+    },
+    {
+        "appid": 5134950,
+        "name": "Chicken Siege"
     },
     {
         "appid": 5134970,
@@ -742472,6 +742524,10 @@
         "name": "丧尸围楼"
     },
     {
+        "appid": 5179280,
+        "name": "女神养成：放置型"
+    },
+    {
         "appid": 5179350,
         "name": "Long Way Home"
     },
@@ -743018,6 +743074,10 @@
     {
         "appid": 5184600,
         "name": "爱之巢~V0.098~"
+    },
+    {
+        "appid": 5184640,
+        "name": "Tileshire"
     },
     {
         "appid": 5184680,
@@ -743756,6 +743816,10 @@
         "name": "Tinker's Nook"
     },
     {
+        "appid": 5192790,
+        "name": "Peckout"
+    },
+    {
         "appid": 5192820,
         "name": "Pull My Finger"
     },
@@ -744084,6 +744148,10 @@
         "name": "Cat's Fish Stall"
     },
     {
+        "appid": 5196870,
+        "name": "The Duke of Werlington"
+    },
+    {
         "appid": 5196980,
         "name": "ArkSeed Terraformery"
     },
@@ -744118,6 +744186,10 @@
     {
         "appid": 5197490,
         "name": "Crumple Toss"
+    },
+    {
+        "appid": 5197600,
+        "name": "GILDEN"
     },
     {
         "appid": 5197660,
@@ -744920,6 +744992,10 @@
         "name": "Atom By Atom"
     },
     {
+        "appid": 5209280,
+        "name": "Feltfall"
+    },
+    {
         "appid": 5209480,
         "name": "超硬核又超松垮的英雄大乱斗：姬巫女银河"
     },
@@ -745010,6 +745086,10 @@
     {
         "appid": 5211940,
         "name": "九州"
+    },
+    {
+        "appid": 5212110,
+        "name": "Fox Clicker"
     },
     {
         "appid": 5212390,
@@ -745412,6 +745492,14 @@
         "name": "White Noise"
     },
     {
+        "appid": 5219650,
+        "name": "Incrementalism: Paper Space"
+    },
+    {
+        "appid": 5219680,
+        "name": "Dirty Dogs"
+    },
+    {
         "appid": 5219770,
         "name": "Second Reign: Reclaim"
     },
@@ -745464,6 +745552,10 @@
         "name": "Old Times"
     },
     {
+        "appid": 5220920,
+        "name": "Stock Baron"
+    },
+    {
         "appid": 5221100,
         "name": "Deadbeats"
     },
@@ -745474,6 +745566,10 @@
     {
         "appid": 5221150,
         "name": "Towers & Tentacles"
+    },
+    {
+        "appid": 5221200,
+        "name": "Minefield Mayhem"
     },
     {
         "appid": 5221280,
@@ -745586,6 +745682,14 @@
     {
         "appid": 5222980,
         "name": "Renz Soccer Sim"
+    },
+    {
+        "appid": 5223030,
+        "name": "Solstice"
+    },
+    {
+        "appid": 5223050,
+        "name": "The Last Buffet"
     },
     {
         "appid": 5223090,
@@ -745782,6 +745886,10 @@
     {
         "appid": 5227330,
         "name": "ScriptReader"
+    },
+    {
+        "appid": 5227510,
+        "name": "Crank'N'Gun"
     },
     {
         "appid": 5227600,
@@ -746120,6 +746228,10 @@
         "name": "GeminiSeedW"
     },
     {
+        "appid": 5235390,
+        "name": "逃出孤岛"
+    },
+    {
         "appid": 5235560,
         "name": "Zombie Day Protocol"
     },
@@ -746166,6 +746278,10 @@
     {
         "appid": 5236870,
         "name": "Hentai Clicker: Lyra is streaming"
+    },
+    {
+        "appid": 5237200,
+        "name": "Last Block Standing"
     },
     {
         "appid": 5237210,
@@ -746222,6 +746338,10 @@
     {
         "appid": 5239320,
         "name": "Lust of Rome"
+    },
+    {
+        "appid": 5239340,
+        "name": "Hexcavate"
     },
     {
         "appid": 5239500,
@@ -746382,6 +746502,10 @@
     {
         "appid": 5244430,
         "name": "Chroma Ward"
+    },
+    {
+        "appid": 5244650,
+        "name": "RIPPLES"
     },
     {
         "appid": 5244660,
@@ -746616,6 +746740,10 @@
         "name": "The Roc"
     },
     {
+        "appid": 5251580,
+        "name": "Super Shooting Gallery Battle"
+    },
+    {
         "appid": 5251600,
         "name": "Fish on the Floor"
     },
@@ -746634,6 +746762,10 @@
     {
         "appid": 5252390,
         "name": "Arcane Library"
+    },
+    {
+        "appid": 5252790,
+        "name": "Guardian Beast"
     },
     {
         "appid": 5253200,
@@ -746676,8 +746808,16 @@
         "name": "Shelfbound"
     },
     {
+        "appid": 5255910,
+        "name": "Fewer Mornings"
+    },
+    {
         "appid": 5255920,
         "name": "No Shoes, No Mercy"
+    },
+    {
+        "appid": 5255970,
+        "name": "Bonefall"
     },
     {
         "appid": 5256390,
@@ -746686,6 +746826,10 @@
     {
         "appid": 5256450,
         "name": "Please Fix!"
+    },
+    {
+        "appid": 5256480,
+        "name": "Little Sister"
     },
     {
         "appid": 5257970,
