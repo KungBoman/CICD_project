@@ -89264,6 +89264,10 @@
         "name": "NALOGI 2"
     },
     {
+        "appid": 841390,
+        "name": "Frontier Intelligence"
+    },
+    {
         "appid": 841440,
         "name": "ShellBlast: Legacy Edition"
     },
@@ -125062,6 +125066,10 @@
     {
         "appid": 1077300,
         "name": "CyberMedic Simulator"
+    },
+    {
+        "appid": 1077310,
+        "name": "Whiskers of Yesterday"
     },
     {
         "appid": 1077320,
@@ -415596,6 +415604,10 @@
         "name": "Love Hell"
     },
     {
+        "appid": 2903390,
+        "name": "カグラデン"
+    },
+    {
         "appid": 2903450,
         "name": "Fishing for a Living"
     },
@@ -459866,10 +459878,6 @@
     {
         "appid": 3183270,
         "name": "Basil and the Isles of Spice"
-    },
-    {
-        "appid": 3183280,
-        "name": "Game of Thrones: Kingsroad"
     },
     {
         "appid": 3183320,
@@ -571204,6 +571212,10 @@
         "name": "Fangs to Fields Idle"
     },
     {
+        "appid": 3919630,
+        "name": "SINGULARITY RISING"
+    },
+    {
         "appid": 3919680,
         "name": "The Single-Eye Nightmare"
     },
@@ -594106,10 +594118,6 @@
     {
         "appid": 4074280,
         "name": "Tails in Pairs"
-    },
-    {
-        "appid": 4074290,
-        "name": "Decaying Forest"
     },
     {
         "appid": 4074320,
@@ -658512,6 +658520,10 @@
         "name": "Ouju: Isle of the Accursed"
     },
     {
+        "appid": 4532280,
+        "name": "裸辞修仙传"
+    },
+    {
         "appid": 4532290,
         "name": "竜とアリス"
     },
@@ -701572,6 +701584,10 @@
         "name": "Pinkybites"
     },
     {
+        "appid": 4852030,
+        "name": "Project Remnant"
+    },
+    {
         "appid": 4852040,
         "name": "Code Rescue"
     },
@@ -703560,6 +703576,10 @@
         "name": "Ambience"
     },
     {
+        "appid": 4867140,
+        "name": "Hold On"
+    },
+    {
         "appid": 4867150,
         "name": "Gate"
     },
@@ -703806,6 +703826,10 @@
     {
         "appid": 4869180,
         "name": "GoatCart"
+    },
+    {
+        "appid": 4869200,
+        "name": "Secrets Between Lines"
     },
     {
         "appid": 4869220,
@@ -730080,6 +730104,10 @@
         "name": "Cards Everywhere!"
     },
     {
+        "appid": 5063150,
+        "name": "ゆるキャン△ つなげるみんなのオールインワン!! ちるタイム"
+    },
+    {
         "appid": 5063190,
         "name": "TOWERPUNK"
     },
@@ -731340,6 +731368,10 @@
         "name": "Cyber Classics Collection"
     },
     {
+        "appid": 5073130,
+        "name": "Tessera"
+    },
+    {
         "appid": 5073210,
         "name": "BoneHeads"
     },
@@ -731426,6 +731458,10 @@
     {
         "appid": 5073840,
         "name": "Starwood: Lantern"
+    },
+    {
+        "appid": 5073880,
+        "name": "Interpolate"
     },
     {
         "appid": 5073940,
@@ -733704,6 +733740,10 @@
         "name": "American Gold Rush"
     },
     {
+        "appid": 5092190,
+        "name": "Horror Club: Grandpa's House"
+    },
+    {
         "appid": 5092280,
         "name": "Humongous Tree Growing Simulator"
     },
@@ -735604,6 +735644,10 @@
         "name": "Handlebar"
     },
     {
+        "appid": 5109030,
+        "name": "HENTAI CHAMELEON"
+    },
+    {
         "appid": 5109050,
         "name": "AstroTennis"
     },
@@ -735778,6 +735822,10 @@
     {
         "appid": 5110750,
         "name": "Coinfetti"
+    },
+    {
+        "appid": 5110980,
+        "name": "Fieldmade"
     },
     {
         "appid": 5111010,
@@ -739492,6 +739540,10 @@
         "name": "No Place in the City"
     },
     {
+        "appid": 5144250,
+        "name": "House Rules 21"
+    },
+    {
         "appid": 5144290,
         "name": "灵韵牌：清浊之间"
     },
@@ -742320,6 +742372,10 @@
         "name": "John Whisk"
     },
     {
+        "appid": 5172280,
+        "name": "Folding: Paper Puzzle"
+    },
+    {
         "appid": 5172290,
         "name": "Chiki Poki: Rush🎉"
     },
@@ -744256,6 +744312,10 @@
         "name": "Facelet"
     },
     {
+        "appid": 5191880,
+        "name": "Magic Cursor"
+    },
+    {
         "appid": 5191900,
         "name": "The Hobo Dev"
     },
@@ -744370,6 +744430,10 @@
     {
         "appid": 5193530,
         "name": "SPARK//RUSH"
+    },
+    {
+        "appid": 5193580,
+        "name": "In Your Hands"
     },
     {
         "appid": 5193620,
@@ -745708,6 +745772,10 @@
         "name": "Solar Imperium"
     },
     {
+        "appid": 5213290,
+        "name": "SHADOW OF THE KINGDOM"
+    },
+    {
         "appid": 5213320,
         "name": "The Göktürk: Caravan"
     },
@@ -745718,6 +745786,10 @@
     {
         "appid": 5213400,
         "name": "Partway"
+    },
+    {
+        "appid": 5213430,
+        "name": "LOVE COMPANY: A Romance Escape"
     },
     {
         "appid": 5213440,
@@ -745970,6 +746042,10 @@
     {
         "appid": 5218370,
         "name": "Organized Chaos"
+    },
+    {
+        "appid": 5218380,
+        "name": "PowerPitch"
     },
     {
         "appid": 5218460,
@@ -746364,6 +746440,10 @@
         "name": "Vug: From Caves to Stars"
     },
     {
+        "appid": 5224520,
+        "name": "Vocabug"
+    },
+    {
         "appid": 5224530,
         "name": "MEAT AND FLOWERS"
     },
@@ -746468,6 +746548,10 @@
         "name": "Type to Survive"
     },
     {
+        "appid": 5226710,
+        "name": "Dread Privateer"
+    },
+    {
         "appid": 5226910,
         "name": "Left to Your Own Devices"
     },
@@ -746518,6 +746602,10 @@
     {
         "appid": 5227670,
         "name": "Genesis Factory"
+    },
+    {
+        "appid": 5227690,
+        "name": "ROCK//CLICK"
     },
     {
         "appid": 5227770,
@@ -746904,6 +746992,10 @@
         "name": "逃出孤岛"
     },
     {
+        "appid": 5235550,
+        "name": "Child of the Arcane"
+    },
+    {
         "appid": 5235560,
         "name": "Zombie Day Protocol"
     },
@@ -747244,6 +747336,10 @@
         "name": "Sand Horde"
     },
     {
+        "appid": 5245630,
+        "name": "Night Ops: Undead"
+    },
+    {
         "appid": 5245720,
         "name": "Old War Together"
     },
@@ -747404,6 +747500,10 @@
         "name": "Wood Watch"
     },
     {
+        "appid": 5249410,
+        "name": "Gasoline"
+    },
+    {
         "appid": 5249570,
         "name": "Rescue Guardian Blaster"
     },
@@ -747442,6 +747542,10 @@
     {
         "appid": 5250580,
         "name": "VACATION"
+    },
+    {
+        "appid": 5250680,
+        "name": "Arborist"
     },
     {
         "appid": 5250710,
@@ -747494,6 +747598,10 @@
     {
         "appid": 5252040,
         "name": "15日僵尸幸存者"
+    },
+    {
+        "appid": 5252050,
+        "name": "Poker Heroes"
     },
     {
         "appid": 5252170,
@@ -747600,6 +747708,10 @@
         "name": "Jono"
     },
     {
+        "appid": 5257300,
+        "name": "Puddle Pond: Mouse Fishing"
+    },
+    {
         "appid": 5257970,
         "name": "Redline Lust"
     },
@@ -747664,8 +747776,16 @@
         "name": "Obsidian Spire"
     },
     {
+        "appid": 5261110,
+        "name": "套圈圈模拟器"
+    },
+    {
         "appid": 5261220,
         "name": "Power of Nature"
+    },
+    {
+        "appid": 5261710,
+        "name": "Hazard Ready"
     },
     {
         "appid": 5261780,
@@ -747702,6 +747822,10 @@
     {
         "appid": 5263790,
         "name": "Hello the undead are coming"
+    },
+    {
+        "appid": 5264130,
+        "name": "Witch's Cottage"
     },
     {
         "appid": 5265110,
