@@ -502376,10 +502376,6 @@
         "name": "超探偵シャーロックちゃん～掟破りのミスディレクション～"
     },
     {
-        "appid": 3456860,
-        "name": "Dice ’n’ Figurines: Business Life Simulator"
-    },
-    {
         "appid": 3456880,
         "name": "Pinball Simulator"
     },
@@ -548480,6 +548476,10 @@
         "name": "David's Mighty Warriors"
     },
     {
+        "appid": 3771690,
+        "name": "Gunlands"
+    },
+    {
         "appid": 3771740,
         "name": "IQ Under Construction"
     },
@@ -574014,10 +574014,6 @@
     {
         "appid": 3936920,
         "name": "The Demon's Apple - Otome Game"
-    },
-    {
-        "appid": 3936940,
-        "name": "Everhome"
     },
     {
         "appid": 3936960,
@@ -630089,7 +630085,7 @@
     },
     {
         "appid": 4312580,
-        "name": "Geopogo Cities: Windsor–Detroit"
+        "name": "Developer Simulator"
     },
     {
         "appid": 4312600,
@@ -686077,7 +686073,7 @@
     },
     {
         "appid": 4730130,
-        "name": "AITA: The Dark Domain"
+        "name": "Aita: The Dark Domain"
     },
     {
         "appid": 4730160,
@@ -689450,6 +689446,10 @@
     {
         "appid": 4756220,
         "name": "Killer Maid Cafe"
+    },
+    {
+        "appid": 4756230,
+        "name": "Strike Warfare : Battle Fury"
     },
     {
         "appid": 4756250,
@@ -704852,6 +704852,10 @@
         "name": "TrailRush"
     },
     {
+        "appid": 4876070,
+        "name": "Hugh's Grand Day Off"
+    },
+    {
         "appid": 4876090,
         "name": "Rugby World Championship"
     },
@@ -705210,6 +705214,10 @@
     {
         "appid": 4878550,
         "name": "The Tower of Seven"
+    },
+    {
+        "appid": 4878590,
+        "name": "Cidle Online"
     },
     {
         "appid": 4878610,
@@ -710617,7 +710625,7 @@
     },
     {
         "appid": 4916790,
-        "name": "Last Haven: Idle Survival"
+        "name": "Idle Survival: Last Haven"
     },
     {
         "appid": 4916810,
@@ -716316,6 +716324,10 @@
         "name": "The Lighthouse Restaurant"
     },
     {
+        "appid": 4956390,
+        "name": "Sonar & Silence"
+    },
+    {
         "appid": 4956420,
         "name": "Scrappy TD"
     },
@@ -720908,6 +720920,10 @@
         "name": "Armoured Combat"
     },
     {
+        "appid": 4990370,
+        "name": "Xenmega"
+    },
+    {
         "appid": 4990380,
         "name": "Requiem for a Dying Bloom"
     },
@@ -721704,10 +721720,6 @@
         "name": "赛博修仙"
     },
     {
-        "appid": 4996170,
-        "name": "Magic Fusion"
-    },
-    {
         "appid": 4996180,
         "name": "Alice in BLUE"
     },
@@ -722354,6 +722366,10 @@
     {
         "appid": 5000880,
         "name": "Coverage"
+    },
+    {
+        "appid": 5000900,
+        "name": "Convergent Chrono"
     },
     {
         "appid": 5000930,
@@ -724258,6 +724274,10 @@
     {
         "appid": 5016500,
         "name": "Grey Market"
+    },
+    {
+        "appid": 5016520,
+        "name": "Glasswake"
     },
     {
         "appid": 5016550,
@@ -733252,6 +733272,10 @@
         "name": "meowtopia"
     },
     {
+        "appid": 5086920,
+        "name": "The Grooming"
+    },
+    {
         "appid": 5086950,
         "name": " Hotel Carnivalia"
     },
@@ -736733,7 +736757,7 @@
     },
     {
         "appid": 5116890,
-        "name": "Paintscape"
+        "name": "PaintScape"
     },
     {
         "appid": 5116940,
@@ -739412,6 +739436,10 @@
         "name": "You Should Consider Making a Burger EX"
     },
     {
+        "appid": 5140100,
+        "name": "Video Store Chaos"
+    },
+    {
         "appid": 5140150,
         "name": "流火 A Glimmer"
     },
@@ -740221,7 +740249,7 @@
     },
     {
         "appid": 5147720,
-        "name": "Boom Crew"
+        "name": "Boom Crew: Co-op Minesweeper"
     },
     {
         "appid": 5147730,
@@ -743696,6 +743724,10 @@
         "name": "Orbital Desires 🛰"
     },
     {
+        "appid": 5182220,
+        "name": "Daily Bagholder: Stock Market Simulator"
+    },
+    {
         "appid": 5182240,
         "name": "Unreported Shift"
     },
@@ -744246,6 +744278,10 @@
     {
         "appid": 5188390,
         "name": "Honey, Tidy the Basement"
+    },
+    {
+        "appid": 5188400,
+        "name": "TCG: Collector’s Mess"
     },
     {
         "appid": 5188450,
@@ -745296,6 +745332,10 @@
         "name": "Freaky Wheels"
     },
     {
+        "appid": 5200360,
+        "name": "The Better Deal: Complete Story"
+    },
+    {
         "appid": 5200400,
         "name": "Meat Safari"
     },
@@ -746277,7 +746317,7 @@
     },
     {
         "appid": 5215190,
-        "name": "PotionsTidy"
+        "name": "Potions Tidy"
     },
     {
         "appid": 5215220,
@@ -746290,6 +746330,10 @@
     {
         "appid": 5215270,
         "name": "Brick and Banner: College Football Dynasty"
+    },
+    {
+        "appid": 5215390,
+        "name": "UNCOUNTED"
     },
     {
         "appid": 5215630,
@@ -746608,6 +746652,10 @@
         "name": "Stock Baron"
     },
     {
+        "appid": 5221050,
+        "name": "Milking Fever 🍼"
+    },
+    {
         "appid": 5221100,
         "name": "Deadbeats"
     },
@@ -746892,6 +746940,10 @@
         "name": "Cyber Geisha 🪭"
     },
     {
+        "appid": 5225090,
+        "name": "BLINDSIGHT"
+    },
+    {
         "appid": 5225200,
         "name": "Sleepwalkers"
     },
@@ -746958,6 +747010,10 @@
     {
         "appid": 5226710,
         "name": "Dread Privateer"
+    },
+    {
+        "appid": 5226780,
+        "name": "Rage Room Together"
     },
     {
         "appid": 5226910,
@@ -747224,6 +747280,10 @@
         "name": "Pull Until It Breaks"
     },
     {
+        "appid": 5231200,
+        "name": "AX"
+    },
+    {
         "appid": 5231230,
         "name": "West of Libertad"
     },
@@ -747248,6 +747308,10 @@
         "name": "THERMAL RUNAWAY"
     },
     {
+        "appid": 5231490,
+        "name": "Bloom Above: Wanderisles"
+    },
+    {
         "appid": 5231550,
         "name": "UDONGAIN"
     },
@@ -747258,6 +747322,10 @@
     {
         "appid": 5231820,
         "name": "Bet it Up!"
+    },
+    {
+        "appid": 5232160,
+        "name": "Between Cats"
     },
     {
         "appid": 5232370,
@@ -747365,7 +747433,7 @@
     },
     {
         "appid": 5234250,
-        "name": "PENNANT"
+        "name": "PENNANT: Baseball Owner"
     },
     {
         "appid": 5234320,
@@ -747900,6 +747968,10 @@
         "name": "SkyAid"
     },
     {
+        "appid": 5246520,
+        "name": "WRITE HOUSE"
+    },
+    {
         "appid": 5246580,
         "name": "Defend The Totem"
     },
@@ -748062,6 +748134,10 @@
     {
         "appid": 5250180,
         "name": "Hentai Femboy Cleaner"
+    },
+    {
+        "appid": 5250220,
+        "name": "Pterodactyl Slap!"
     },
     {
         "appid": 5250370,
@@ -748352,6 +748428,10 @@
         "name": "Rollamon"
     },
     {
+        "appid": 5260070,
+        "name": "Starbound Settlers"
+    },
+    {
         "appid": 5260470,
         "name": "Astral Core"
     },
@@ -748416,6 +748496,10 @@
         "name": "Sarn Helen"
     },
     {
+        "appid": 5262560,
+        "name": "Groundswell"
+    },
+    {
         "appid": 5262650,
         "name": "Punch Rush"
     },
@@ -748460,6 +748544,10 @@
         "name": "Xen'Fonia: Path of Fortune"
     },
     {
+        "appid": 5266460,
+        "name": "Max Bid"
+    },
+    {
         "appid": 5266640,
         "name": "Future Scout 2"
     },
@@ -748470,6 +748558,10 @@
     {
         "appid": 5268040,
         "name": "Merkalis: Conquest"
+    },
+    {
+        "appid": 5268620,
+        "name": "Card Grading Simulator"
     },
     {
         "appid": 5269280,
@@ -748484,11 +748576,23 @@
         "name": "Saturn: Robot Fedya"
     },
     {
+        "appid": 5270510,
+        "name": "Manikin Mimic"
+    },
+    {
         "appid": 5270710,
         "name": "Guildmaster Simulator"
     },
     {
         "appid": 5271960,
         "name": "Corridors"
+    },
+    {
+        "appid": 5272700,
+        "name": "PAWSHOT"
+    },
+    {
+        "appid": 5273550,
+        "name": "Ecos de Valdrenne"
     }
 ]
