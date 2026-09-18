@@ -303,5 +303,10 @@
         "reason": "steam_success_false",
         "first_seen": "2026-09-18",
         "last_seen": "2026-09-18"
+    },
+    "835500": {
+        "reason": "steam_success_false",
+        "first_seen": "2026-09-18",
+        "last_seen": "2026-09-18"
     }
 }
